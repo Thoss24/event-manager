@@ -1,0 +1,26 @@
+.list-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(39, 36, 36, 0.8);
+    border-radius: 8px;
+    border: none;
+    padding: 15px;
+    max-width: 200px;
+}
+
+.list-item:hover {
+    background-color: rgba(61, 56, 56, 0.8);
+    cursor: pointer;
+}
+
+.list-item a{
+    text-decoration: none;
+    color: rgb(201, 182, 12);
+    width: 100%;
+}
+
+.button {
+    padding: 10px;
+}

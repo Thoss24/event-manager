@@ -1,0 +1,23 @@
+.events-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.events-nav ul li{
+    list-style-type: none;
+    font-size: 18px;
+}
+
+.events-nav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgb(201, 182, 12);
+}

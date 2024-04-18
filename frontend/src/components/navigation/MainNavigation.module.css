@@ -1,0 +1,27 @@
+.main-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(39, 36, 36, 0.8); */
+    height: 4rem;
+}
+
+.main-nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    list-style-type: none;
+}
+
+.list-item {
+    color: rgb(201, 182, 12);
+    font-size: 21px;
+    text-decoration: none;
+}
+
+.active {
+    color: rgb(226, 205, 18);
+    text-decoration: underline;
+}

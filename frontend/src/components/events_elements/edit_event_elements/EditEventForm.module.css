@@ -1,0 +1,29 @@
+.edit-event-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-section input {
+    border: none;
+    border-radius: 4px;
+    padding-left: 2px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.invalid {
+    color: red;
+    background-color: lightsalmon;
+}
