@@ -7,9 +7,6 @@ import { useRef } from "react";
 
 const NewEventForm = () => {
 
-    const name = useRef();
-    const date = useRef();
-
     const  { nameIsValid, dateIsValid } = useValidateForm();
 
     const {
@@ -45,11 +42,15 @@ const NewEventForm = () => {
     <Form method="POST" onSubmit={submitFormHandler} className={classes['new-event-form']}>
       <div className={classes['input-section']}>
         <label htmlFor="">Name</label>
-        <input className={nameInputIsValid} type="text" name="name" onChange={nameChangeInput} onBlur={nameIsTouched} ref={name}/>
+        <input className={nameInputIsValid} type="text" name="name" onChange={nameChangeInput} onBlur={nameIsTouched}/>
+      </div>
+      <div className={classes['input-section']}>
+        <label htmlFor="">Description</label>
+        <textarea className={dateInputIsValid} type="text" name="description"/>
       </div>
       <div className={classes['input-section']}>
         <label htmlFor="">Date</label>
-        <input className={dateInputIsValid} type="date" name="date" onChange={dateChangeInput} onBlur={dateIsTouched} ref={date}/>
+        <input className={dateInputIsValid} type="date" name="date" onChange={dateChangeInput} onBlur={dateIsTouched}/>
       </div>
       <div className={classes.buttons}>
         <button type="submit" disabled={!formIsValid}>Add</button>

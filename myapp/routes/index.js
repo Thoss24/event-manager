@@ -14,6 +14,11 @@ function getEvents(req, res, next){
   })
 };
 
+const addEvent = (req, res, next) => {
+  console.log(req)
+}
+
 router.get("/", getEvents);
+router.post("/", addEvent)
 
 module.exports = router;

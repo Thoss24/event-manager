@@ -1,4 +1,5 @@
 import { json, redirect } from "react-router-dom";
+import axios from "axios"
 
 export const action = async ({request, params}) => {
 
@@ -9,25 +10,29 @@ export const action = async ({request, params}) => {
     const data = await request.formData();
 
     const name = data.get('name');
-
     const date = data.get('date');
+    const description = data.get('description')
 
-    const newFormData = {
+    const newEvent = {
         name: name,
-        date: date
+        date: date,
+        description: description
     };
 
-    let url = "https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/events.json";
+    let url = "http://localhost:3001/";
 
     if (method === 'PATCH') {
         const id = params.eventId
         url = `https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/events/${id}.json`
     };
 
-    const response = await fetch(url, {
-        method: method,
-        body: JSON.stringify(newFormData)
-    });
+    const response = axios.post(url, newEvent)
+    .then((response) => {
+        console.log(response)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 
     if (!response.ok) {
         throw json({message: "could not find event"}, {status: 500})

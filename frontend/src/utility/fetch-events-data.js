@@ -1,14 +1,12 @@
-import { json } from "react-router-dom";
+import axios from "axios";
 
-const fetchEvents = async () => {
-    const response = await fetch("https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/events.json");
-
-    if (!response.ok) {
-        throw json({message: 'Could not load events'}, {status: 500})
-    } else {
-        const eventsData = await response.json()
-        return eventsData
-    }
+const fetchEvents = () => {
+    return axios
+    .get("http://localhost:3001/")
+    .then(response => response.data)
+    .catch((error => {
+        console.error(error)
+    }));
 };
 
 export default fetchEvents
