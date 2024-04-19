@@ -1,16 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
 
-function firstMiddleware(req, res, next){
-  console.log("hy");
-  next()
-}
+function getEvents(req, res, next){
 
-function secondMiddleware(req,res,next) {
-  console.log("hello")
-  res.json("hello");
-}
+  db.query("SELECT * FROM events", (error, results) => {
+    if (error) {
+      console.log(error)
+      return res.status(500).send("Internal server error");
+    }
 
-router.get("/", firstMiddleware, secondMiddleware);
+    res.json(results)
+  })
+};
+
+router.get("/", getEvents);
 
 module.exports = router;
