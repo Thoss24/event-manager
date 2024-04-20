@@ -27,3 +27,26 @@
     color: red;
     background-color: lightsalmon;
 }
+
+h3 {
+    margin-top: 8px;
+}
+
+.event-images-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.event-images {
+    height: 90px;
+    width: 90px;
+    border-radius: 25px;
+}
+
+.event-images:hover {
+    outline: 2px solid rgba(255, 251, 2, 0.7);
+}

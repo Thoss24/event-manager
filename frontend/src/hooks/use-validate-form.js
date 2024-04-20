@@ -1,12 +1,10 @@
 
 const useValidateForm = () => {
-    const nameIsValid = (str) => str.length > 0
 
-    const dateIsValid = (date) => date.includes("-")
+    const validateInput = (input) => input.length > 0;
 
     return {
-        nameIsValid,
-        dateIsValid
+        validateInput
     }
 };
 

@@ -1,24 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../db');
+const express = require("express");
+const app = express();
+const db = require("../db");
 
-function getEvents(req, res, next){
-
+function getEvents(req, res, next) {
   db.query("SELECT * FROM events", (error, results) => {
     if (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).send("Internal server error");
     }
-
-    res.json(results)
-  })
-};
-
-const addEvent = (req, res, next) => {
-  console.log(req)
+    res.json(results);
+  });
 }
 
-router.get("/", getEvents);
-router.post("/", addEvent)
+const addEvent = (req, res, next) => {
+  const { name, description, date, imageName } = req.body;
+  db.query(
+    "INSERT INTO events (event_name, event_description, event_date, event_img) VALUES (?, ?, ?, ?)",
+    [name, description, date, imageName], 
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Internal server error");
+      }
+      res.json(results)
+    }
+  );
+};
 
-module.exports = router;
+app.get("/", getEvents);
+app.post("/", addEvent);
+
+module.exports = app;

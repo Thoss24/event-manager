@@ -17,7 +17,7 @@ import EventDetailPage, {
 import EventsRoot from "./routes/events_root/EventsRoot";
 import NewEventPage from "./routes/events_pages/NewEventPage";
 import EditEventPage from "./routes/events_pages/EditEventPage";
-import { action as manipulateEventAction } from "./utility/manipulate-event-actions";
+import { action as editEvent } from "./utility/edit_event";
 import BookedEventsRoot from "./routes/booked_events_pages/BookedEventsRoot";
 import BookedEventDetailPage, { loader as bookedEventDetailsLoader, action as deleteBookedEventAction } from "./routes/booked_events_pages/BookedEventDetailPage";
 
@@ -54,14 +54,13 @@ function App() {
                 {
                   path: "edit",
                   element: <EditEventPage />,
-                  action: manipulateEventAction,
+                  action: editEvent,
                 },
               ],
             },
             {
               path: "new-event",
               element: <NewEventPage />,
-              action: manipulateEventAction,
             },
           ],
         },
