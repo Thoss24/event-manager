@@ -1,33 +1,30 @@
 import fetchEvents from "../../utility/fetch-events-data";
-import { useLoaderData, defer, Await } from "react-router-dom";
-import { Suspense } from "react";
-import EventsList from "../../components/events_elements/event_elements/EventsList";
-import Loading from "../../components/ui/Loading";
-import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
-import PageHeading from "../../components/ui/PageHeading";
+import { useEffect } from "react";
+import { useState } from "react";
+import classes from "./EventsHomePage.module.css"
 
 const EventsHomePage = () => {
 
-    const { events } = useLoaderData();
+    const [events, setEvents] = useState([]);
 
-    console.log(events)
-
+    useEffect(() => {
+      fetchEvents().then(response => {
+        setEvents(response)
+      })
+    }, []);
+  
     return (
-        <MainContentWrapper>
-       <Suspense fallback={<Loading message={'Loading....'}/>}>
-        <PageHeading header={'Events Home Page'}/>
-        <Await resolve={events}>
-            {(events) => <EventsList events={[events]}/>}
-        </Await>
-       </Suspense>
-       </MainContentWrapper>
-    )
+      <div>
+        <h1>Home</h1>
+        {events &&
+          events.map((event) => (
+            <div key={event.event_id}>
+              <h1>{event.event_name}</h1>
+              <img className={classes['event-image']} src={`http://localhost:3001/images/${event.event_img}`} alt="" />
+            </div>
+          ))}
+      </div>
+    );
 };
 
 export default EventsHomePage
-
- export const loader = async () => {
-    return defer({
-        events: fetchEvents()
-    });
-};

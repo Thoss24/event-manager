@@ -6,9 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppRoot from "./routes/app_root/AppRoot";
 import AppError from "./routes/error/AppError";
 import HomePage from "./routes/home/HomePage";
-import EventsHomePage, {
-  loader as eventsLoader,
-} from "./routes/events_pages/EventsHomePage";
+import EventsHomePage from "./routes/events_pages/EventsHomePage";
 import BookedEventsHomePage, {loader as bookedEventsLoader} from "./routes/booked_events_pages/BookedEventsHomePage";
 import EventDetailPage, {
   loader as eventDetailsLoader,
@@ -39,7 +37,6 @@ function App() {
             {
               index: true,
               element: <EventsHomePage />,
-              loader: eventsLoader,
             },
             {
               id: "events-details",
@@ -71,7 +68,6 @@ function App() {
             {
               index: true,
               element: <BookedEventsHomePage />,
-              loader: bookedEventsLoader
             },
             {
               path: ":bookedEventId",

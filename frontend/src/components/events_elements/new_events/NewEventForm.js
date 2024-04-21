@@ -10,6 +10,13 @@ const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 
   const [image, setImage] = useState("");
+  const [currIndex, setCurrIndex] = useState(0);
+
+  const images = [
+    "http://localhost:3001/images/event_img_one.jpg",
+    "http://localhost:3001/images/event_img_two.jpg",
+    "http://localhost:3001/images/event_img_three.jpg",
+  ];
 
   const name = useRef();
   const description = useRef();
@@ -47,7 +54,7 @@ const NewEventForm = () => {
       name: name.current.value,
       date: date.current.value,
       description: description.current.value,
-      imageName: image
+      imageName: image,
     };
 
     addEvent(newEvent);
@@ -57,12 +64,13 @@ const NewEventForm = () => {
     descriptionHandleReset();
   };
 
-  const selectImage = (event) => {
-    const imageUrl = event.target.src;
-    const imageNameArr = imageUrl.split("/");
-    const imageName = imageNameArr[imageNameArr.length - 1];
+  const handleImgSelect = (index, img) => {
+    const splitUrl = img.split("/")
+    const imageName = splitUrl[splitUrl.length - 1]
 
-    setImage(imageName);
+    setImage(imageName)
+    setCurrIndex(index)
+    console.log(image)
   };
 
   const nameInputIsValid = nameInputInvalid ? classes.invalid : classes.valid;
@@ -114,30 +122,19 @@ const NewEventForm = () => {
       </div>
       <h3>Choose an image for your event!</h3>
       <div className={classes["event-images-container"]}>
-        <img
-          className={classes["event-images"]}
-          src="http://localhost:3001/images/event_img_one.jpg"
-          alt=""
-          onClick={selectImage}
-        />
-        <img
-          className={classes["event-images"]}
-          src="http://localhost:3001/images/event_img_two.jpg"
-          alt=""
-          onClick={selectImage}
-        />
-        <img
-          className={classes["event-images"]}
-          src="http://localhost:3001/images/event_img_three.jpg"
-          alt=""
-          onClick={selectImage}
-        />
+        {images.map((img, index) => (
+          <img src={img}
+            key={index}
+            onClick={() => handleImgSelect(index, img)}
+            className={`${currIndex === index ? classes['active'] : classes['event-images']}`}
+          />
+        ))}
       </div>
       <div className={classes.buttons}>
-        <button type="submit" disabled={!formIsValid}>
+        <button className={classes['form-buttons']} type="submit" disabled={!formIsValid}>
           Add
         </button>
-        <button type="none" text={"Cancel"}>
+        <button className={classes['form-buttons']} type="none" text={"Cancel"}>
           <Link to={"/events"}>Cancel</Link>
         </button>
       </div>
