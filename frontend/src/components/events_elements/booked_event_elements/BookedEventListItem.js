@@ -7,9 +7,10 @@ const BookedEventListItem = (props) => {
 
     return (
         <div className={classes['list-item']}>
-            <Link to={props.id}>
+            <Link to={`${props.id}`}>
             <h1>{props.name}</h1>
-            <h1>{props.date}</h1>
+            <h3>{props.description}</h3>
+            <h4>{props.eventDate}</h4>
             </Link>
         </div>
     )

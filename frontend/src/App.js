@@ -39,19 +39,15 @@ function App() {
               element: <EventsHomePage />,
             },
             {
-              id: "events-details",
               path: ":eventId",
-              loader: eventDetailsLoader,
               children: [
                 {
                   index: true,
                   element: <EventDetailPage />,
-                  action: deleteEventAction,
                 },
                 {
                   path: "edit",
                   element: <EditEventPage />,
-                  action: editEvent,
                 },
               ],
             },
@@ -71,10 +67,7 @@ function App() {
             },
             {
               path: ":bookedEventId",
-              id: 'booked-event-details',
               element: <BookedEventDetailPage />,
-              loader: bookedEventDetailsLoader,
-              action: deleteBookedEventAction
             }
           ],
         },

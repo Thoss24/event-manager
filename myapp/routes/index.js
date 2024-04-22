@@ -20,6 +20,18 @@ const getBookedEvents = (req, res, next) => {
     }
     res.json(results)
   })
+};
+
+const getBookedEventDetails = (req, res, next) => {
+  const {id} = req.body;
+  console.log(id)
+  db.query("SELECT * FROM events WHERE event_id = ?", [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).send("Internal server error");
+    }
+    res.json(results)
+  })
 }
 
 const addEvent = (req, res, next) => {
@@ -40,5 +52,6 @@ const addEvent = (req, res, next) => {
 app.get("/", getEvents);
 app.get("/booked-events", getBookedEvents)
 app.post("/", addEvent);
+app.post("/booked-event-details", getBookedEventDetails)
 
 module.exports = app;

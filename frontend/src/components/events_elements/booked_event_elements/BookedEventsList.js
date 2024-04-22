@@ -3,32 +3,18 @@ import classes from "./BookedEventsList.module.css";
 
 const BookedEventsList = (props) => {
 
-  const extractAndStoreBookedEvents = () => {
-    let result = [];
-    const events = props.events;
-    for (const event in events) {
-      console.log(events[event])
-      result.push({
-        name: events[event].name,
-        date: events[event].date,
-        id: event
-      });
-    }
-    return result
-  };
-  extractAndStoreBookedEvents();
-
   return (
     <main>
       <div className={classes['booked-events-list']}>
-        {extractAndStoreBookedEvents().map((event) => (
+        {props.events.length > 0 ? props.events.map((event) => (
           <BookedEventListItem
-            name={event.name}
-            date={event.date}
-            key={event.id}
-            id={event.id}
+            key={event.event_id}
+            id={event.event_id}
+            name={event.event_name}
+            description={event.event_description}
+            eventDate={event.event_date}
           />
-        ))}
+        )) : <h3>No booked events to show.</h3>}
       </div>
     </main>
   );
