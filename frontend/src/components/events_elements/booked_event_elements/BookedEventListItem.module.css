@@ -1,13 +1,37 @@
 .list-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: rgba(39, 36, 36, 0.8);
     border-radius: 8px;
     border: none;
     padding: 15px;
-    max-width: 200px;
+}
+
+.list-item > a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.booked_event_img {
+    height: 90px;
+    width: 110px;
+    border-radius: 12px;
+}
+
+.event-details-section > h2 {
+    text-decoration: underline;
+}
+
+.event-details-section > h4 {
+    color: white;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.event-details-section > p {
+    color: rgba(216, 211, 211, 0.7);
+    font-size: 14px;
 }
 
 .list-item:hover {

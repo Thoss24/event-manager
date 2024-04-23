@@ -1,9 +1,5 @@
 const Loading = (props) => {
-    return (
-        <div>
-            <h1>{props.message}</h1>
-        </div>
-    )
+    return <h2>{props.message}</h2>
 };
 
 export default Loading

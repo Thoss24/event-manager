@@ -1,15 +1,15 @@
 import fetchBookedEvent from "../../utility/fetch-booked-event-data";
 import { useEffect } from "react";
 import PageHeading from "../../components/ui/PageHeading";
-import { Suspense } from "react";
 import BookedEventDetails from "../../components/events_elements/booked_event_elements/BookedEventDetails";
-import { useParams, Await } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
+import Loading from "../../components/ui/Loading";
 
 const BookedEventDetailPage = () => {
 
   let {bookedEventId} = useParams();
-  const [bookedEvent, setBookedEvent] = useState([])
+  const [bookedEvent, setBookedEvent] = useState(null)
 
   useEffect(() => {
     fetchBookedEvent(bookedEventId).then(response => {
@@ -18,19 +18,18 @@ const BookedEventDetailPage = () => {
     })
   }, [])
   
-
   return (
-    <Suspense>
+    <>
     <PageHeading header={"Booked Event Details"} />
-    <Await resolve={bookedEvent}>
-      {(event) => (
+    
+      {!bookedEvent ? <Loading message={"Loading event details..."}/> :
         <BookedEventDetails
-          name={event.event_name}
-          
+          name={bookedEvent[0].event_name}
         />
-      )}
-    </Await>
-  </Suspense>
+      }
+
+   
+    </>
    )
 };
 

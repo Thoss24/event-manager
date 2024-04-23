@@ -35,10 +35,10 @@ const getBookedEventDetails = (req, res, next) => {
 }
 
 const addEvent = (req, res, next) => {
-  const { name, description, date, imageName } = req.body;
+  const { name, description, date, imageName, time } = req.body;
   db.query(
-    "INSERT INTO events (event_name, event_description, event_date, event_img) VALUES (?, ?, ?, ?)",
-    [name, description, date, imageName], 
+    "INSERT INTO events (event_name, event_description, event_date, event_time, event_img) VALUES (?, ?, ?, ?, ?)",
+    [name, description, date, imageName, time], 
     (error, results) => {
       if (error) {
         console.log(error);

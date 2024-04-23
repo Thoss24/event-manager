@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 
 const BookedEventListItem = (props) => {
 
-    console.log(props.id)
-
-    return (
-        <div className={classes['list-item']}>
-            <Link to={`${props.id}`}>
-            <h1>{props.name}</h1>
-            <h3>{props.description}</h3>
-            <h4>{props.eventDate}</h4>
-            </Link>
+  return (
+    <div className={classes["list-item"]}>
+      <Link to={`${props.id}`}>
+        <div className={classes['event-details-section']}>
+          <h2>{props.name}</h2>
+          <h4>{props.description}</h4>
+          <p>{props.eventDate}</p>
         </div>
-    )
+        <img className={classes['booked_event_img']} src={`http://localhost:3001/images/${props.eventImg}`} />
+      </Link>
+    </div>
+  );
 };
 
 export default BookedEventListItem;

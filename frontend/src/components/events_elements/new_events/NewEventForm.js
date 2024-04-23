@@ -21,6 +21,7 @@ const NewEventForm = () => {
   const name = useRef();
   const description = useRef();
   const date = useRef();
+  const time = useRef();
 
   const {
     inputValue: nameInputValue,
@@ -55,6 +56,7 @@ const NewEventForm = () => {
       date: date.current.value,
       description: description.current.value,
       imageName: image,
+      time: time.current.value
     };
 
     addEvent(newEvent);
@@ -118,6 +120,15 @@ const NewEventForm = () => {
           onChange={dateChangeInput}
           onBlur={dateIsTouched}
           ref={date}
+        />
+      </div>
+      <div className={classes["input-section"]}>
+        <label htmlFor="">Time</label>
+        <input
+          type="time"
+          name="time"
+          defaultValue={"00:00"}
+          ref={time}
         />
       </div>
       <h3>Choose an image for your event!</h3>

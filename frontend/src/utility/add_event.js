@@ -1,4 +1,3 @@
-import { json } from "react-router-dom";
 import axios from "axios"
 
 export const addEvent = (eventData) => {
