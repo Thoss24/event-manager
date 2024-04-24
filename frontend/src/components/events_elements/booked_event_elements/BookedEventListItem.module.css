@@ -19,6 +19,11 @@
     border-radius: 12px;
 }
 
+.time-details > * {
+    color: rgba(216, 211, 211, 0.7);
+    font-size: 14px;
+}
+
 .event-details-section > h2 {
     text-decoration: underline;
 }
@@ -27,11 +32,6 @@
     color: white;
     margin-top: 4px;
     margin-bottom: 4px;
-}
-
-.event-details-section > p {
-    color: rgba(216, 211, 211, 0.7);
-    font-size: 14px;
 }
 
 .list-item:hover {

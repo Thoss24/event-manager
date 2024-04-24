@@ -16,6 +16,7 @@ const BookedEventsList = (props) => {
             description={event.event_description}
             eventDate={event.event_date}
             eventImg={event.event_img}
+            eventTime={event.event_time}
           />
         ))}
       </div>
