@@ -12,8 +12,8 @@ const BookedEventListItem = (props) => {
           <h2>{props.name}</h2>
           <h4>{props.description}</h4>
           <div className={classes['time-details']}>
-          <p>{eventDate}</p>
-          <p>{props.eventTime}</p>
+          <p>Date: {eventDate}</p>
+          <p>Time: {props.eventTime}</p>
           </div>
           
         </div>

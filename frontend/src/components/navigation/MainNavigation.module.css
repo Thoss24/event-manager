@@ -6,6 +6,32 @@
     height: 4rem;
 }
 
+.nav-small-screen {
+    display: none;
+    justify-content: flex-end;
+    margin-right: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-icon {
+    color: rgb(201, 182, 12);
+    font-size: 30px;
+    transition: transform 0.3s ease;
+}
+
+.nav-icon.rotate {
+    transform: rotate(90deg);
+}
+
+.nav-icon:hover {
+    cursor: pointer;
+}
+
+.nav-large-screen {
+    display: flex;
+}
+
 .main-nav ul {
     display: flex;
     flex-direction: row;
@@ -24,4 +50,14 @@
 .active {
     color: rgb(226, 205, 18);
     text-decoration: underline;
+}
+
+@media only screen and (max-width: 520px) {
+    .nav-small-screen {
+        display: flex;
+    }
+
+    .nav-large-screen {
+        display: none;
+    } 
 }

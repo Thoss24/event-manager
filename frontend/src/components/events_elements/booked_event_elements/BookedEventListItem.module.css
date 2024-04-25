@@ -2,7 +2,7 @@
     background-color: rgba(39, 36, 36, 0.8);
     border-radius: 8px;
     border: none;
-    padding: 15px;
+    padding: 10px;
 }
 
 .list-item > a {
@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+    max-width: 350px;
 }
 
 .booked_event_img {
