@@ -1,0 +1,63 @@
+.nav-modal {
+    display: flex;
+    height: 100dvh;
+    width: 100vw;
+    background-color: rgba(66, 64, 64, 0.5);
+    position: fixed;
+}
+
+@keyframes slide {
+    from { left: -200px; } /* Initial position */
+    to { left: 0px; } /* Final position */
+}
+
+@keyframes slide-out {
+    from { left: -0px; } /* Initial position */
+    to { left: -200px; } /* Final position */
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 40%;
+    background-color: white;
+    padding: 8px;
+    box-shadow: 2px 0px 2px 1px rgba(66, 64, 64, 0.5);
+    animation: slide 0.2s ease-in forwards;
+    position: relative;
+    left: 0;
+}
+
+.menu.ease-out {
+    animation: slide-out 0.2s ease-in forwards;
+}
+
+.nav-menu-list {
+    list-style-type: none;
+}
+
+.list-item {
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    margin: 2px;
+}
+
+.list-item a {
+    color: black;
+
+}
+
+.close {
+    align-self: flex-start;
+    font-size: 22px;
+}
+
+.close:hover {
+    cursor: pointer;
+    color: rgb(201, 182, 12);
+}
+
