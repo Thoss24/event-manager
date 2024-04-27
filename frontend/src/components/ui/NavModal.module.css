@@ -12,7 +12,7 @@
 }
 
 @keyframes slide-out {
-    from { left: -0px; } /* Initial position */
+    from { left: 0px; } /* Initial position */
     to { left: -200px; } /* Final position */
 }
 
@@ -33,6 +33,7 @@
 
 .menu.ease-out {
     animation: slide-out 0.2s ease-in forwards;
+    background-color: red;
 }
 
 .nav-menu-list {

@@ -7,20 +7,26 @@ import AppRoot from "./routes/app_root/AppRoot";
 import AppError from "./routes/error/AppError";
 import HomePage from "./routes/home/HomePage";
 import EventsHomePage from "./routes/events_pages/EventsHomePage";
-import BookedEventsHomePage, {loader as bookedEventsLoader} from "./routes/booked_events_pages/BookedEventsHomePage";
-import EventDetailPage, {
-  loader as eventDetailsLoader,
-  action as deleteEventAction,
-} from "./routes/events_pages/EventDetailPage";
+import BookedEventsHomePage from "./routes/booked_events_pages/BookedEventsHomePage";
+import EventDetailPage from "./routes/events_pages/EventDetailPage";
 import EventsRoot from "./routes/events_root/EventsRoot";
 import NewEventPage from "./routes/events_pages/NewEventPage";
 import EditEventPage from "./routes/events_pages/EditEventPage";
-import { action as editEvent } from "./utility/edit_event";
 import BookedEventsRoot from "./routes/booked_events_pages/BookedEventsRoot";
-import BookedEventDetailPage, { loader as bookedEventDetailsLoader, action as deleteBookedEventAction } from "./routes/booked_events_pages/BookedEventDetailPage";
+import BookedEventDetailPage from "./routes/booked_events_pages/BookedEventDetailPage";
+import LoginPage from "./routes/login/LoginPage";
+import Register from "./routes/login/Register";
 
 function App() {
   const route = createBrowserRouter([
+    {
+      path: "/login",
+      element: <LoginPage />
+    },
+    {
+      path: "/register",
+      element: <Register />
+    },
     {
       path: "/",
       element: <AppRoot />,

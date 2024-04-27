@@ -12,21 +12,21 @@ const NavModal = (props) => {
 
   return (
     <div className={classes["nav-modal"]}>
-      <div className={`${classes.menu} ${!props.isNavDisplaying && classes['ease-out']}`}>
+      <div className={classes.menu}>
         <IoIosCloseCircleOutline className={classes.close} onClick={props.hideNavModal}/>
         <ul className={classes['nav-menu-list']}>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"/"}>
+            <NavLink className={isActive} to={"/"} onClick={props.hideNavModal}>
               Home
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"events"}>
+            <NavLink className={isActive} to={"events"} onClick={props.hideNavModal}>
               Events
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"booked-events"}>
+            <NavLink className={isActive} to={"booked-events"} onClick={props.hideNavModal}>
               Booked Events
             </NavLink>
           </li>

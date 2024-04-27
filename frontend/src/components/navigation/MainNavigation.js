@@ -18,6 +18,7 @@ const MainNavigation = () => {
   };
 
   const hideNavModalHandler = () => {
+    console.log("Hide nav")
     setNavDisplaying(false)
   };
 

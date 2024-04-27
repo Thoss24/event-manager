@@ -6,7 +6,7 @@ const EventsRoot = () => {
     return (
         <div className={classes['events-root-container']}>
         <EventsNavigation />
-        <main className={classes.content}>
+        <main>
           <Outlet />
         </main>
       </div>
