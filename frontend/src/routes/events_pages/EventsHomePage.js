@@ -1,4 +1,4 @@
-import fetchEvents from "../../utility/fetch-events-data";
+import fetchEvents from "../../utility/events_actions/fetch-events-data";
 import { useEffect } from "react";
 import { useState } from "react";
 import classes from "./EventsHomePage.module.css"

@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const registerUser = (userData) => {
-    return axios.post("http://localhost:3001/users/register", userData)
+const loginUser = async (userData) => {
+    return axios.post("http://localhost:3001/users/login", userData)
     .then((response) => {
         console.log(response)
     })
@@ -10,4 +10,4 @@ const registerUser = (userData) => {
     })
 }
 
-export default registerUser;
+export default loginUser

@@ -8,7 +8,7 @@ import EventDetails from "../../components/events_elements/event_elements/EventD
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import { addEventData } from "./../../store/booked_events_actions";
 // fetched data
-import fetchEvent from "../../utility/fetch-event-data";
+import fetchEvent from "../../utility/events_actions/fetch-event-data";
 
 const EventDetailPage = () => {
   const { events } = useRouteLoaderData("events-details");

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import fetchBookedEvents from "../../utility/fetch-booked-events";
+import fetchBookedEvents from "../../utility/events_actions/fetch-booked-events";
 import { useState, Suspense } from "react";
 import { Await } from "react-router-dom";
 import BookedEventsList from "../../components/events_elements/booked_event_elements/BookedEventsList";

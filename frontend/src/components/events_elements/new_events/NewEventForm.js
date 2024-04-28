@@ -3,7 +3,7 @@ import useValidateForm from "../../../hooks/use-validate-form";
 import { Link } from "react-router-dom";
 import classes from "./NewEventForm.module.css";
 import { useRef } from "react";
-import addEvent from "../../../utility/add_event";
+import addEvent from "../../../utility/events_actions/add_event";
 import { useState } from "react";
 
 const NewEventForm = () => {

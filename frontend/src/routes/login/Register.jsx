@@ -1,6 +1,7 @@
 import classes from './LoginPage.module.css'
-import registerUser from '../../utility/register_user';
+import registerUser from '../../utility/authentication/register_user';
 import { useRef } from 'react';
+import { Link } from "react-router-dom";
 
 const Register = () => {
 
@@ -42,6 +43,9 @@ const Register = () => {
         </fieldset>
         <button type='submit'>Submit</button>
       </form>
+      <div>
+        <Link to={"/login"}>Go to Login</Link>
+      </div>
     </div>
   );
 };

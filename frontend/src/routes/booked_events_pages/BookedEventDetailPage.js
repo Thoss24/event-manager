@@ -1,4 +1,4 @@
-import fetchBookedEvent from "../../utility/fetch-booked-event-data";
+import fetchBookedEvent from "../../utility/events_actions/fetch-booked-event-data";
 import { useEffect } from "react";
 import PageHeading from "../../components/ui/PageHeading";
 import BookedEventDetails from "../../components/events_elements/booked_event_elements/BookedEventDetails";
