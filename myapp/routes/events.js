@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { connection, sessionStore } = require('../db');
+const { connection } = require('../db');
 
 function getEvents(req, res, next) {
   connection.query("SELECT * FROM events", (error, results) => {
@@ -49,7 +49,21 @@ const addEvent = (req, res, next) => {
   );
 };
 
-router.get("/", getEvents);
+const isAuthenticated = (req, res, next) => {
+  console.log("Is authenticated - Session " + req.session.user)
+  // if (req.session.sessionToken) {
+  //   // Session token exists, indicating an authenticated session
+  //   console.log("Authorized session " + req.session)
+  //   res.json(`Authorized | User Id: ${req.session.sessionToken}`)
+  //   next();
+  // } else {
+  //   // Session token does not exist, redirect or send unauthorized response
+  //   console.log(`Unauthorized check : ${req.session.sessionToken}`)
+  //   res.status(401).send('Unauthorized');
+  // }
+};
+
+router.get("/", isAuthenticated, getEvents);
 router.get("/booked-events", getBookedEvents)
 router.post("/", addEvent);
 router.post("/booked-event-details", getBookedEventDetails)

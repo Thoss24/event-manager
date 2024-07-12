@@ -2,12 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { connection } = require('../db');
 const bcrypt = require("bcrypt");
-const session = require('express-session');
-
-const MySQLStore = require('express-mysql-session')(session);
-
-// Create an instance of MySQLStore using the existing database connection
-const sessionStore = new MySQLStore({} /* options */, connection);
 
 const checkUserExists = (req, res, next) => {
   const { email } = req.body;
@@ -44,6 +38,7 @@ const addUser = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
+  console.log("TEST")
   const { email, password } = req.body;
 
   connection.query(
@@ -56,14 +51,13 @@ const login = (req, res, next) => {
       }
       if (results.length === 0) {
         res.json("An account with that email doesn't exist.");
+        return;
       }
 
-      const hashedPassword = results[0].password
-      const userId = results[0].user_id
-      const firstName = results[0].first_name
-      const lastName = results[0].last_name
-
-      console.log("A")
+      const hashedPassword = results[0].password;
+      const userId = results[0].user_id;
+      const firstName = results[0].first_name;
+      const lastName = results[0].last_name;
 
       bcrypt.compare(password, hashedPassword, (err, result) => {
         if (error) {
@@ -77,11 +71,10 @@ const login = (req, res, next) => {
             firstName: firstName,
             lastName: lastName
           };
-          console.log("B")
           // Store the session token in the session data
-          req.session.sessionToken = user.id;
+          req.session.user = user;
 
-          console.log("Session token" + req.session.sessionToken)
+          console.log("Session token" + req.session.user);
 
           // Save the session to the sessions table
           req.session.save((error) => {
@@ -97,7 +90,6 @@ const login = (req, res, next) => {
           return res.json("Email or Password credentials are incorrect")
         }
       })
-
     }
   );
 };

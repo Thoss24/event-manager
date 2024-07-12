@@ -1,40 +1,41 @@
 require('dotenv').config();
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const cors = require('cors');
-const { connection, sessionStore } = require('./db');
-const session = require('express-session');
+var createError = require('http-errors');
+var express = require('express');
+var session = require('express-session')
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var cors = require('cors');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const requireLogin = require('./middleware/auth').requireLogin;
+//var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var eventsRouter = require('./routes/events');
 
 const app = express();
 
-app.use(
-  session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    store: sessionStore,
-  })
-);
+app.use(session({
+  secret: 'cat',
+  resave: false,
+  saveUninitialized: true,
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
+app.use(express.json());
+
+//app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/events', requireLogin, eventsRouter);
+
 app.use(express.static('public'))
 
 // catch 404 and forward to error handler
