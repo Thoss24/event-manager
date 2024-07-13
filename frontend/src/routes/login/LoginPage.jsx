@@ -11,12 +11,12 @@ const LoginPage = () => {
     const loginHandler = (event) => {
         event.preventDefault()
 
-        const loginDetails = {
-            email: email.current.value,
+        const user = {
+            username: email.current.value,
             password: password.current.value
         }
 
-        loginUser(loginDetails)
+        loginUser(user)
     }
 
   return (

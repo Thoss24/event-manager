@@ -1,21 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const { connection } = require('../db');
+const passport = require('passport')
+const { connection } = require("../db");
 const bcrypt = require("bcrypt");
 
 const checkUserExists = (req, res, next) => {
   const { email } = req.body;
-  connection.query("SELECT * FROM users WHERE email = ?", [email], (error, results) => {
-    if (error) {
-      console.log(error);
-      return res.status(500).send("Internal server error");
+  connection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Internal server error");
+      }
+      if (results.length > 0) {
+        res.json("An account with that email already exists.");
+      } else {
+        next();
+      }
     }
-    if (results.length > 0) {
-      res.json("An account with that email already exists.");
-    } else {
-      next();
-    }
-  });
+  );
 };
 
 const addUser = (req, res, next) => {
@@ -38,12 +43,11 @@ const addUser = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  console.log("TEST")
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   connection.query(
     "SELECT password, user_id, first_name, last_name FROM users WHERE email = ?",
-    [email],
+    [username],
     (error, results) => {
       if (error) {
         console.log(error);
@@ -66,28 +70,31 @@ const login = (req, res, next) => {
         }
         if (result) {
           const user = {
-            id: userId,
-            username: email,
+            user_id: userId,
+            email: username,
             firstName: firstName,
             lastName: lastName
           };
-          // Store the session token in the session data
+          
+          req.session.authenticated = true;
           req.session.user = user;
 
-          console.log("Session token" + req.session.user);
+          console.log("Login - SESSION ID: ", req.session.cookie.expires)
 
-          // Save the session to the sessions table
-          req.session.save((error) => {
-            if (error) {
-              // Handle the error
-              console.error('Error saving session:', error);
-            } else {
-              // Redirect or send response indicating successful login
-              res.json(`Login successful | Session ID: ${req.session.sessionToken}`);
+          connection.query(
+            "INSERT INTO sessions (session_id, expires) VALUES (?, ?)",
+            [req.sessionID, req.session.cookie.expires],
+            (error, results) => {
+              console.log(results)
+              if (error) {
+                console.log(error);
+                return res.status(500).send("Internal server error");
+              }
+              res.json("Login successful");
             }
-          });
+          );
         } else {
-          return res.json("Email or Password credentials are incorrect")
+          return res.json("Email and or Password are incorrect")
         }
       })
     }
