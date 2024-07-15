@@ -4,14 +4,10 @@ const fetchBookedEvent = (id) => {
     return axios
     .post("http://localhost:3001/events/booked-event-details", {id: id})
     .then((response) => {
-        if (response.status === 401) {
-            window.location.href = "http://localhost:3000/login"
-        } else {
-            return response
-        }
+        return response.data
     })
     .catch((error => {
-        console.error(error)
+        window.location.href = "http://localhost:3000/login"
     }));
 };
 

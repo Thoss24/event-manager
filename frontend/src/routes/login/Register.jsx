@@ -41,6 +41,13 @@ const Register = () => {
           <label htmlFor="">Last Name</label>
           <input type="last_name" name="last_name" id="last_name" ref={lastName}/>
         </fieldset>
+        <fieldset>
+          <label htmlFor="">Account type</label>
+          <select name="account_type" id="account_type" >
+            <option value="admin">Admin</option>
+            <option value="user" selected>User</option>
+          </select>
+        </fieldset>
         <button type='submit'>Submit</button>
       </form>
       <div>

@@ -101,6 +101,21 @@ const login = (req, res, next) => {
   );
 };
 
+const checkAccountType = (req, res, next) => {
+  const userString = Object.entries(req.sessionStore.sessions)[0];
+  const userObj = JSON.parse(userString[1]).user
+  const userId = userObj.user_id
+  console.log(userId)
+  
+  connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
+    if (err) {
+      console.log("Could not find user")
+    }
+    res.json(results)
+  })
+}
+
+router.get('/get-account-type', checkAccountType)
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login);
 
