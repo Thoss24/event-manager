@@ -2,7 +2,6 @@ import fetchEvents from "../../utility/events_actions/fetch-events-data";
 import { useEffect } from "react";
 import { useState } from "react";
 import classes from "./EventsHomePage.module.css"
-import checkAccountType from "../../utility/authentication/check_account_type";
 
 const EventsHomePage = () => {
 
@@ -10,7 +9,9 @@ const EventsHomePage = () => {
 
     useEffect(() => {
       fetchEvents().then(response => {
-        setEvents(response)
+        if (response != 'undefined') {
+          setEvents(response)
+        } 
       })
     }, []);
   
@@ -24,8 +25,6 @@ const EventsHomePage = () => {
               <img className={classes['event-image']} src={`http://localhost:3001/images/${event.event_img}`} alt="" />
             </div>
           ))}
-
-          <button onClick={checkAccountType}>CHECK ACCOUNT TYPE</button>
       </div>
     );
 };

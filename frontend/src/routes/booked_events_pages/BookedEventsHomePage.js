@@ -6,11 +6,14 @@ import BookedEventsList from "../../components/events_elements/booked_event_elem
 import Loading from "../../components/ui/Loading";
 
 const BookedEventsHomePage = () => {
-  const [bookedEvents, setBookedEvents] = useState(null);
+  const [bookedEvents, setBookedEvents] = useState();
 
   useEffect(() => {
     fetchBookedEvents().then((response) => {
-      setBookedEvents(response);
+      if (response != 'undefined') {
+        setBookedEvents(response);
+        console.log(response)
+      }
     });
   }, []);
 

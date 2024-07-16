@@ -8,7 +8,7 @@ const BookedEventsList = (props) => {
   return (
     <main>
       <div className={classes['booked-events-list']}>
-        {props.events.map((event) => (
+        {props.events && props.events.map((event) => (
           <BookedEventListItem
             key={event.event_id}
             id={event.event_id}

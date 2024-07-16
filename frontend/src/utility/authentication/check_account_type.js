@@ -1,10 +1,10 @@
-import axios from "axios"
+import axios from "axios";
 
-const checkAccountType = () => {
+const checkAccountType = async () => {
   return axios
     .get("http://localhost:3001/users/get-account-type")
     .then((response) => {
-        console.log(response)
+        return response;
     })
     .catch((error) => {
         console.log(error)
