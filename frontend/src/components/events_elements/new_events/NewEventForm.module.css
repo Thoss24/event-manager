@@ -4,6 +4,17 @@
     box-sizing: border-box;
 }
 
+.members {
+    display: flex;
+    background-color: white;
+    list-style-type: none;
+}
+
+.members > li {
+    color: black;
+    padding: 2px;
+}
+
 .new-event-form {
     display: flex;
     flex-direction: column;

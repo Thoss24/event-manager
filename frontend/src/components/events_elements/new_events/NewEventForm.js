@@ -4,13 +4,24 @@ import { Link } from "react-router-dom";
 import classes from "./NewEventForm.module.css";
 import { useRef } from "react";
 import addEvent from "../../../utility/events_actions/add_event";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import getUsers from "../../../utility/users/get_users";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 
   const [image, setImage] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
+  const [members, setMembers] = useState();
+  const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
+
+  useEffect(() => {
+    getUsers().then((response) => {
+      if (response != "undefined") {
+        setMembers(response.data);
+      }
+    });
+  }, []);
 
   const images = [
     "http://localhost:3001/images/event_img_one.jpg",
@@ -56,7 +67,7 @@ const NewEventForm = () => {
       date: date.current.value,
       description: description.current.value,
       imageName: image,
-      time: time.current.value
+      time: time.current.value,
     };
 
     addEvent(newEvent);
@@ -67,12 +78,18 @@ const NewEventForm = () => {
   };
 
   const handleImgSelect = (index, img) => {
-    const splitUrl = img.split("/")
-    const imageName = splitUrl[splitUrl.length - 1]
+    const splitUrl = img.split("/");
+    const imageName = splitUrl[splitUrl.length - 1];
 
-    setImage(imageName)
-    setCurrIndex(index)
-    console.log(image)
+    setImage(imageName);
+    setCurrIndex(index);
+    console.log(image);
+  };
+
+  const toggleAddMembersHandler = () => {
+    setMembersSectionDisplaying((state) => {
+      return !state;
+    });
   };
 
   const nameInputIsValid = nameInputInvalid ? classes.invalid : classes.valid;
@@ -124,28 +141,43 @@ const NewEventForm = () => {
       </div>
       <div className={classes["input-section"]}>
         <label htmlFor="">Time</label>
-        <input
-          type="time"
-          name="time"
-          defaultValue={"00:00"}
-          ref={time}
-        />
+        <input type="time" name="time" defaultValue={"00:00"} ref={time} />
       </div>
+      <button type="button" onClick={toggleAddMembersHandler}>
+        {!membersSectionDisplaying ? "Add members +" : "Hide"}
+      </button>
+      {membersSectionDisplaying && (
+        <ul className={classes["members"]}>
+          {members &&
+            members.map((member) => (
+              <li>
+                {member.first_name} {member.last_name}
+              </li>
+            ))}
+        </ul>
+      )}
       <h3>Choose an image for your event!</h3>
       <div className={classes["event-images-container"]}>
         {images.map((img, index) => (
-          <img src={img}
+          <img
+            src={img}
             key={index}
             onClick={() => handleImgSelect(index, img)}
-            className={`${currIndex === index ? classes['active'] : classes['event-images']}`}
+            className={`${
+              currIndex === index ? classes["active"] : classes["event-images"]
+            }`}
           />
         ))}
       </div>
       <div className={classes.buttons}>
-        <button className={classes['form-buttons']} type="submit" disabled={!formIsValid}>
+        <button
+          className={classes["form-buttons"]}
+          type="submit"
+          disabled={!formIsValid}
+        >
           Add
         </button>
-        <button className={classes['form-buttons']} type="none" text={"Cancel"}>
+        <button className={classes["form-buttons"]} type="none" text={"Cancel"}>
           <Link to={"/events"}>Cancel</Link>
         </button>
       </div>

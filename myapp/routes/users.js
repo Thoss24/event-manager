@@ -113,9 +113,20 @@ const checkAccountType = (req, res, next) => {
     }
     res.json(results)
   })
+
 }
 
-router.get('/get-account-type', checkAccountType)
+const getAllUsers = (req, res, next) => {
+  connection.query('SELECT * FROM users', (err, results) => {
+    if (err) {
+      console.log("Issue fetching users")
+    }
+    res.json(results)
+  })
+}
+
+router.get("/get-all-users", getAllUsers);
+router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login);
 
