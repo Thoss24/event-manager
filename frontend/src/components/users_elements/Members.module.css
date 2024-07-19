@@ -1,0 +1,25 @@
+.member {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: center;
+    padding: 4px
+}
+
+.member:hover {
+    cursor: pointer;
+}
+
+.profile_image {
+    display: flex;
+    justify-content: center;
+    border-radius: 24px;
+    padding: 4px;
+    color: black;
+}
+
+.name {
+    display: flex;
+    gap: 4px;
+    color: black;
+}

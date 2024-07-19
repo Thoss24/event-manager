@@ -6,8 +6,19 @@
 
 .members {
     display: flex;
+    flex-direction: column;
     background-color: white;
     list-style-type: none;
+    border-radius: 4px;
+    color: black
+}
+
+.no-results {
+    padding: 4px
+}
+
+.search {
+    padding: 2px;
 }
 
 .members > li {

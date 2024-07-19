@@ -10,13 +10,26 @@ const Register = () => {
     const firstName = useRef();
     const lastName = useRef();
 
+    const generateProfileIconColor = () => {
+      const rbgCodes = ['FF9999', 'FFCC99', 'FFFF99', 'CCFF99', '99FF99', '99CCFF'];
+
+      const index = Math.floor(Math.random() * 6);
+
+      return rbgCodes[index]
+    }
+
     const registerUserHandler = (event) => {
         event.preventDefault()
+
+        const profileImage = firstName.current.value[0].toUpperCase() + lastName.current.value[0].toUpperCase();
+
         const userData = {
             email: email.current.value,
             password: password.current.value,
             firstName: firstName.current.value,
-            lastName: lastName.current.value
+            lastName: lastName.current.value,
+            profileImage,
+            profileImgColor: generateProfileIconColor()
         }
         registerUser(userData)
     }

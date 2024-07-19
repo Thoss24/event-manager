@@ -24,14 +24,14 @@ const checkUserExists = (req, res, next) => {
 };
 
 const addUser = (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, profileImage, profileImgColor } = req.body;
 
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
   connection.query(
-    "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)",
-    [firstName, lastName, email, hashedPassword],
+    "INSERT INTO users (first_name, last_name, email, password, profile_image, profile_color) VALUES (?, ?, ?, ?, ?, ?)",
+    [firstName, lastName, email, hashedPassword, profileImage, profileImgColor],
     (error, results) => {
       if (error) {
         console.log(error);

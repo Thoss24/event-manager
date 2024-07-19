@@ -6,6 +6,7 @@ import { useRef } from "react";
 import addEvent from "../../../utility/events_actions/add_event";
 import { useState, useEffect } from "react";
 import getUsers from "../../../utility/users/get_users";
+import Member from "../../users_elements/Member";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
@@ -13,12 +14,15 @@ const NewEventForm = () => {
   const [image, setImage] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
   const [members, setMembers] = useState();
+  const [eventMembers, setEventMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState();
   const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
 
   useEffect(() => {
     getUsers().then((response) => {
       if (response != "undefined") {
         setMembers(response.data);
+        setFilteredMembers(response.data);
       }
     });
   }, []);
@@ -92,6 +96,21 @@ const NewEventForm = () => {
     });
   };
 
+  const searchMembers = (event) => {
+    const filteredResults = members.filter((member) => {
+      return member.first_name.toLowerCase().includes(event.target.value) || member.last_name.toLowerCase().includes(event.target.value);
+    })
+    setFilteredMembers(filteredResults)
+    console.log(filteredMembers)
+  }
+
+  const addMemberToEvent = (id) => {
+    if (!eventMembers.includes(id)) {
+      setEventMembers(eventMembers => [...eventMembers, id])
+    }
+    console.log(eventMembers)
+  }
+
   const nameInputIsValid = nameInputInvalid ? classes.invalid : classes.valid;
   const dateInputIsValid = dateInputInvalid ? classes.invalid : classes.valid;
   const descriptionInputIsValid = descriptionInputInvalid
@@ -147,14 +166,21 @@ const NewEventForm = () => {
         {!membersSectionDisplaying ? "Add members +" : "Hide"}
       </button>
       {membersSectionDisplaying && (
-        <ul className={classes["members"]}>
-          {members &&
-            members.map((member) => (
-              <li>
-                {member.first_name} {member.last_name}
-              </li>
-            ))}
-        </ul>
+        <div className={classes["members"]}>
+          <input className={classes.search} type="text" placeholder="Search..." onChange={searchMembers}/>
+          {filteredMembers.length > 0 ?
+            filteredMembers.map((member) => (
+              <Member
+                key={member.user_id}
+                id={member.user_id}
+                profileImage={member.profile_image}
+                firstName={member.first_name}
+                lastName={member.last_name}
+                profileImgColor={member.profile_color}
+                addMemberToEvent={addMemberToEvent}
+              />
+          )) : <p className={classes['no-results']}>No results found</p>}
+        </div>
       )}
       <h3>Choose an image for your event!</h3>
       <div className={classes["event-images-container"]}>
