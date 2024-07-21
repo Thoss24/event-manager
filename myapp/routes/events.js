@@ -35,7 +35,8 @@ const getBookedEventDetails = (req, res, next) => {
 }
 
 const addEvent = (req, res, next) => {
-  const { name, description, date, imageName, time } = req.body;
+  const { name, description, date, imageName, time, members } = req.body;
+  console.log("Members: ", members)
   connection.query(
     "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
     [name, description, date, imageName, time], 
@@ -44,6 +45,19 @@ const addEvent = (req, res, next) => {
         console.log(error);
         return res.status(500).send("Internal server error");
       }
+
+      connection.query('SELECT LAST_INSERT_ID() AS inserted_id', (err, result) => {
+        if (err) throw err;
+  
+        const insertedId = result[0].inserted_id;
+        
+        members.forEach(element => {
+          connection.query('INSERT INTO events_users (user_id, event_id) VALUES (?, ?)', [element, insertedId], (err, result) => {
+            if (err) throw err;
+          });
+        });
+      });
+
       res.json(results)
     }
   );

@@ -66,12 +66,15 @@ const NewEventForm = () => {
   const submitFormHandler = (event) => {
     event.preventDefault();
 
+    const membersIds = eventMembers.map((member) => member.id);
+
     const newEvent = {
       name: name.current.value,
       date: date.current.value,
       description: description.current.value,
       imageName: image,
       time: time.current.value,
+      members: membersIds
     };
 
     addEvent(newEvent);
@@ -97,18 +100,26 @@ const NewEventForm = () => {
   };
 
   const searchMembers = (event) => {
+    const search = event.target.value.replace(/\s/g, "");
     const filteredResults = members.filter((member) => {
-      return member.first_name.toLowerCase().includes(event.target.value) || member.last_name.toLowerCase().includes(event.target.value);
+      const fullName = member.first_name + member.last_name;
+      return fullName.toLowerCase().includes(search);
     })
     setFilteredMembers(filteredResults)
     console.log(filteredMembers)
   }
 
-  const addMemberToEvent = (id) => {
-    if (!eventMembers.includes(id)) {
-      setEventMembers(eventMembers => [...eventMembers, id])
+  const addMemberToEvent = (member) => {
+    let memberExists = false;
+    for (let i = 0; i < eventMembers.length; i++) {
+      if (eventMembers[i].id == member.id) {
+        memberExists = true;
+      }
     }
-    console.log(eventMembers)
+
+    if (!memberExists) {
+      setEventMembers(eventMembers => [...eventMembers, member])
+    }
   }
 
   const nameInputIsValid = nameInputInvalid ? classes.invalid : classes.valid;
@@ -126,7 +137,7 @@ const NewEventForm = () => {
   return (
     <form onSubmit={submitFormHandler} className={classes["new-event-form"]}>
       <div className={classes["input-section"]}>
-        <label htmlFor="">Name</label>
+        <h3>Name</h3>
         <input
           className={nameInputIsValid}
           type="text"
@@ -137,7 +148,7 @@ const NewEventForm = () => {
         />
       </div>
       <div className={classes["input-section"]}>
-        <label htmlFor="">Description</label>
+        <h3>Description</h3>
         <textarea
           className={descriptionInputIsValid}
           type="text"
@@ -148,7 +159,7 @@ const NewEventForm = () => {
         />
       </div>
       <div className={classes["input-section"]}>
-        <label htmlFor="">Date</label>
+        <h3>Date</h3>
         <input
           className={dateInputIsValid}
           type="date"
@@ -159,11 +170,24 @@ const NewEventForm = () => {
         />
       </div>
       <div className={classes["input-section"]}>
-        <label htmlFor="">Time</label>
+        <h3>Time</h3>
         <input type="time" name="time" defaultValue={"00:00"} ref={time} />
       </div>
+      <h3>Members</h3>
+      <div className={classes["event-members"]}>
+        {eventMembers.map((member) => (
+          <Member 
+          key={member.id}
+          id={member.id}
+          profileImage={member.profileImage}
+          firstName={member.firstName}
+          lastName={member.lastName}
+          profileImgColor={member.profileImageColor}
+          />
+        ))}
+      </div>
       <button type="button" onClick={toggleAddMembersHandler}>
-        {!membersSectionDisplaying ? "Add members +" : "Hide"}
+        {!membersSectionDisplaying ? "Add members +" : "Stop adding members"}
       </button>
       {membersSectionDisplaying && (
         <div className={classes["members"]}>
