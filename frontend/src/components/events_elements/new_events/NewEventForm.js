@@ -190,8 +190,9 @@ const NewEventForm = () => {
         {!membersSectionDisplaying ? "Add members +" : "Stop adding members"}
       </button>
       {membersSectionDisplaying && (
+        <div>
+        <input className={classes.search} type="text" placeholder="Search..." onChange={searchMembers}/>
         <div className={classes["members"]}>
-          <input className={classes.search} type="text" placeholder="Search..." onChange={searchMembers}/>
           {filteredMembers.length > 0 ?
             filteredMembers.map((member) => (
               <Member
@@ -204,6 +205,7 @@ const NewEventForm = () => {
                 addMemberToEvent={addMemberToEvent}
               />
           )) : <p className={classes['no-results']}>No results found</p>}
+        </div>
         </div>
       )}
       <h3>Choose an image for your event!</h3>

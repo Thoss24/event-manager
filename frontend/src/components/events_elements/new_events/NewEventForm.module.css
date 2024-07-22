@@ -10,7 +10,9 @@
     background-color: white;
     list-style-type: none;
     border-radius: 4px;
-    color: black
+    color: black;
+    max-height: 125px;
+    overflow-y: auto;
 }
 
 .no-results {
@@ -19,6 +21,8 @@
 
 .search {
     padding: 2px;
+    display: flex;
+    width: 100%;
 }
 
 .members > li {
@@ -31,6 +35,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    margin: 34px;
 }
 
 .input-section {
@@ -51,10 +56,11 @@
     flex-wrap: wrap;
 }
 
-.input-section input {
+.input-section input, textarea {
     border: none;
     border-radius: 4px;
     padding-left: 2px;
+    padding: 4px;
 }
 
 .buttons {
@@ -66,8 +72,9 @@
 }
 
 .invalid {
-    color: red;
+    color: lightcoral;
     background-color: lightsalmon;
+    outline: 1px solid red;
 }
 
 h3 {

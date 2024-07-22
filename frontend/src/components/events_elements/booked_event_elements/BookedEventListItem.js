@@ -1,4 +1,4 @@
-import classes from "./BookedEventListItem.module.css";
+import classes from "../EventListItem.module.css";
 import { Link } from "react-router-dom";
 
 const BookedEventListItem = (props) => {

@@ -1,43 +1,54 @@
 import EventListItem from "./EventsListItem";
 import classes from './EventsList.module.css'
-import { useDispatch } from "react-redux";
-import { eventsActions } from "../../../store/events_slice";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import fetchEvents from "../../../utility/events_actions/fetch-events-data";
 
-const EventsList = (props) => {
+const EventsList = () => {
 
-    const dispatch = useDispatch();
-    
-    dispatch(eventsActions.replaceEvents(props.events));
+    const [users, setUsers] = useState([]);
 
-    const events = useSelector(state => state.events.events);
-    const bookedEvents = useSelector(state => state.bookedEvents.bookedEvents);
-    console.log(bookedEvents)
+    useEffect(() => {
+        fetchEvents().then((response) => {
+          if (response != "undefined") {
+            setUsers(response);
+            console.log(response)
+          }
+        });
+    }, []);
 
-    const getEvents = () => {
-       const extractedEvents = events.map(event => event).reduce ((a, b) => {return a.name})
-       
-       const finalArr = []
-
-        for (const i in extractedEvents) {
-            finalArr.push({
-                name: extractedEvents[i].name,
-                date: extractedEvents[i].date,
-                id: i
-            });
-        };
-    console.log(finalArr)
-    return finalArr
-    }
+//     booked
+// : 
+// 1
+// created_at
+// : 
+// "2024-04-24T17:47:04.000Z"
+// event_date
+// : 
+// "2024-04-24T23:00:00.000Z"
+// event_description
+// : 
+// "Test"
+// event_id
+// : 
+// 7
+// event_img
+// : 
+// "event_img_two.jpg"
+// event_name
+// : 
+// "event 1 2"
+// event_time
+// : 
+// "02:02"
     
     return (
         <div className={classes.list}>
-            {getEvents().map(event => (
+            {users && users.map(event => (
                 <EventListItem 
-                key={event.id}
-                id={event.id}
-                name={event.name}
-                date={event.date}
+                key={event.event_id}
+                id={event.event_id}
+                name={event.event_name}
+                date={event.event_date}
                 />
             ))}
         </div>
