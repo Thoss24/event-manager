@@ -1,15 +1,27 @@
 import classes from "../EventListItem.module.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const EventListItem = (props) => {
-    return (
-        <div className={classes["list-item"]}>
-            <Link to={props.id}>
-            <h1>{props.name}</h1>
-            <h2>{props.date}</h2>
-            </Link>
+  const eventDate = props.eventDate.slice(0, 10);
+
+  return (
+    <div className={classes["list-item"]}>
+      <Link to={`${props.id}`}>
+        <div className={classes["event-details-section"]}>
+          <h2>{props.eventName}</h2>
+          <h4>{props.description}</h4>
+          <div className={classes["time-details"]}>
+            <p>Date: {eventDate}</p>
+            <p>Time: {props.eventTime}</p>
+          </div>
         </div>
-    )
+        <img
+          className={classes["booked_event_img"]}
+          src={`http://localhost:3001/images/${props.eventImg}`}
+        />
+      </Link>
+    </div>
+  );
 };
 
-export default EventListItem
+export default EventListItem;

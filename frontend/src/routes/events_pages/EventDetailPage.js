@@ -1,34 +1,36 @@
 // third party imports
-import { defer, Await, redirect, useRouteLoaderData } from "react-router-dom";
-import { Suspense, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { Suspense, useEffect, useState } from "react";
+import { useParams, Await } from "react-router-dom";
 // local files - components
 import PageHeading from "../../components/ui/PageHeading";
 import EventDetails from "../../components/events_elements/event_elements/EventDetails";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
-import { addEventData } from "./../../store/booked_events_actions";
-// fetched data
 import fetchEvent from "../../utility/events_actions/fetch-event-data";
+import Loading from "../../components/ui/Loading";
 
 const EventDetailPage = () => {
-  const { events } = useRouteLoaderData("events-details");
+  let { eventId } = useParams();
 
-  const bookedEvents = useSelector(state => state.bookedEvents.bookedEvents);
-  console.log(bookedEvents)
-  
+  const [eventItem, setEventItem] = useState([]);
+
   useEffect(() => {
-    addEventData(bookedEvents)
-  }, [bookedEvents])
+    fetchEvent(eventId).then((response) => {
+      setEventItem(response);
+      console.log(response);
+    });
+  }, []);
+
+  console.log(eventId)
 
   return (
     <MainContentWrapper>
-      <Suspense>
+      <Suspense fallback={<Loading message={"Loading event details..."}/>}>
         <PageHeading header={"Event Details"} />
-        <Await resolve={events}>
-          {(event) => (
+        <Await resolve={eventItem}>
+          {(eventDetails) => (
             <EventDetails
-              name={event.name}
-              date={event.date}
+              name={eventDetails.name}
+              date={eventDetails.date}
               
             />
           )}
@@ -40,31 +42,3 @@ const EventDetailPage = () => {
 
 export default EventDetailPage;
 
-export const loader = async ({ request, params }) => {
-  const id = params.eventId;
-
-  console.log(id);
-
-  return defer({
-    events: await fetchEvent(id),
-  });
-};
-
-export const action = async ({ request, params }) => {
-  const id = params.eventId;
-
-  console.log(request);
-
-  const response = await fetch(
-    `https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/events/${id}.json`,
-    {
-      method: request.method,
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Something went wrong!");
-  };
-
-  return redirect("/events");
-};

@@ -34,6 +34,18 @@ const getBookedEventDetails = (req, res, next) => {
   })
 }
 
+const getEventDetails = (req, res, next) => {
+  const {id} = req.body;
+  connection.query("SELECT * FROM events WHERE event_id = ?", [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).send("Internal server error");
+    }
+    console.log(results)
+    res.json(results)
+  })
+}
+
 const addEvent = (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
   console.log("Members: ", members)
@@ -95,5 +107,6 @@ router.get("/", checkAuthenticated, getEvents);
 router.get("/booked-events", checkAuthenticated, getBookedEvents)
 router.post("/", addEvent);
 router.post("/booked-event-details",  getBookedEventDetails)
+router.post("/event-details", checkAuthenticated, getEventDetails)
 
 module.exports = router;
