@@ -1,19 +1,36 @@
 import EditEventForm from "../../components/events_elements/edit_event_elements/EditEventForm";
-import { useRouteLoaderData } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect, useState, Suspense } from "react";
+import fetchEvent from "../../utility/events_actions/fetch-event-data";
+import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
+import PageHeading from "../../components/ui/PageHeading";
+import Loading from "../../components/ui/Loading";
 
 const EditEventPage = () => {
+  const { eventId } = useParams();
+  const [editableEvent, setEvent] = useState();
 
-    const { events } = useRouteLoaderData('events-details');
+  useEffect(() => {
+    fetchEvent(eventId).then((response) => {
+      setEvent(response.data[0]);
+    });
+  }, []);
 
-    console.log(events)
-
-    const name = events.name;
-
-    const date = events.date;
-
-  return <div>
-    <EditEventForm name={name} date={date}/>
-  </div>;
+  return (
+    <MainContentWrapper>
+      <Suspense fallback={<Loading message={"Loading event details..."} />}>
+        <PageHeading header={"Edit Event Details"} />
+        {editableEvent && (
+          <EditEventForm
+            name={editableEvent.event_name}
+            date={editableEvent.event_date}
+            description={editableEvent.event_description}
+            eventId={eventId}
+          />
+        )}
+      </Suspense>
+    </MainContentWrapper>
+  );
 };
 
 export default EditEventPage;

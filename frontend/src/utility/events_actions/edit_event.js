@@ -1,33 +1,14 @@
-import { json } from "react-router-dom";
 import axios from "axios"
 
-export const action = async ({request, params}) => {
+export const editEvent = (eventData) => {
 
-    const data = await request.formData();
-
-    const name = data.get('name');
-    const date = data.get('date');
-    const description = data.get('description')
-
-    const newEvent = {
-        name: name,
-        date: date,
-        description: description
-    };
-
-    let url = "http://localhost:3001/";
-
-    const response = axios.post(url, newEvent)
+    return axios.post("http://localhost:3001/events/edit-event", eventData)
     .then((response) => {
         console.log(response)
+        window.location.href = "http://localhost:3000/events"
     })
     .catch((error) => {
         console.log(error)
     })
 
-    if (!response.ok) {
-        throw json({message: "could not find event"}, {status: 500})
-    };
-
-    // return redirect('/events');
 };

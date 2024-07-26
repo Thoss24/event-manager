@@ -11,34 +11,54 @@ import Loading from "../../components/ui/Loading";
 const EventDetailPage = () => {
   let { eventId } = useParams();
 
-  const [eventItem, setEventItem] = useState([]);
+  const [eventItem, setEventItem] = useState();
 
   useEffect(() => {
     fetchEvent(eventId).then((response) => {
-      setEventItem(response);
-      console.log(response);
+      setEventItem(response.data[0]);
     });
+    console.log("Event Item: ", eventItem);
   }, []);
 
-  console.log(eventId)
+  //   booked
+  // :
+  // 0
+  // created_at
+  // :
+  // "2024-07-21T13:38:04.000Z"
+  // event_date
+  // :
+  // "2024-07-27T23:00:00.000Z"
+  // event_description
+  // :
+  // "qwerty"
+  // event_id
+  // :
+  // 15
+  // event_img
+  // :
+  // "event_img_two.jpg"
+  // event_name
+  // :
+  // "John Doe Doe"
+  // event_time
+  // :
+  // "00:00"
 
   return (
     <MainContentWrapper>
-      <Suspense fallback={<Loading message={"Loading event details..."}/>}>
+      <Suspense fallback={<Loading message={"Loading event details..."} />}>
         <PageHeading header={"Event Details"} />
-        <Await resolve={eventItem}>
-          {(eventDetails) => (
-            <EventDetails
-              name={eventDetails.name}
-              date={eventDetails.date}
-              
-            />
-          )}
-        </Await>
+        {eventItem && (
+          <EventDetails
+            name={eventItem.event_name}
+            description={eventItem.event_description}
+            date={eventItem.event_date}
+          />
+        )}
       </Suspense>
     </MainContentWrapper>
   );
 };
 
 export default EventDetailPage;
-

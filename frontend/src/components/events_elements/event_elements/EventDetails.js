@@ -5,68 +5,47 @@ import { redirect, useParams } from "react-router-dom";
 import { bookedEventsActions } from "../../../store/booked_events_slice";
 import { useSubmit, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import checkAccountType from "../../../utility/authentication/check_account_type";
+import { useEffect, useState } from "react";
 
 const EventDetails = (props) => {
 
-    const param = useParams();
+  const [userAuth, setUserAuth] = useState();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+  useEffect(() => {
+    checkAccountType().then((response) => {
+      if (response) {
+        console.log("Response event details", response)
+        setUserAuth(response.data[0].account_type);
+      }
+    });
+    console.log("Account type: ", userAuth)
+  }, [userAuth]);
 
-    const navigate = useNavigate()
+  const proceedToEdit = () => {
+   
+    navigate("edit");
+  
+  };
 
-    const bookedEvents = useSelector(state => state.bookedEvents.bookedEvents);
-
-    const existingBookedEvent = bookedEvents.filter(event => event.name === props.name);
-
-    const proceedToEdit = () => {
-    
-      if (existingBookedEvent.length === 0) {
-        navigate('edit');
-      } else {
-        alert("Cannot edit an event that has already been booked.");
-      };
-    };
-
-    const bookEvent = () => {
-        const event = {
-            name: props.name,
-            date: props.date,
-            id: param.eventId
-        };
-        dispatch(bookedEventsActions.addEvent(event))
-    };
-
-    const submit = useSubmit();
-
-    const deleteEventHandler = () => {
-      const proceed = window.confirm(
-        "Are you sure you want to delete this event?"
-      );
-      if (proceed) {
-        const event = {
-            name: props.name,
-            date: props.date,
-            id: param.eventId
-        };
-        dispatch(bookedEventsActions.removeEvent(event))
-        submit(null, { method: "delete" });
-      };
-    };
-
-    return (
-        <div className={classes.container}>
-            <div className={classes.details}>
-            <h1>{props.name}</h1>
-            <h1>{props.date}</h1>
-            </div>
-            <div className={classes.buttons}>
-            <Button text={'Edit'} onclick={proceedToEdit}/>
-            <Button onclick={deleteEventHandler} text={'Delete'}/>
-            <Button onclick={bookEvent} text={'Book Event'}/>
-            <Button link={'..'} text={'Back'}/>
-            </div>
-        </div>
-    )
+  return (
+    <div className={classes.container}>
+      <div className={classes.details}>
+        <h1>{props.name}</h1>
+        <h3>{props.description}</h3>
+        <h4>{props.date}</h4>
+      </div>
+      <div className={classes.buttons}>
+        {userAuth === "admin" && (
+          <Button text={"Edit"} onclick={proceedToEdit} />
+        )}
+        <Button text={"Delete"} />
+        <Button text={"Book Event"} />
+        <Button link={".."} text={"Back"} />
+      </div>
+    </div>
+  );
 };
 
 export default EventDetails;
