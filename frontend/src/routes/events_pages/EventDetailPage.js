@@ -17,33 +17,7 @@ const EventDetailPage = () => {
     fetchEvent(eventId).then((response) => {
       setEventItem(response.data[0]);
     });
-    console.log("Event Item: ", eventItem);
   }, []);
-
-  //   booked
-  // :
-  // 0
-  // created_at
-  // :
-  // "2024-07-21T13:38:04.000Z"
-  // event_date
-  // :
-  // "2024-07-27T23:00:00.000Z"
-  // event_description
-  // :
-  // "qwerty"
-  // event_id
-  // :
-  // 15
-  // event_img
-  // :
-  // "event_img_two.jpg"
-  // event_name
-  // :
-  // "John Doe Doe"
-  // event_time
-  // :
-  // "00:00"
 
   return (
     <MainContentWrapper>

@@ -1,33 +1,38 @@
 import Button from "../../ui/Button";
 import classes from "./EventDetails.module.css";
-import { useDispatch } from "react-redux";
-import { redirect, useParams } from "react-router-dom";
-import { bookedEventsActions } from "../../../store/booked_events_slice";
-import { useSubmit, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useNavigate } from "react-router-dom";
 import checkAccountType from "../../../utility/authentication/check_account_type";
 import { useEffect, useState } from "react";
+import bookEvent from "../../../utility/events_actions/book_event";
+import { modalActions } from "../../../store/event_details_modal_slice";
+import { useDispatch } from "react-redux";
 
 const EventDetails = (props) => {
 
   const [userAuth, setUserAuth] = useState();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     checkAccountType().then((response) => {
       if (response) {
-        console.log("Response event details", response)
         setUserAuth(response.data[0].account_type);
       }
     });
-    console.log("Account type: ", userAuth)
   }, [userAuth]);
 
   const proceedToEdit = () => {
-   
     navigate("edit");
-  
   };
+
+  const deleteEvent = () => {
+
+  }
+
+  const bookEventHandler = () => {
+    dispatch(modalActions.showEventDetailsModal())
+  }
 
   return (
     <div className={classes.container}>
@@ -41,7 +46,7 @@ const EventDetails = (props) => {
           <Button text={"Edit"} onclick={proceedToEdit} />
         )}
         <Button text={"Delete"} />
-        <Button text={"Book Event"} />
+        <Button text={"Book Event"} onclick={bookEventHandler}/>
         <Button link={".."} text={"Back"} />
       </div>
     </div>
