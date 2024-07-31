@@ -1,0 +1,29 @@
+.confirmation-modal {
+    display: flex;
+    justify-content: center;
+}
+
+.confirmation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    position: fixed;
+    top: 30%;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 6px 5px -2px rgba(0, 0, 0, 0.15);
+}
+
+.confirmation-buttons {
+    display: flex;
+    margin-top: 12px;
+    gap: 10px;
+}
+
+.backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+}

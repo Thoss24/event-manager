@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const defaultModalState = {
-    eventDetailsModalDisplaying: true,
+    deleteEventDetailsModalDisplaying: false,
 };
 
 const modalSlice = createSlice({
@@ -9,10 +9,10 @@ const modalSlice = createSlice({
     initialState: defaultModalState,
     reducers: {
         showEventDetailsModal(state, action) {
-           state.eventDetailsModalDisplaying = true
+           state.deleteEventDetailsModalDisplaying = true
         },
         hideEventDetailsModal(state, action) {
-           state.eventDetailsModalDisplaying = false
+           state.deleteEventDetailsModalDisplaying = false
         },
     }
 });
