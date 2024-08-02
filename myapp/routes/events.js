@@ -12,6 +12,17 @@ function getEvents(req, res, next) {
   });
 }
 
+function deleteEvent(req, res, next) {
+  const {id} = req.body;
+  connection.query("DELETE FROM events WHERE event_id = ?", [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).send("Internal server error");
+    }
+    res.json(results);
+  });
+}
+
 const editEvent = (req, res, next) => {
   const { name, description, date, eventId } = req.body;
 
@@ -147,6 +158,7 @@ const checkAuthenticated = async (req, res, next) => {
 router.get("/", checkAuthenticated, getEvents);
 router.get("/booked-events", checkAuthenticated, getBookedEvents);
 router.post("/", addEvent);
+router.post("/delete-event", deleteEvent);
 router.post("/book-event", bookEvent);
 router.post("/booked-event-details", getBookedEventDetails);
 router.post("/edit-event", editEvent);

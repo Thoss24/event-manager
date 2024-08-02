@@ -25,6 +25,7 @@ const EventDetailPage = () => {
         <PageHeading header={"Event Details"} />
         {eventItem && (
           <EventDetails
+            id={eventId}
             name={eventItem.event_name}
             description={eventItem.event_description}
             date={eventItem.event_date}
