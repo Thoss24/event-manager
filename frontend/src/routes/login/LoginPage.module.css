@@ -1,3 +1,82 @@
 fieldset {
     border: none;
 }
+
+/* LoginForm.module.css */
+.loginContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: rgba(39, 36, 36, 0.8);
+  }
+  
+  .loginForm {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .loginTitle {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .formLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .formInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .formInput:focus {
+    outline: none;
+    border-color: rgb(201, 182, 12);
+    box-shadow: 0 0 5px rgb(201, 182, 12);
+  }
+  
+  .loginButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgb(201, 182, 12);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .loginButton:hover {
+    background-color: rgba(201, 182, 12, 0.8);
+  }
+  
+  .registerLink {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .registerLink a {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .registerLink a:hover {
+    text-decoration: underline;
+  }
