@@ -17,7 +17,7 @@ const EventListItem = (props) => {
         </div>
         <img
           className={classes["booked_event_img"]}
-          src={`http://localhost:3001/images/${props.eventImg}`}
+          src={`/images/${props.eventImg}`}
         />
       </Link>
     </div>

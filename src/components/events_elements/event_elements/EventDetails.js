@@ -53,7 +53,7 @@ const EventDetails = (props) => {
       setTimeout(() => {
         setConfirmationMsg("");
         dispatch(modalActions.hideEventDetailsModal());
-        window.location.href = "http://localhost:3000/events";
+        window.location.href = "/events";
       }, 3000)
     }
   }

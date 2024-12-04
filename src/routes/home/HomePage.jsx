@@ -1,10 +1,11 @@
-import classes from './HomePage.module.css'
+import classes from './HomePage.module.css';
+import UpcommingEvents from '../../components/events_elements/upcomming_events_elements/UpcommingEvents';
 
 const HomePage = () => {
 
   return (
     <div>
-      <h1>Home</h1>
+      <UpcommingEvents />
     </div>
   );
 };

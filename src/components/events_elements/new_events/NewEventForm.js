@@ -28,9 +28,9 @@ const NewEventForm = () => {
   }, []);
 
   const images = [
-    "http://localhost:3001/images/event_img_one.jpg",
-    "http://localhost:3001/images/event_img_two.jpg",
-    "http://localhost:3001/images/event_img_three.jpg",
+    "/images/event_img_one.jpg",
+    "/images/event_img_two.jpg",
+    "/images/event_img_three.jpg",
   ];
 
   const name = useRef();
