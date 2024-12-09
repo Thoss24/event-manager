@@ -8,7 +8,7 @@ const EventsList = () => {
 
   useEffect(() => {
     fetchEvents().then((response) => {
-      if (response != "undefined") {
+      if (response !== "undefined") {
         setUsers(response);
         console.log(response);
       }
@@ -27,6 +27,7 @@ const EventsList = () => {
             eventImg={event.event_img}
             description={event.event_description}
             eventTime={event.event_time}
+            eventType={event.event_type}
           />
         ))}
     </div>

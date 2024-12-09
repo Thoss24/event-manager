@@ -1,0 +1,8 @@
+.scroll-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: hidden;
+  white-space: nowrap;
+  gap: 10px;
+  width: 500px;
+}
