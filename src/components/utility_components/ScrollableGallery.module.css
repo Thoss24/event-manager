@@ -1,8 +1,36 @@
+.scrollable-gallery {
+  display: flex;
+  align-items: center;
+}
+
 .scroll-container {
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
+  overflow-y: auto;
   white-space: nowrap;
   gap: 10px;
-  width: 500px;
+  max-width: 500px;
+  max-height: 300px;
+  align-items: center;
+}
+
+.scroll-buttons{
+  all: unset;
+  display: flex;
+  height: fit-content;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+@media only screen and (max-width: 520px) {
+
+  .scroll-container {
+    flex-direction: column;
+  }
+
+  .scroll-buttons{
+    display: none;
+  }
+
 }

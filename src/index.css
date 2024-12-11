@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html, body {
+  height: 100vh; /* Ensure the body takes the full height */
+  width: 100vw; /* Ensure the body takes the full width */
+}
+
+#root {
+  height: 100vh; /* Adjust according to your root element */
+  width: 100vw; /* Adjust according to your root element */
+}

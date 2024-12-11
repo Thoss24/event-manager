@@ -54,9 +54,45 @@ const UpcommingEvents = () => {
     return filteredEvents;
   };
 
+  const filterAllUpcommingEvents = () => {
+    // Get the current date
+    const currentDate = new Date();
+    const formattedCurrentDate = formatDate(currentDate);
+
+    let filteredEvents = [];
+
+    events.forEach((event) => {
+      //  get the event date
+      const targetDate = new Date(event.event_date);
+      const formattedTargetDate = formatDate(targetDate);
+
+      formattedTargetDate >= formattedCurrentDate && filteredEvents.push(event);
+    });
+
+    return filteredEvents;
+  };
+
+  const filterAllPastEvents = () => {
+    // Get the current date
+    const currentDate = new Date();
+    const formattedCurrentDate = formatDate(currentDate);
+
+    let filteredEvents = [];
+
+    events.forEach((event) => {
+      //  get the event date
+      const targetDate = new Date(event.event_date);
+      const formattedTargetDate = formatDate(targetDate);
+
+      formattedTargetDate < formattedCurrentDate && filteredEvents.push(event);
+    });
+
+    return filteredEvents;
+  };
+
   const formatDate = (date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
 
     const dateStr = `${year}/${month}/${day}`;
@@ -64,25 +100,49 @@ const UpcommingEvents = () => {
     return dateStr;
   };
 
-  const formattedEvents = filterNextSevenDays();
+  // next seven days of events
+  const nextSevenDaysOfEvents = filterNextSevenDays();
+  // all upcomming events
+  const allUpcommingEvents = filterAllUpcommingEvents();
+  // all past events
+  const allPastEvents = filterAllPastEvents();
 
   return (
     <div className={classes["upcomming-events-area"]}>
       {loading && <p>Loading events...</p>}
       {error && <p>Error: {error}</p>}
       <div>
-        <h2>Events coming up this week</h2>
-        <div>
-          <div>
-            {formattedEvents && <ScrollableGallery items={formattedEvents} scrollAmount={100} />}
-          </div>
+        <h2>Events coming up in the next 7 days</h2>
+        <div className={classes.events}>
+          {nextSevenDaysOfEvents && (
+            <ScrollableGallery
+              items={nextSevenDaysOfEvents}
+              scrollAmount={100}
+            />
+          )}
         </div>
       </div>
       <div>
         <h2>All upcomming events</h2>
+        <div className={classes.events}>
+          {allUpcommingEvents && (
+            <ScrollableGallery
+              items={allUpcommingEvents}
+              scrollAmount={100}
+            />
+          )}
+        </div>
       </div>
       <div>
         <h2>Past events</h2>
+        <div className={classes.events}>
+        {allPastEvents && (
+            <ScrollableGallery
+              items={allPastEvents}
+              scrollAmount={100}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

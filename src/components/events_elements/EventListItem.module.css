@@ -1,8 +1,10 @@
 .list-item {
+    display: flex;
     background-color: rgba(39, 36, 36, 0.8);
     border-radius: 8px;
     border: none;
     padding: 10px;
+    width: fit-content;
 }
 
 .list-item > a {

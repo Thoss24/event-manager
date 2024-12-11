@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import EventListItem from "../events_elements/event_elements/EventsListItem";
 import classes from "./ScrollableGallery.module.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const ScrollableGallery = ({items, scrollAmount}) => {
 
@@ -19,7 +20,8 @@ const ScrollableGallery = ({items, scrollAmount}) => {
   }
 
   return (
-    <div>
+    <div className={classes['scrollable-gallery']}>
+      <button className={classes['scroll-buttons']} onClick={scrollLeft}><FaArrowLeft /></button>
       <div
         className={classes['scroll-container']}
         ref={scrollContainerRef}
@@ -37,8 +39,8 @@ const ScrollableGallery = ({items, scrollAmount}) => {
          />
         ))}
       </div>
-      <button onClick={scrollLeft}>Scroll Left</button>
-      <button onClick={scrollRight}>Scroll Right</button>
+      <button className={classes['scroll-buttons']} onClick={scrollRight}> <FaArrowRight /> </button>
+      
     </div>
   );
 };
