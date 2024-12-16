@@ -10,12 +10,14 @@ const ScrollableGallery = ({items, scrollAmount}) => {
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft -= scrollAmount;
+      console.log(scrollContainerRef.current.scrollLeft)
     }
   }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft += scrollAmount;
+      console.log(scrollContainerRef.current.scrollLeft)
     }
   }
 
@@ -39,8 +41,7 @@ const ScrollableGallery = ({items, scrollAmount}) => {
          />
         ))}
       </div>
-      <button className={classes['scroll-buttons']} onClick={scrollRight}> <FaArrowRight /> </button>
-      
+      <button className={classes['scroll-buttons']} onClick={scrollRight}><FaArrowRight /></button>
     </div>
   );
 };

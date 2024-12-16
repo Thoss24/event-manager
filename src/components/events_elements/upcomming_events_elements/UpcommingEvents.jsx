@@ -2,6 +2,7 @@ import fetchEvents from "../../../utility/events_actions/fetch-events-data";
 import { useEffect, useState } from "react";
 import ScrollableGallery from "../../utility_components/ScrollableGallery";
 import classes from "./UpcommingEvents.module.css";
+import Loading from "../../ui/Loading";
 
 const UpcommingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -112,8 +113,9 @@ const UpcommingEvents = () => {
       {loading && <p>Loading events...</p>}
       {error && <p>Error: {error}</p>}
       <div>
-        <h2>Events coming up in the next 7 days</h2>
-        <div className={classes.events}>
+        <h2 className={classes['events-header']}>Events coming up in the next 7 days</h2>
+        {nextSevenDaysOfEvents.length === 0 ? <Loading message="You don't have any events in the next 7 days." /> :
+        <div className={classes['events-section']}>
           {nextSevenDaysOfEvents && (
             <ScrollableGallery
               items={nextSevenDaysOfEvents}
@@ -121,10 +123,12 @@ const UpcommingEvents = () => {
             />
           )}
         </div>
+        }
       </div>
       <div>
-        <h2>All upcomming events</h2>
-        <div className={classes.events}>
+        <h2 className={classes['events-header']}>All upcomming events</h2>
+        {allUpcommingEvents.length == 0 ? <Loading message="You don't have any upcomming events."/> :
+        <div className={classes['events-section']}>
           {allUpcommingEvents && (
             <ScrollableGallery
               items={allUpcommingEvents}
@@ -132,10 +136,12 @@ const UpcommingEvents = () => {
             />
           )}
         </div>
+        }
       </div>
       <div>
-        <h2>Past events</h2>
-        <div className={classes.events}>
+        <h2 className={classes['events-header']}>Past events</h2>
+        {allPastEvents.length === 0 ? <Loading message="You don't have any previous events." /> :
+        <div className={classes['events-section']}>
         {allPastEvents && (
             <ScrollableGallery
               items={allPastEvents}
@@ -143,6 +149,7 @@ const UpcommingEvents = () => {
             />
           )}
         </div>
+        }
       </div>
     </div>
   );

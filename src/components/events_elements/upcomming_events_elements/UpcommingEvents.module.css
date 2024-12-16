@@ -1,10 +1,29 @@
 .upcomming-events-area {
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  gap: 80px;
 }
 
-.events {
-  display: flex;
+.events-header {
+  margin-bottom: 10px;
+  color: rgb(201, 182, 12);
+}
 
+.events-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex start;
+  padding: 12px;
+  box-shadow: 0px 0px 4px 2px rgba(115, 115, 115, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  width: fit-content;
+  justify-self: center;
+}
+
+.events-section:hover {
+  box-shadow: 0px 0px 4px 2px rgb(226, 205, 18);
+  border-radius: 8px;
+  cursor: pointer;
 }
