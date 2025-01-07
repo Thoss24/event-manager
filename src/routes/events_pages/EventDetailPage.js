@@ -15,9 +15,11 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     fetchEvent(eventId).then((response) => {
-      setEventItem(response.data[0]);
+      console.log(response)
+      // setEventItem(response.data[0]);
     });
   }, []);
+
 
   return (
     <MainContentWrapper>

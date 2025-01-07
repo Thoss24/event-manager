@@ -86,7 +86,7 @@ const getEventDetails = (req, res, next) => {
   const { id } = req.body;
   console.log("Event ID: ", id);
   connection.query(
-    "SELECT * FROM events WHERE event_id = ?",
+    "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.booked, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
     [id],
     (error, results) => {
       if (error) {

@@ -77,6 +77,8 @@ const NewEventForm = () => {
       members: membersIds
     };
 
+    console.log(newEvent)
+
     addEvent(newEvent);
 
     nameHandleReset();

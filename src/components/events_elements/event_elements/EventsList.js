@@ -15,6 +15,8 @@ const EventsList = () => {
     });
   }, []);
 
+  users && console.log(users)
+
   return (
     <div className={classes.list}>
       {users &&
