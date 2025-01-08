@@ -12,14 +12,16 @@ const EventDetailPage = () => {
   let { eventId } = useParams();
 
   const [eventItem, setEventItem] = useState();
+  const [eventMembers, setEventMembers] = useState();
 
   useEffect(() => {
     fetchEvent(eventId).then((response) => {
-      console.log(response)
-      // setEventItem(response.data[0]);
+      console.log(response.data)
+      setEventItem(response.data);
     });
   }, []);
 
+  eventItem && console.log(eventItem)
 
   return (
     <MainContentWrapper>
@@ -28,9 +30,10 @@ const EventDetailPage = () => {
         {eventItem && (
           <EventDetails
             id={eventId}
-            name={eventItem.event_name}
-            description={eventItem.event_description}
-            date={eventItem.event_date}
+            name={eventItem.eventName}
+            description={eventItem.eventDescription}
+            date={eventItem.eventDate}
+            users={eventItem.users}
           />
         )}
       </Suspense>

@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import ConfirmationModal from "../../ui/ConfirmationModal";
 import { deleteEvent } from "../../../utility/events_actions/delete_event";
+import Member from "../../users_elements/Member";
 
 const EventDetails = (props) => {
 
@@ -67,6 +68,14 @@ const EventDetails = (props) => {
         <h1>{props.name}</h1>
         <h3>{props.description}</h3>
         <h4>{props.date}</h4>
+        <div className={classes.members}>
+          <h3>Members</h3>
+          <div>
+            {props.users.map(user => (
+              <Member firstName={user.firstName} lastName={user.lastName} key={user.userId} profileImgColor={user.profileColor} profileImage={user.profileImage}/>
+            ))}
+          </div>
+        </div>
       </div>
       <div className={classes.buttons}>
         {userAuth === "admin" && (

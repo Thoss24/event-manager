@@ -13,14 +13,18 @@ function getEvents(req, res, next) {
 }
 
 function deleteEvent(req, res, next) {
-  const {id} = req.body;
-  connection.query("DELETE FROM events WHERE event_id = ?", [id], (error, results) => {
-    if (error) {
-      console.log(error);
-      return res.status(500).send("Internal server error");
+  const { id } = req.body;
+  connection.query(
+    "DELETE FROM events WHERE event_id = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Internal server error");
+      }
+      res.json(results);
     }
-    res.json(results);
-  });
+  );
 }
 
 const editEvent = (req, res, next) => {
@@ -82,21 +86,55 @@ const getBookedEventDetails = (req, res, next) => {
   );
 };
 
-const getEventDetails = (req, res, next) => {
+const getEventDetails = async (req, res, next) => {
   const { id } = req.body;
-  console.log("Event ID: ", id);
-  connection.query(
-    "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.booked, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send("Internal server error");
-      }
-      console.log(results);
-      res.json(results);
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send("Invalid event ID");
+  }
+
+  try {
+    const results = await new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.booked, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name, u.profile_image, u.profile_color FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
+        [id],
+        (error, results) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(results);
+        }
+      );
+    });
+
+    if (results.length === 0) {
+      return res.status(404).send("Event not found");
     }
-  );
+
+    const event = results[0]; 
+    const eventDetails = {
+      eventId: event.event_id,
+      eventName: event.event_name,
+      createdAt: event.created_at,
+      eventDate: event.event_date,
+      eventDescription: event.event_description,
+      eventImg: event.event_img,
+      eventTime: event.event_time,
+      eventType: event.event_type,
+      users: results.map(user => ({
+        userId: user.user_id,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        profileImage: user.profile_image,
+        profileColor: user.profile_color
+      })),
+    };
+
+    res.json(eventDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
 };
 
 const addEvent = (req, res, next) => {

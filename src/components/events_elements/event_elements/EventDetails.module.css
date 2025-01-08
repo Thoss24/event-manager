@@ -28,3 +28,17 @@
     gap: 10px;
     padding: 10px;
 }
+
+.members {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 4px;
+}
+
+.members > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 4px;
+}
