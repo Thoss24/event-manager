@@ -4,11 +4,9 @@ import classes from './EventsRoot.module.css';
 
 const EventsRoot = () => {
     return (
-        <div className={classes['events-root-container']}>
+      <div className={classes['events-root-container']}>
         <EventsNavigation />
-        <main>
-          <Outlet />
-        </main>
+        <Outlet />
       </div>
     )
 };

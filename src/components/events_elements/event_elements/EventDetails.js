@@ -85,6 +85,7 @@ const EventDetails = (props) => {
         <Button text={"Book Event"}/>
         <Button link={".."} text={"Back"} />
       </div>
+      
     </div>
     
   );

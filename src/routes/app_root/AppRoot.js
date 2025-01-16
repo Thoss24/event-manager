@@ -4,9 +4,8 @@ import classes from "./AppRoot.module.css";
 
 const AppRoot = () => {
 
-
   return (
-    <div>
+    <div >
       <MainNavigation />
       <main className={classes.content}>
         <Outlet />

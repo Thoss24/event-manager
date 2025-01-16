@@ -11,14 +11,14 @@ const EventListItem = (props) => {
           <h2>{props.eventName}</h2>
           <h4>{props.description}</h4>
           <div className={classes["time-details"]}>
-            <p>Date: {eventDate}</p>
-            <p>Time: {props.eventTime}</p>
+            <p>Date: {eventDate}</p> 
+            <p>Time: {props.eventTime}</p>  
           </div>
         </div>
-        <img
+        { <img
           className={classes["booked_event_img"]}
           src={`/images/${props.eventImg}`}
-        />
+        /> }
       </Link>
     </div>
   );

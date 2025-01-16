@@ -16,28 +16,26 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     fetchEvent(eventId).then((response) => {
-      console.log(response.data)
+      console.log(response.data);
       setEventItem(response.data);
     });
   }, []);
 
-  eventItem && console.log(eventItem)
+  eventItem && console.log(eventItem);
 
   return (
-    <MainContentWrapper>
-      <Suspense fallback={<Loading message={"Loading event details..."} />}>
-        <PageHeading header={"Event Details"} />
-        {eventItem && (
-          <EventDetails
-            id={eventId}
-            name={eventItem.eventName}
-            description={eventItem.eventDescription}
-            date={eventItem.eventDate}
-            users={eventItem.users}
-          />
-        )}
-      </Suspense>
-    </MainContentWrapper>
+    <Suspense fallback={<Loading message={"Loading event details..."} />}>
+      <PageHeading header={"Event Details"} />
+      {eventItem && (
+        <EventDetails
+          id={eventId}
+          name={eventItem.eventName}
+          description={eventItem.eventDescription}
+          date={eventItem.eventDate}
+          users={eventItem.users}
+        />
+      )}
+    </Suspense>
   );
 };
 
