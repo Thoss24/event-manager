@@ -59,8 +59,13 @@ const bookEvent = (req, res, next) => {
 };
 
 const getBookedEvents = (req, res, next) => {
+
+  const currUserId = JSON.parse(Object.values(req.sessionStore.sessions)[0]).user.user_id;
+
+  console.log(currUserId)
+  
   connection.query(
-    "SELECT * FROM events WHERE booked = 1",
+    "SELECT e.* FROM events e JOIN events_users eu ON e.event_id = eu.event_id WHERE e.booked = 1 AND eu.user_id = ?", [currUserId],
     (error, results) => {
       if (error) {
         console.log(error);

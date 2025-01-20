@@ -8,7 +8,7 @@ const fetchBookedEvents = () => {
         return response.data
     })
     .catch((error => {
-        window.location.href = "http://localhost:3000/login"
+        //window.location.href = "http://localhost:3000/login"
         //return redirect("/login")
     }));
 }
