@@ -12,9 +12,9 @@ import { deleteEvent } from "../../../utility/events_actions/delete_event";
 import Member from "../../users_elements/Member";
 
 const EventDetails = (props) => {
-
   const [userAuth, setUserAuth] = useState();
-  const [confirmationMsg, setConfirmationMsg] = useState('')
+  const [currAuthUser, setcurrAuthUser] = useState();
+  const [confirmationMsg, setConfirmationMsg] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +22,9 @@ const EventDetails = (props) => {
   useEffect(() => {
     checkAccountType().then((response) => {
       if (response) {
-        setUserAuth(response.data[0].account_type);
+        if (setcurrAuthUser(response.data)) {
+          setUserAuth(response.data[0].account_type);
+        }
       }
     });
   }, [userAuth]);
@@ -32,21 +34,22 @@ const EventDetails = (props) => {
   };
 
   const bookEventHandler = () => {
-
-  }
+    console.log(currAuthUser[0].user_id)
+    // bookEvent()
+  };
 
   const deleteEventModalDisplaying = useSelector(
     (state) => state.eventsModal.deleteEventDetailsModalDisplaying
   );
 
   const deleteEventHandler = () => {
-    dispatch(modalActions.showEventDetailsModal())
-  }
+    dispatch(modalActions.showEventDetailsModal());
+  };
 
   const confirmDeleteEventHandler = async (confirm) => {
     if (confirm) {
-      const deletedEvent = await deleteEvent(props.id)
-      
+      const deletedEvent = await deleteEvent(props.id);
+
       if (deletedEvent.status === 200) {
         setConfirmationMsg("Event successfully deleted.");
       }
@@ -55,39 +58,56 @@ const EventDetails = (props) => {
         setConfirmationMsg("");
         dispatch(modalActions.hideEventDetailsModal());
         window.location.href = "/events";
-      }, 3000)
+      }, 3000);
     }
-  }
+  };
+
+  const membersSection = (
+    <>
+      <h3>Members</h3>
+      <div>
+        {props.users.map((user) => (
+          <Member
+            firstName={user.firstName}
+            lastName={user.lastName}
+            key={user.userId}
+            profileImgColor={user.profileColor}
+            profileImage={user.profileImage}
+          />
+        ))}
+      </div>
+    </>
+  );
+
+  console.log(props)
 
   return (
-    
     <div className={classes.container}>
-    {deleteEventModalDisplaying && <ConfirmationModal confirmationMessage={confirmationMsg} confirmAction={confirmDeleteEventHandler} message={'Are you sure you want to delete this event?'}/>}
+      {deleteEventModalDisplaying && (
+        <ConfirmationModal
+          confirmationMessage={confirmationMsg}
+          confirmAction={confirmDeleteEventHandler}
+          message={"Are you sure you want to delete this event?"}
+        />
+      )}
 
       <div className={classes.details}>
         <h1>{props.name}</h1>
         <h3>{props.description}</h3>
         <h4>{props.date}</h4>
         <div className={classes.members}>
-          <h3>Members</h3>
-          <div>
-            {props.users.map(user => (
-              <Member firstName={user.firstName} lastName={user.lastName} key={user.userId} profileImgColor={user.profileColor} profileImage={user.profileImage}/>
-            ))}
-          </div>
+          {props.users.length > 0 && membersSection}
         </div>
       </div>
       <div className={classes.buttons}>
         {userAuth === "admin" && (
           <Button text={"Edit"} onclick={proceedToEdit} />
         )}
-        <Button text={"Delete"} onclick={deleteEventHandler}/>
-        <Button text={"Book Event"}/>
+        <Button text={"Delete"} onclick={deleteEventHandler} />
+        <Button text={"Book Event"} onclick={bookEventHandler} />
         <Button link={".."} text={"Back"} />
       </div>
-      
     </div>
-    
   );
 };
 

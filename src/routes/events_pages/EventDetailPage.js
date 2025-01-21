@@ -21,7 +21,7 @@ const EventDetailPage = () => {
     });
   }, []);
 
-  eventItem && console.log(eventItem);
+  eventItem && console.log(eventItem.users);
 
   return (
     <Suspense fallback={<Loading message={"Loading event details..."} />}>

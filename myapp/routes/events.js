@@ -116,6 +116,8 @@ const getEventDetails = async (req, res, next) => {
       return res.status(404).send("Event not found");
     }
 
+    let eventHasNoMembers = results.length === 1 && results[0].user_id === null; // true if no members
+
     const event = results[0]; 
     const eventDetails = {
       eventId: event.event_id,
@@ -126,13 +128,13 @@ const getEventDetails = async (req, res, next) => {
       eventImg: event.event_img,
       eventTime: event.event_time,
       eventType: event.event_type,
-      users: results.map(user => ({
+      users: !eventHasNoMembers ? results.map(user => ({
         userId: user.user_id,
         firstName: user.first_name,
         lastName: user.last_name,
         profileImage: user.profile_image,
         profileColor: user.profile_color
-      })),
+      })) : [],
     };
 
     res.json(eventDetails);

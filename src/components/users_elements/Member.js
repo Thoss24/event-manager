@@ -2,8 +2,8 @@ import classes from "./Members.module.css";
 
 const Member = (props) => {
 
-    const firstNameCapitalized = props.firstName.charAt(0).toUpperCase() + props.firstName.slice(1);
-    const lastNameCapitalized = props.lastName.charAt(0).toUpperCase() + props.lastName.slice(1);
+    const firstNameCapitalized = props.firstName && props.firstName.charAt(0).toUpperCase() + props.firstName.slice(1);
+    const lastNameCapitalized = props.lastName && props.lastName.charAt(0).toUpperCase() + props.lastName.slice(1);
 
     const addMemberToEvent = () => {
         const member = {
