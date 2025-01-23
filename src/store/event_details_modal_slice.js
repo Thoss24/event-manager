@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const defaultModalState = {
     deleteEventDetailsModalDisplaying: false,
+    bookEventModalDisplaying: false
 };
 
 const modalSlice = createSlice({
@@ -13,6 +14,12 @@ const modalSlice = createSlice({
         },
         hideEventDetailsModal(state, action) {
            state.deleteEventDetailsModalDisplaying = false
+        },
+        showBookEventModal(state, action) {
+            state.bookEventModalDisplaying = true
+        },
+        hideBookEventModal(state, action) {
+            state.bookEventModalDisplaying = false
         },
     }
 });

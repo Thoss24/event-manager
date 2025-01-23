@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const bookEvent = (id) => {
+export const bookEvent = (eventId, userId) => {
 
-    return axios.post("http://localhost:3001/events/book-event", {id: id})
+    return axios.post("http://localhost:3001/events/book-event", {eventId: eventId, userId: userId})
     .then((response) => {
         console.log(response)
     })

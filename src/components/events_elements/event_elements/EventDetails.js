@@ -34,12 +34,32 @@ const EventDetails = (props) => {
   };
 
   const bookEventHandler = () => {
-    console.log(currAuthUser[0].user_id)
-    // bookEvent()
+    dispatch(modalActions.showBookEventModal());
+  }
+
+  const confirmBookEventHandler = async (confirm) => {
+    if (confirm) {
+    const bookEventRequest = await bookEvent(props.id ,currAuthUser[0].user_id);
+
+    if (bookEvent.status === 200) {
+      setConfirmationMsg("Event successfully booked.");
+    }
+
+    setTimeout(() => {
+      setConfirmationMsg("");
+      dispatch(modalActions.hideBookEventModal());
+    }, 2000);
+    } else {
+      dispatch(modalActions.hideBookEventModal());
+    }
   };
 
   const deleteEventModalDisplaying = useSelector(
     (state) => state.eventsModal.deleteEventDetailsModalDisplaying
+  );
+
+  const bookEventModalDisplaying = useSelector(
+    (state) => state.eventsModal.bookEventModalDisplaying
   );
 
   const deleteEventHandler = () => {
@@ -58,7 +78,9 @@ const EventDetails = (props) => {
         setConfirmationMsg("");
         dispatch(modalActions.hideEventDetailsModal());
         window.location.href = "/events";
-      }, 3000);
+      }, 2000);
+    } else {
+      dispatch(modalActions.hideEventDetailsModal());
     }
   };
 
@@ -79,15 +101,22 @@ const EventDetails = (props) => {
     </>
   );
 
-  console.log(props)
-
   return (
     <div className={classes.container}>
+
       {deleteEventModalDisplaying && (
         <ConfirmationModal
           confirmationMessage={confirmationMsg}
           confirmAction={confirmDeleteEventHandler}
           message={"Are you sure you want to delete this event?"}
+        />
+      )}
+
+      {bookEventModalDisplaying && (
+        <ConfirmationModal
+          confirmationMessage={confirmationMsg}
+          confirmAction={confirmBookEventHandler}
+          message={"Are you sure you want to book this event?"}
         />
       )}
 

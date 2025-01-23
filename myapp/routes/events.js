@@ -44,11 +44,13 @@ const editEvent = (req, res, next) => {
 };
 
 const bookEvent = (req, res, next) => {
-  const { id } = req.body;
+  const { eventId, userId } = req.body;
+
+  // create entry in events_users
 
   connection.query(
-    "UPDATE events SET booked = 1 WHERE event_id = ?",
-    [id],
+    "INSERT INTO booked_events (user_id, event_id) VALUES (?, ?)",
+    [userId, eventId],
     (err, results) => {
       if (err) {
         return res.status(500).send("Internal server error");
@@ -65,7 +67,7 @@ const getBookedEvents = (req, res, next) => {
   console.log(currUserId)
   
   connection.query(
-    "SELECT e.* FROM events e JOIN events_users eu ON e.event_id = eu.event_id WHERE e.booked = 1 AND eu.user_id = ?", [currUserId],
+    "SELECT be.event_id, e.* FROM booked_events be LEFT JOIN events e ON be.event_id = e.event_id WHERE be.user_id = ?", [currUserId],
     (error, results) => {
       if (error) {
         console.log(error);
@@ -101,7 +103,7 @@ const getEventDetails = async (req, res, next) => {
   try {
     const results = await new Promise((resolve, reject) => {
       connection.query(
-        "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.booked, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name, u.profile_image, u.profile_color FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
+        "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name, u.profile_image, u.profile_color FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
         [id],
         (error, results) => {
           if (error) {
