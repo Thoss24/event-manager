@@ -1,8 +1,11 @@
 import classes from "./ConfirmationModal.module.css";
+import { useState } from "react";
 
 const ConfirmationModal = (props) => {
-  
+  const [actionConfirmed, setActionConfirmed] = useState(false);
+
   const confirmActionHandler = (confirm) => {
+    setActionConfirmed(true)
     props.confirmAction(true);
   };
 
@@ -16,10 +19,12 @@ const ConfirmationModal = (props) => {
       <div className={classes.confirmation}>
         <p>{props.message}</p>
         <p>{props.confirmationMessage}</p>
-        <div className={classes["confirmation-buttons"]}>
-          <button onClick={confirmActionHandler}>Yes</button>
-          <button onClick={denyActionHandler}>No</button>
-        </div>
+        {!actionConfirmed && (
+          <div className={classes["confirmation-buttons"]}>
+            <button onClick={confirmActionHandler}>Yes</button>
+            <button onClick={denyActionHandler}>No</button>
+          </div>
+        )}
       </div>
     </div>
   );

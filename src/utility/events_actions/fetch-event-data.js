@@ -9,8 +9,7 @@ const fetchEvent = async (eventId) => {
         return response
     })
     .catch((error => {
-        //window.location.href = "http://localhost:3000/login"
-        //return redirect("/login")
+        window.location.href = "http://localhost:3000/login"
     }));
 };
 

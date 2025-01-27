@@ -27,6 +27,10 @@ function deleteEvent(req, res, next) {
   );
 }
 
+function removeBookedEvent() {
+
+}
+
 const editEvent = (req, res, next) => {
   const { name, description, date, eventId } = req.body;
 
@@ -46,16 +50,19 @@ const editEvent = (req, res, next) => {
 const bookEvent = (req, res, next) => {
   const { eventId, userId } = req.body;
 
-  // create entry in events_users
-
   connection.query(
-    "INSERT INTO booked_events (user_id, event_id) VALUES (?, ?)",
-    [userId, eventId],
+    "INSERT INTO booked_events (user_id, event_id) " +
+    "SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM booked_events WHERE event_id = ?)",
+    [userId, eventId, eventId],
     (err, results) => {
       if (err) {
         return res.status(500).send("Internal server error");
       }
-      res.json("Event booked successfully");
+      if (results.affectedRows === 1) {
+        res.json("Event booked successfully");
+      } else {
+        res.json("You have already booked this event")
+      }
     }
   );
 };
@@ -210,5 +217,6 @@ router.post("/book-event", bookEvent);
 router.post("/booked-event-details", getBookedEventDetails);
 router.post("/edit-event", editEvent);
 router.post("/event-details", checkAuthenticated, getEventDetails);
+router.post("remove-booked-event", checkAuthenticated, removeBookedEvent)
 
 module.exports = router;

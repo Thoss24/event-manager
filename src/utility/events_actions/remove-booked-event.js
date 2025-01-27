@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const bookEvent = (eventId, userId) => {
+export const removeBookedEvent = (eventId) => {
 
-    return axios.post("http://localhost:3001/events/book-event", {eventId: eventId, userId: userId})
+    return axios.post("http://localhost:3001/events/remove-booked-event", {id: eventId})
     .then((response) => {
         console.log(response)
         return response
@@ -13,4 +13,4 @@ export const bookEvent = (eventId, userId) => {
 
 };
 
-export default bookEvent;
+export default removeBookedEvent;

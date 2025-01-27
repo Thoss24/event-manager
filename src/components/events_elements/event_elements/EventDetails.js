@@ -39,10 +39,13 @@ const EventDetails = (props) => {
 
   const confirmBookEventHandler = async (confirm) => {
     if (confirm) {
+
     const bookEventRequest = await bookEvent(props.id ,currAuthUser[0].user_id);
 
-    if (bookEvent.status === 200) {
-      setConfirmationMsg("Event successfully booked.");
+    console.log(bookEventRequest)
+
+    if (bookEventRequest.status === 200) {
+      setConfirmationMsg(bookEventRequest.data);
     }
 
     setTimeout(() => {
