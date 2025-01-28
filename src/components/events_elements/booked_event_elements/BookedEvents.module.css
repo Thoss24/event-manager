@@ -1,0 +1,68 @@
+.booked-events-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.list-item {
+    display: flex;
+    background-color: rgba(39, 36, 36, 0.8);
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    position: relative;
+}
+
+.list-item > a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    max-width: 350px;
+}
+
+/* .booked_event_img {
+    height: 90px;
+    width: 110px;
+    border-radius: 12px;
+} */
+
+.time-details {
+    display: flex;
+    flex-direction: column;
+    /* position: absolute; */
+}
+
+.time-details > * {
+    color: rgba(216, 211, 211, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.event-details-section > h2 {
+    text-decoration: underline;
+}
+
+.event-details-section > h4 {
+    color: white;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.list-item:hover {
+    background-color: rgba(61, 56, 56, 0.8);
+    cursor: pointer;
+}
+
+.list-item a{
+    text-decoration: none;
+    color: rgb(201, 182, 12);
+    /* width: 100%; */
+}
+
+.button {
+    padding: 10px;
+}

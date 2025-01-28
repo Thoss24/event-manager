@@ -1,5 +1,5 @@
 import BookedEventListItem from "./BookedEventListItem";
-import classes from "./BookedEventsList.module.css";
+import classes from "./BookedEvents.module.css";
 
 const BookedEventsList = (props) => {
 

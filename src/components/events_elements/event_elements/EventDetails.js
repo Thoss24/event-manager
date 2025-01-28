@@ -22,9 +22,9 @@ const EventDetails = (props) => {
   useEffect(() => {
     checkAccountType().then((response) => {
       if (response) {
-        if (setcurrAuthUser(response.data)) {
-          setUserAuth(response.data[0].account_type);
-        }
+        
+        setUserAuth(response.data[0].account_type);
+        
       }
     });
   }, [userAuth]);
