@@ -5,6 +5,7 @@ import { modalActions } from "../../../store/event_details_modal_slice";
 import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
 import checkAccountType from "../../../utility/authentication/check_account_type";
+import Responses from "../../utility_components/Responses";
 
 const BookedEventDetails = (props) => {
 
@@ -15,10 +16,11 @@ const BookedEventDetails = (props) => {
   useEffect(() => {
     checkAccountType().then((response) => {
       if (response) {
+        console.log(response)
         setUserAuth(response.data[0]);
       }
     });
-  }, [userAuth]);
+  }, []);
 
   const removeBookedEventModalDisplaying = useSelector(
     (state) => state.eventsModal.removeBookedEventModalDisplaying
@@ -31,18 +33,20 @@ const BookedEventDetails = (props) => {
   const confirmRemoveBookedEventHandler = async (confirm) => {
     if (confirm) {
         try {
-            const response = await removeBookedEvent(props.id, userAuth.user_id);
+            const response = await removeBookedEvent(props.id, userAuth.user_id); // booked event id + user id
 
             if (response.status === 200) {
-                confirmationMsg(response.data)
+              setConfirmationMsg(response.data.message)
             }
 
             setTimeout(() => {
-                setConfirmationMsg("");
-                dispatch(modalActions.hideRemoveBookedEventModal());
+              setConfirmationMsg("");
+              dispatch(modalActions.hideRemoveBookedEventModal());
+              window.location.href = "http://localhost:3000/"
             }, 2000);
             
         } catch (error) {
+          console.log(error)
             setConfirmationMsg("Could not remove booked event. Please try again later.")
         }
     } else {
@@ -64,6 +68,7 @@ const BookedEventDetails = (props) => {
         <h1>{props.date}</h1>
         <button onClick={removeBookedEventHandler}>Delete</button>
       </div>
+      <Responses />
     </div>
   );
 

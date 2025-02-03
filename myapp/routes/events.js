@@ -27,8 +27,19 @@ function deleteEvent(req, res, next) {
   );
 }
 
-function removeBookedEvent() {
+function removeBookedEvent(req, res, next) {
+  const {eventId, userId} = req.body;
 
+  console.log(eventId, userId)
+
+  connection.query("DELETE FROM booked_events WHERE event_id = ? AND user_id = ?", [eventId, userId], (err, results) => {
+    if (err) {
+      console.log(err)
+      return res.status(500).send("Internal server error")
+    } else {
+      res.json({"status": 200, "message": "Event successfully removed from booked events list"});
+    }
+  })
 }
 
 const editEvent = (req, res, next) => {
@@ -217,6 +228,6 @@ router.post("/book-event", bookEvent);
 router.post("/booked-event-details", getBookedEventDetails);
 router.post("/edit-event", editEvent);
 router.post("/event-details", checkAuthenticated, getEventDetails);
-router.post("remove-booked-event", checkAuthenticated, removeBookedEvent)
+router.post("/remove-booked-event", checkAuthenticated, removeBookedEvent)
 
 module.exports = router;

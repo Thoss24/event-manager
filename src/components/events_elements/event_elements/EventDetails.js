@@ -27,7 +27,7 @@ const EventDetails = (props) => {
         
       }
     });
-  }, [userAuth]);
+  }, []);
 
   const proceedToEdit = () => {
     navigate("edit");
@@ -51,6 +51,7 @@ const EventDetails = (props) => {
     setTimeout(() => {
       setConfirmationMsg("");
       dispatch(modalActions.hideBookEventModal());
+      window.location.href = "http://localhost:3000/";
     }, 2000);
     } else {
       dispatch(modalActions.hideBookEventModal());
