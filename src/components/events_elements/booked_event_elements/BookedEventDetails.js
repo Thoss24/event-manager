@@ -6,12 +6,15 @@ import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
 import checkAccountType from "../../../utility/authentication/check_account_type";
 import Responses from "../../utility_components/Responses";
+import { useParams } from "react-router-dom";
 
 const BookedEventDetails = (props) => {
 
   const dispatch = useDispatch();
   const [confirmationMsg, setConfirmationMsg] = useState(null);
   const [userAuth, setUserAuth] = useState();
+
+  let { eventId } = useParams();
 
   useEffect(() => {
     checkAccountType().then((response) => {
@@ -68,7 +71,7 @@ const BookedEventDetails = (props) => {
         <h1>{props.date}</h1>
         <button onClick={removeBookedEventHandler}>Delete</button>
       </div>
-      <Responses />
+      <Responses bookedEventId={eventId} />
     </div>
   );
 

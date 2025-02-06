@@ -4,6 +4,8 @@ const passport = require('passport')
 const { connection } = require("../db");
 const bcrypt = require("bcrypt");
 
+let globalUserId = null;
+
 const checkUserExists = (req, res, next) => {
   const { email } = req.body;
   connection.query(
@@ -105,6 +107,8 @@ const checkAccountType = (req, res, next) => {
   const userString = Object.entries(req.sessionStore.sessions)[0];
   const userObj = JSON.parse(userString[1]).user
   const userId = userObj.user_id
+  globalUserId = userId;
+
   console.log(userId)
   
   connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
@@ -125,9 +129,21 @@ const getAllUsers = (req, res, next) => {
   })
 }
 
+const createResponse = async (req, res, next) => {
+  const {response, eventId} = req.body;
+
+  connection.query('INSERT INTO responses (response, event_id, user_id) VALUES ?, ?, ?', [response, eventId, globalUserId], (err, results) => {
+    if (err) {
+      console.log("Could not add response")
+    }
+    res.json("Response successfully added!")
+  })
+}
+
 router.get("/get-all-users", getAllUsers);
 router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
-router.post("/login", login);
+router.post("/login", login, checkAccountType);
+router.post("/create-response", createResponse);
 
 module.exports = router;
