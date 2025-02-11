@@ -6,6 +6,7 @@ import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
 import checkAccountType from "../../../utility/authentication/check_account_type";
 import Responses from "../../utility_components/Responses";
+import fetchEvent from "../../../utility/events_actions/fetch-event-data";
 import { useParams } from "react-router-dom";
 
 const BookedEventDetails = (props) => {
@@ -13,16 +14,38 @@ const BookedEventDetails = (props) => {
   const dispatch = useDispatch();
   const [confirmationMsg, setConfirmationMsg] = useState(null);
   const [userAuth, setUserAuth] = useState();
-
-  let { eventId } = useParams();
+  const [eventItem, setEventItem] = useState();
 
   useEffect(() => {
-    checkAccountType().then((response) => {
-      if (response) {
-        console.log(response)
-        setUserAuth(response.data[0]);
+
+    const fetchAccountData = async (res) => {
+      try {
+        const response = await checkAccountType();
+
+        if (response.status === 200) {
+          console.log("Account info collected successfully.")
+          setUserAuth(response.data[0]);
+        }
+      } catch (error) {
+        console.log("Error: ", error);
       }
-    });
+    }
+
+    const fetchEventData = async (res) => {
+      try {
+        const response = await fetchEvent(props.id);
+
+        if (response.status === 200) {
+          console.log("Event data collected successfully");
+          setEventItem(response.data);
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
+
+    fetchEventData();
+    fetchAccountData();
   }, []);
 
   const removeBookedEventModalDisplaying = useSelector(
@@ -71,7 +94,7 @@ const BookedEventDetails = (props) => {
         <h1>{props.date}</h1>
         <button onClick={removeBookedEventHandler}>Delete</button>
       </div>
-      <Responses bookedEventId={eventId} />
+      <Responses bookedEventId={props.id} />
     </div>
   );
 

@@ -20,13 +20,19 @@ const EventDetails = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    checkAccountType().then((response) => {
-      if (response) {
-        
-        setUserAuth(response.data[0].account_type);
-        
+    const checkAccountTypeHandler = async () => {
+      try {
+        const response = await checkAccountType();
+
+        if (response) {
+          setUserAuth(response.data[0].account_type);
+        }
+      } catch (error) {
+        console.log("Could not fetch account information", error);
       }
-    });
+    };
+
+    checkAccountTypeHandler();
   }, []);
 
   const proceedToEdit = () => {
@@ -35,24 +41,24 @@ const EventDetails = (props) => {
 
   const bookEventHandler = () => {
     dispatch(modalActions.showBookEventModal());
-  }
+  };
 
   const confirmBookEventHandler = async (confirm) => {
     if (confirm) {
+      const bookEventRequest = await bookEvent(
+        props.id,
+        currAuthUser[0].user_id
+      );
 
-    const bookEventRequest = await bookEvent(props.id ,currAuthUser[0].user_id);
+      if (bookEventRequest.status === 200) {
+        setConfirmationMsg(bookEventRequest.data);
+      }
 
-    console.log(bookEventRequest)
-
-    if (bookEventRequest.status === 200) {
-      setConfirmationMsg(bookEventRequest.data);
-    }
-
-    setTimeout(() => {
-      setConfirmationMsg("");
-      dispatch(modalActions.hideBookEventModal());
-      window.location.href = "http://localhost:3000/";
-    }, 2000);
+      setTimeout(() => {
+        setConfirmationMsg("");
+        dispatch(modalActions.hideBookEventModal());
+        window.location.href = "http://localhost:3000/";
+      }, 2000);
     } else {
       dispatch(modalActions.hideBookEventModal());
     }
@@ -107,7 +113,6 @@ const EventDetails = (props) => {
 
   return (
     <div className={classes.container}>
-
       {deleteEventModalDisplaying && (
         <ConfirmationModal
           confirmationMessage={confirmationMsg}

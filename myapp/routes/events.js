@@ -22,7 +22,7 @@ function deleteEvent(req, res, next) {
         console.log(error);
         return res.status(500).send("Internal server error");
       }
-      res.json(results);
+      res.status(200).json(results);
     }
   );
 }

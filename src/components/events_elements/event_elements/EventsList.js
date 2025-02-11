@@ -7,15 +7,24 @@ const EventsList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchEvents().then((response) => {
-      if (response !== "undefined") {
-        setUsers(response);
-        console.log(response);
-      }
-    });
-  }, []);
 
-  users && console.log(users)
+    const fetchEventsHandler = async () => {
+
+      try {
+        const response = await fetchEvents();
+        
+        if (response) {
+          console.log("Response", response)
+          setUsers(response);
+        } 
+
+      } catch (error) {
+        console.log("Could not load events", error)
+      }
+    }
+
+    fetchEventsHandler();
+  }, []);
 
   return (
     <div className={classes.list}>

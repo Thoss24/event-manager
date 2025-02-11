@@ -1,19 +1,19 @@
 import classes from "./Responses.module.css";
-import createResponse from "../../utility/users/create_response";
 import { useRef } from "react";
+import createResponse from "../../utility/users/create_response";
 
 const Responses =  (props) => {
 
   const textAreaRef = useRef(null);
 
-  const createResponse = async (event) => {
+  const createResponseHandler = async (event) => {
 
-    // event.preventDefault()
+    event.preventDefault();
 
     const userResponse = {
       response: textAreaRef.current.value,
       eventId: props.bookedEventId
-    }
+    };
 
     try {
       const response = await createResponse(userResponse);
@@ -28,7 +28,7 @@ const Responses =  (props) => {
 
   return (
     <div>
-      <form action="" onSubmit={createResponse}>
+      <form action="" onSubmit={createResponseHandler}>
       <textarea name="responses" placeholder="Add a reponse..." ref={textAreaRef}>
 
       </textarea>

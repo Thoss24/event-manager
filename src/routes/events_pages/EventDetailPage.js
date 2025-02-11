@@ -12,16 +12,22 @@ const EventDetailPage = () => {
   let { eventId } = useParams();
 
   const [eventItem, setEventItem] = useState();
-  const [eventMembers, setEventMembers] = useState();
 
   useEffect(() => {
-    fetchEvent(eventId).then((response) => {
-      console.log(response.data);
-      setEventItem(response.data);
-    });
-  }, []);
+    const fetchEventHandler = async () => {
+      try {
+        const response = await fetchEvent(eventId);
 
-  eventItem && console.log(eventItem.users);
+        if (response) {
+          setEventItem(response.data);
+        }
+      } catch (error) {
+        console.log("Could not fetch event information", error);
+      }
+    };
+
+    fetchEventHandler();
+  }, [eventId]);
 
   return (
     <Suspense fallback={<Loading message={"Loading event details..."} />}>

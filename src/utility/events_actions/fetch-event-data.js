@@ -2,6 +2,7 @@ import { json } from "react-router-dom";
 import axios from "axios";
 
 const fetchEvent = async (eventId) => {
+    console.log(eventId)
     return axios
     .post("http://localhost:3001/events/event-details", {id: eventId})
     .then((response) => {
@@ -9,7 +10,8 @@ const fetchEvent = async (eventId) => {
         return response
     })
     .catch((error => {
-        window.location.href = "http://localhost:3000/login"
+        console.log(error)
+       // window.location.href = "http://localhost:3000/login"
     }));
 };
 

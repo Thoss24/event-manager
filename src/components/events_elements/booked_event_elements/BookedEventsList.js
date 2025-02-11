@@ -3,8 +3,6 @@ import classes from "./BookedEvents.module.css";
 
 const BookedEventsList = (props) => {
 
-  console.log(props.events)
-
   return (
     <main>
       <div className={classes['booked-events-list']}>

@@ -132,12 +132,16 @@ const getAllUsers = (req, res, next) => {
 const createResponse = async (req, res, next) => {
   const {response, eventId} = req.body;
 
-  connection.query('INSERT INTO responses (response, event_id, user_id) VALUES ?, ?, ?', [response, eventId, globalUserId], (err, results) => {
+  console.log(response)
+
+  connection.query('INSERT INTO responses (response, event_id, user_id) VALUES (?, ?, ?)', [response, eventId, globalUserId], (err, results) => {
     if (err) {
+      console.log(err)
       console.log("Could not add response")
     }
     res.json("Response successfully added!")
   })
+
 }
 
 router.get("/get-all-users", getAllUsers);
