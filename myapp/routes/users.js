@@ -129,7 +129,7 @@ const getAllUsers = (req, res, next) => {
   })
 }
 
-const createResponse = async (req, res, next) => {
+const createResponse = (req, res, next) => {
   const {response, eventId} = req.body;
 
   console.log(response)
@@ -144,10 +144,26 @@ const createResponse = async (req, res, next) => {
 
 }
 
+const getResponses = (req, res, next) => {
+
+  const {eventId} = req.body;
+
+  console.log("REQUEST", eventId)
+
+  connection.query('SELECT * FROM responses WHERE event_id = (?)', [eventId], (err, results) => {
+    if (err) {
+      console.log(err, "Could not add response")
+    }
+    console.log(results)
+    res.json(results)
+  })
+}
+
 router.get("/get-all-users", getAllUsers);
 router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login, checkAccountType);
 router.post("/create-response", createResponse);
+router.post("/get-responses", getResponses);
 
 module.exports = router;
