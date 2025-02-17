@@ -2,6 +2,7 @@ import classes from "./Responses.module.css";
 import { useRef, useEffect, useState } from "react";
 import createResponse from "../../utility/users/create_response";
 import getResponses from "../../utility/users/get_responses";
+import ResponseListItem from "./ResponseListItem";
 
 const Responses = (props) => {
   const textAreaRef = useRef(null);
@@ -9,16 +10,15 @@ const Responses = (props) => {
 
   useEffect(() => {
     const getResponsesHandler = async () => {
-
       const bookedEventObj = {
-        eventId: props.bookedEventId
+        eventId: props.bookedEventId,
       };
 
       try {
         const response = await getResponses(bookedEventObj);
 
         if (response) {
-          setResponses(response);
+          setResponses(response.data);
           console.log("Responses loaded successfully.");
         }
       } catch (error) {
@@ -28,8 +28,6 @@ const Responses = (props) => {
 
     getResponsesHandler();
   }, [props.bookedEventId]);
-
-  responses && console.log("Responses", responses)
 
   const createResponseHandler = async (event) => {
     event.preventDefault();
@@ -46,9 +44,11 @@ const Responses = (props) => {
         console.log("Response added.");
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error: ", error);
     }
   };
+
+  responses && console.log(responses)
 
   return (
     <div>
@@ -60,7 +60,12 @@ const Responses = (props) => {
         ></textarea>
         <button type="submit">Add</button>
       </form>
-      <section>{/* responses area */}</section>
+      <section>
+        {responses &&
+          responses.map((response) => (
+            <ResponseListItem response={response.response} />
+          ))}
+      </section>
     </div>
   );
 };

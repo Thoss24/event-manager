@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import checkAccountType from "../../../utility/authentication/check_account_type";
 import Responses from "../../utility_components/Responses";
 import fetchEvent from "../../../utility/events_actions/fetch-event-data";
+import NotificationSystem from "../../../utility/authentication/Notifications";
 import { useParams } from "react-router-dom";
 
 const BookedEventDetails = (props) => {
@@ -95,6 +96,7 @@ const BookedEventDetails = (props) => {
         <button onClick={removeBookedEventHandler}>Delete</button>
       </div>
       <Responses bookedEventId={props.id} />
+      <NotificationSystem />
     </div>
   );
 
