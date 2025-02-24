@@ -16,7 +16,6 @@ var eventsRouter = require('./routes/events');
 
 const store = new session.MemoryStore();
 const app = express();
-const port = 4000;
 
 app.use(session({
   secret: 'cat',
@@ -63,53 +62,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// WebSocket server
-const wss = new WebSocket.Server({ port: 4000 });
-
-// Store connected clients
-const clients = new Set();
-
-// Handle WebSocket connections
-wss.on('connection', (ws) => {
-  console.log('New client connected.');
-  clients.add(ws);
-
-  ws.on('message', (message) => {
-    console.log('Received message:', message);
-
-    // Example: Store a new notification in the database
-    const notification = JSON.parse(message);
-    const sql = 'INSERT INTO notifications (message) VALUES (?)';
-    connection.query(sql, [notification.message], (err) => {
-      if (err) throw err;
-      console.log('Notification saved to database.');
-
-      // Broadcast the notification to all clients
-      clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(notification));
-        }
-      });
-    });
-  });
-
-  ws.on('close', () => {
-    console.log('Client disconnected.');
-    clients.delete(ws);
-  });
-});
-
-// Integrate WebSocket with Express
-// app.server = app.listen(port, () => {
-//   console.log(`Server running on http://localhost:${port}`);
-// });
-
-console.log(`Server running on http://localhost:${port}`);
-
-// app.server.on('upgrade', (request, socket, head) => {
-//   wss.handleUpgrade(request, socket, head, (ws) => {
-//     wss.emit('connection', ws, request);
-//   });
-// });
 
 module.exports = app;

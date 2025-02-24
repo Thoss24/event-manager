@@ -113,7 +113,7 @@ const checkAccountType = (req, res, next) => {
   
   connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
     if (err) {
-      console.log("Could not find user")
+      return res.status(500).send("Could not find user");
     }
     res.json(results)
   })

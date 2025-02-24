@@ -3,6 +3,7 @@ import classes from "./MainNavigation.module.css";
 import { CiMenuBurger } from "react-icons/ci";
 import { useState } from "react";
 import NavModal from "../ui/NavModal";
+import NotificationSystem from "../utility_components/Notifications";
 
 const MainNavigation = () => {
   const [navDisplaying, setNavDisplaying] = useState(false);
@@ -47,6 +48,7 @@ const MainNavigation = () => {
             </NavLink>
           </li>
         </ul>
+        <NotificationSystem />
       </div>
     </nav>
     </>

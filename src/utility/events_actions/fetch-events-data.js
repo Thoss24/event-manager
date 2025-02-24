@@ -7,7 +7,7 @@ const fetchEvents = () => {
         return response.data
     })
     .catch((error => {
-        window.location.href = "http://localhost:3000/login"
+        console.log(error)
     }));
 };
 

@@ -63,7 +63,7 @@ const Responses = (props) => {
       <section>
         {responses &&
           responses.map((response) => (
-            <ResponseListItem response={response.response} />
+            <ResponseListItem response={response.response} key={response.id}/>
           ))}
       </section>
     </div>
