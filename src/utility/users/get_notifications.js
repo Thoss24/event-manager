@@ -2,7 +2,9 @@ import axios from "axios";
 
 const getNotifications = (userId) => {
 
-    return axios.post("http://localhost:3001/users/", userId)
+    console.log("User id get notifications", userId)
+
+    return axios.post("http://localhost:3001/users/get-notifications", userId)
     .then((response) => {
         return response
     })

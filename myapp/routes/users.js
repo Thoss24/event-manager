@@ -148,8 +148,6 @@ const getResponses = (req, res, next) => {
 
   const {eventId} = req.body;
 
-  console.log("REQUEST", eventId)
-
   connection.query('SELECT * FROM responses WHERE event_id = (?)', [eventId], (err, results) => {
     if (err) {
       console.log(err, "Could not add response")
@@ -159,11 +157,30 @@ const getResponses = (req, res, next) => {
   })
 }
 
+const getNotifications = (req, res, next) => {
+  const {userId} = req.body;
+
+  console.log("USER iD", userId)
+
+  connection.query('SELECT * FROM notifications WHERE user_id = (?)', [userId], (err, results) => {
+    if (err) {
+      res.json(err)
+    }
+    res.json(results)
+  })
+}
+
+const createNotifications = (req, res, next) => {
+
+}
+
 router.get("/get-all-users", getAllUsers);
 router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login, checkAccountType);
 router.post("/create-response", createResponse);
 router.post("/get-responses", getResponses);
+router.post("/get-notifications", getNotifications);
+router.post("/create-notifications", createNotifications);
 
 module.exports = router;
