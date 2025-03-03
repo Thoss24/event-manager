@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const defaultModalState = {
     deleteEventDetailsModalDisplaying: false,
     bookEventModalDisplaying: false,
-    removeBookedEventModalDisplaying: false
+    removeBookedEventModalDisplaying: false,
+    notificationsModal: false
 };
 
 const modalSlice = createSlice({
@@ -27,6 +28,9 @@ const modalSlice = createSlice({
         },
         hideRemoveBookedEventModal(state, action) {
             state.removeBookedEventModalDisplaying = false
+        },
+        showNotificationsModal(state, action) {
+            state.notificationsModal = !state.notificationsModal
         },
     }
 });

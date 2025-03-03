@@ -160,8 +160,6 @@ const getResponses = (req, res, next) => {
 const getNotifications = (req, res, next) => {
   const {userId} = req.body;
 
-  console.log("USER iD", userId)
-
   connection.query('SELECT * FROM notifications WHERE user_id = (?)', [userId], (err, results) => {
     if (err) {
       res.json(err)

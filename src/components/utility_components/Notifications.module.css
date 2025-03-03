@@ -1,0 +1,10 @@
+.notification-icon {
+  color: rgb(201, 182, 12);
+  font-size: 30px;
+}
+
+.notification-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
