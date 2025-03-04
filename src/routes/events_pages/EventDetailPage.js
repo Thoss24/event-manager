@@ -29,12 +29,15 @@ const EventDetailPage = () => {
     fetchEventHandler();
   }, [eventId]);
 
+  eventItem && console.log(eventItem)
+
   return (
     <Suspense fallback={<Loading message={"Loading event details..."} />}>
       <PageHeading header={"Event Details"} />
       {eventItem && (
         <EventDetails
           id={eventId}
+          
           name={eventItem.eventName}
           description={eventItem.eventDescription}
           date={eventItem.eventDate}

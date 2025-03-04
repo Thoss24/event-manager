@@ -4,33 +4,24 @@ const defaultModalState = {
     deleteEventDetailsModalDisplaying: false,
     bookEventModalDisplaying: false,
     removeBookedEventModalDisplaying: false,
-    notificationsModal: false
+    notificationsModalDisplaying: false
 };
 
 const modalSlice = createSlice({
     name: 'event-modal-slice',
     initialState: defaultModalState,
     reducers: {
-        showEventDetailsModal(state, action) {
-           state.deleteEventDetailsModalDisplaying = true
+        eventDetailsModalHandler(state, action) {
+           state.deleteEventDetailsModalDisplaying = !state.deleteEventDetailsModalDisplaying
         },
-        hideEventDetailsModal(state, action) {
-           state.deleteEventDetailsModalDisplaying = false
+        bookEventModalHandler(state, action) {
+            state.bookEventModalDisplaying = !state.bookEventModalDisplaying
         },
-        showBookEventModal(state, action) {
-            state.bookEventModalDisplaying = true
+        removeBookedEventModalHandler(state, action) {
+            state.removeBookedEventModalDisplaying = !state.removeBookedEventModalDisplaying
         },
-        hideBookEventModal(state, action) {
-            state.bookEventModalDisplaying = false
-        },
-        showRemoveBookedEventModal(state, action) {
-            state.removeBookedEventModalDisplaying = true
-        },
-        hideRemoveBookedEventModal(state, action) {
-            state.removeBookedEventModalDisplaying = false
-        },
-        showNotificationsModal(state, action) {
-            state.notificationsModal = !state.notificationsModal
+        notificationsModalHandler(state, action) {
+            state.notificationsModalDisplaying = !state.notificationsModalDisplaying
         },
     }
 });

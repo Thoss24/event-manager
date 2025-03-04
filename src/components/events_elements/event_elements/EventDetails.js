@@ -40,7 +40,7 @@ const EventDetails = (props) => {
   };
 
   const bookEventHandler = () => {
-    dispatch(modalActions.showBookEventModal());
+    dispatch(modalActions.bookEventModalHandler());
   };
 
   const confirmBookEventHandler = async (confirm) => {
@@ -73,7 +73,7 @@ const EventDetails = (props) => {
   );
 
   const deleteEventHandler = () => {
-    dispatch(modalActions.showEventDetailsModal());
+    dispatch(modalActions.eventDetailsModalHandler());
   };
 
   const confirmDeleteEventHandler = async (confirm) => {
@@ -86,11 +86,11 @@ const EventDetails = (props) => {
 
       setTimeout(() => {
         setConfirmationMsg("");
-        dispatch(modalActions.hideEventDetailsModal());
+        dispatch(modalActions.eventDetailsModalHandler());
         window.location.href = "/events";
       }, 2000);
     } else {
-      dispatch(modalActions.hideEventDetailsModal());
+      dispatch(modalActions.eventDetailsModalHandler());
     }
   };
 

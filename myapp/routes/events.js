@@ -121,7 +121,7 @@ const getEventDetails = async (req, res, next) => {
   try {
     const results = await new Promise((resolve, reject) => {
       connection.query(
-        "SELECT e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name, u.profile_image, u.profile_color FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
+        "SELECT e.creator_user_id, e.event_id, e.event_name, e.created_at, e.event_img, e.event_description, e.event_date, e.event_time, e.event_type, u.user_id, u.first_name, u.last_name, u.profile_image, u.profile_color FROM events e LEFT JOIN events_users eu ON e.event_id = eu.event_id LEFT JOIN users u ON u.user_id = eu.user_id WHERE e.event_id = ?",
         [id],
         (error, results) => {
           if (error) {
@@ -138,8 +138,11 @@ const getEventDetails = async (req, res, next) => {
 
     let eventHasNoMembers = results.length === 1 && results[0].user_id === null; // true if no members
 
+    console.log("Results: ", results)
+
     const event = results[0]; 
     const eventDetails = {
+      eventCreatorId: event.creator_user_id,
       eventId: event.event_id,
       eventName: event.event_name,
       createdAt: event.created_at,

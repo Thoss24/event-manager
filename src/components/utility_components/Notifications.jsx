@@ -16,12 +16,12 @@ function NotificationSystem() {
   const dispatch = useDispatch();
 
   const notificationsModalShowing = useSelector(
-    (state) => state.eventsModal.notificationsModal
+    (state) => state.eventsModal.notificationsModalDisplaying
   );
 
   const showNotificationsHandler = () => {
-    dispatch(modalActions.showNotificationsModal())
-  }
+    dispatch(modalActions.notificationsModalHandler())
+  };
 
   const fetchAccountDetails = async () => {
     try {
@@ -68,7 +68,7 @@ function NotificationSystem() {
       <IoIosNotifications className={classes["notification-icon"]} onClick={showNotificationsHandler}/>
       {notificationsModalShowing && (
         <div className="p-4">
-          <h1>Notifications</h1>
+          <h2>Notifications</h2>
           <div>
             {error && <ErrorElement error={error} />}
             {notifications &&
