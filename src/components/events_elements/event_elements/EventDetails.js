@@ -13,7 +13,6 @@ import Member from "../../users_elements/Member";
 
 const EventDetails = (props) => {
   const [userAuth, setUserAuth] = useState();
-  const [currAuthUser, setcurrAuthUser] = useState();
   const [confirmationMsg, setConfirmationMsg] = useState("");
 
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ const EventDetails = (props) => {
         const response = await checkAccountType();
 
         if (response) {
-          setUserAuth(response.data[0].account_type);
+          setUserAuth(response.data[0]);
         }
       } catch (error) {
         console.log("Could not fetch account information", error);
@@ -47,7 +46,7 @@ const EventDetails = (props) => {
     if (confirm) {
       const bookEventRequest = await bookEvent(
         props.id,
-        currAuthUser[0].user_id
+        userAuth[0].user_id
       );
 
       if (bookEventRequest.status === 200) {
@@ -111,6 +110,8 @@ const EventDetails = (props) => {
     </>
   );
 
+  userAuth && console.log("Auth: ", userAuth.user_id)
+
   return (
     <div className={classes.container}>
       {deleteEventModalDisplaying && (
@@ -138,10 +139,12 @@ const EventDetails = (props) => {
         </div>
       </div>
       <div className={classes.buttons}>
-        {userAuth === "admin" && (
+        {userAuth && userAuth.user_id === props.eventCreatorId && (
           <Button text={"Edit"} onclick={proceedToEdit} />
         )}
-        <Button text={"Delete"} onclick={deleteEventHandler} />
+        {userAuth && userAuth.user_id === props.eventCreatorId && (
+          <Button text={"Delete"} onclick={deleteEventHandler} />
+        )}
         <Button text={"Book Event"} onclick={bookEventHandler} />
         <Button link={".."} text={"Back"} />
       </div>

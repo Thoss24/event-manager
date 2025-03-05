@@ -29,7 +29,7 @@ const EventDetailPage = () => {
     fetchEventHandler();
   }, [eventId]);
 
-  eventItem && console.log(eventItem)
+  eventItem && console.log("Event Item:", eventItem)
 
   return (
     <Suspense fallback={<Loading message={"Loading event details..."} />}>
@@ -37,11 +37,11 @@ const EventDetailPage = () => {
       {eventItem && (
         <EventDetails
           id={eventId}
-          
           name={eventItem.eventName}
           description={eventItem.eventDescription}
           date={eventItem.eventDate}
           users={eventItem.users}
+          eventCreatorId={eventItem.eventCreatorId}
         />
       )}
     </Suspense>
