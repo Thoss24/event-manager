@@ -110,8 +110,6 @@ const EventDetails = (props) => {
     </>
   );
 
-  userAuth && console.log("Auth: ", userAuth.user_id)
-
   return (
     <div className={classes.container}>
       {deleteEventModalDisplaying && (

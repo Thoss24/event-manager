@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require('passport')
 const { connection } = require("../db");
 const bcrypt = require("bcrypt");
 
@@ -168,10 +167,6 @@ const getNotifications = (req, res, next) => {
   })
 }
 
-const createNotifications = (req, res, next) => {
-
-}
-
 router.get("/get-all-users", getAllUsers);
 router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
@@ -179,6 +174,5 @@ router.post("/login", login, checkAccountType);
 router.post("/create-response", createResponse);
 router.post("/get-responses", getResponses);
 router.post("/get-notifications", getNotifications);
-router.post("/create-notifications", createNotifications);
 
 module.exports = router;

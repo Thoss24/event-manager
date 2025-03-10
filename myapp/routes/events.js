@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { connection } = require("../db");
+const { getAllEventMembers, createNotifications } = require('./utils');
 
 function getEvents(req, res, next) {
   connection.query("SELECT * FROM events", (error, results) => {
@@ -12,19 +13,35 @@ function getEvents(req, res, next) {
   });
 }
 
-function deleteEvent(req, res, next) {
+async function deleteEvent (req, res, next) {
   const { id } = req.body;
-  connection.query(
-    "DELETE FROM events WHERE event_id = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send("Internal server error");
-      }
-      res.status(200).json(results);
+
+  const allEventMembers = await getAllEventMembers(id);
+
+  try {
+    const results = await new Promise((resolve, reject) => {
+      connection.query(
+        "DELETE FROM events WHERE event_id = ?",
+        [id],
+        (error, results) => {
+          if (error) {
+            reject("Internal server error - could not delete event");
+          }
+          resolve(results);
+        }
+      );
+    })
+
+    if (results.affectedRows === 0) {
+      return res.status(500).send("Event not found")
     }
-  );
+
+    
+
+  } catch (error) {
+    res.status(500).send(error)
+  }
+
 }
 
 function removeBookedEvent(req, res, next) {
