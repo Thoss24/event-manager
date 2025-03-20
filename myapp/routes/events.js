@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { connection } = require("../db");
-const { getAllEventMembers, createNotifications } = require('./utils');
+const { getAllEventMembers, notifyAllMembers } = require('./utils');
 
 function getEvents(req, res, next) {
   connection.query("SELECT * FROM events", (error, results) => {
@@ -13,48 +13,55 @@ function getEvents(req, res, next) {
   });
 }
 
-async function deleteEvent (req, res, next) {
+const deleteEvent = async (req, res, next) => {
   const { id } = req.body;
 
-  const allEventMembers = await getAllEventMembers(id);
-
   try {
+    // Fetch all event members first
+    const allEventMembers = await getAllEventMembers(id);
+
+    // Perform DELETE 
     const results = await new Promise((resolve, reject) => {
       connection.query(
         "DELETE FROM events WHERE event_id = ?",
         [id],
         (error, results) => {
           if (error) {
-            reject("Internal server error - could not delete event");
+            console.log(error);
+            return reject("Internal server error - could not delete event");
           }
           resolve(results);
         }
       );
-    })
+    });
 
     if (results.affectedRows === 0) {
-      return res.status(500).send("Event not found")
+      return res.status(404).send("Event not found");
     }
 
-    
+      // Notify all event members
+      if (allEventMembers.length > 0) {
+      await notifyAllMembers(allEventMembers, id);
+    } else {
+      console.log("This event has no members.")
+    }
 
+    res.status(200).send("Event successfully deleted and notifications sent.");
   } catch (error) {
-    res.status(500).send(error)
+    console.error(error); // Log the error for debugging
+    res.status(500).send(error);
   }
-
-}
+};
 
 function removeBookedEvent(req, res, next) {
   const {eventId, userId} = req.body;
-
-  console.log(eventId, userId)
 
   connection.query("DELETE FROM booked_events WHERE event_id = ? AND user_id = ?", [eventId, userId], (err, results) => {
     if (err) {
       console.log(err)
       return res.status(500).send("Internal server error")
     } else {
-      res.json({"status": 200, "message": "Event successfully removed from booked events list"});
+      res.status(200).send("Event successfully removed from booked events list");
     }
   })
 }
@@ -98,8 +105,6 @@ const bookEvent = (req, res, next) => {
 const getBookedEvents = (req, res, next) => {
 
   const currUserId = JSON.parse(Object.values(req.sessionStore.sessions)[0]).user.user_id;
-
-  console.log(currUserId)
   
   connection.query(
     "SELECT be.event_id, e.* FROM booked_events be LEFT JOIN events e ON be.event_id = e.event_id WHERE be.user_id = ?", [currUserId],
@@ -155,8 +160,6 @@ const getEventDetails = async (req, res, next) => {
 
     let eventHasNoMembers = results.length === 1 && results[0].user_id === null; // true if no members
 
-    console.log("Results: ", results)
-
     const event = results[0]; 
     const eventDetails = {
       eventCreatorId: event.creator_user_id,
@@ -186,7 +189,6 @@ const getEventDetails = async (req, res, next) => {
 
 const addEvent = (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
-  console.log("Members: ", members);
   connection.query(
     "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
     [name, description, date, imageName, time],

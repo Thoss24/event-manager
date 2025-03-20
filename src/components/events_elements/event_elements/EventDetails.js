@@ -79,6 +79,8 @@ const EventDetails = (props) => {
     if (confirm) {
       const deletedEvent = await deleteEvent(props.id);
 
+      console.log("Deleted event: ", deletedEvent)
+
       if (deletedEvent.status === 200) {
         setConfirmationMsg("Event successfully deleted.");
       }
