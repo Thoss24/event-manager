@@ -1,8 +1,11 @@
 const express = require("express");
-const router = express.Router();
 const { connection } = require("../db");
 
 const getAllEventMembers = async (eventId) => { 
+
+  if (!eventId) {
+    return reject('Event details not provided. Cannot find event members.');
+  };
 
   // get all event members based on event_id
   return new Promise((resolve, reject) => {
@@ -16,11 +19,34 @@ const getAllEventMembers = async (eventId) => {
 
 };
 
-const notifyAllMembers = async (membersAmount, eventId) => {
-  const notificationPromises = membersAmount.map(member => {
+const notifyAllMembers = async (members, eventId, actionType) => {
 
-    const userId = member.user_id;
-    const notification = `Event with ID: ${eventId} has been deleted by the event creator.`;
+  if (members.length === 0) {
+    return reject('No members available to notify.');
+  };
+
+  if (actionType.length === 0) {
+    return reject('Event action not defined.');
+  };
+
+  if (!eventId) {
+    return reject('Event details not provided. Cannot notify associated members.');
+  };
+
+  const notificationPromises = members.map(member => {
+
+    const userId = member.user_id ? member.user_id : member;
+
+    let notification;
+
+    switch(notification) {
+      case notification === 'delete':
+        notification = `Event with ID: ${eventId} has been deleted by the event creator.`
+        break;
+      case notification === 'add':
+        notification = `User with ID: ${userId} has been added to event with event ID: ${eventId}`
+        break;
+    }
     
     return new Promise((resolve, reject) => {
       connection.query(

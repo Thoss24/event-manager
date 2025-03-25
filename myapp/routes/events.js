@@ -41,7 +41,7 @@ const deleteEvent = async (req, res, next) => {
 
       // Notify all event members
       if (allEventMembers.length > 0) {
-      await notifyAllMembers(allEventMembers, id);
+      await notifyAllMembers(allEventMembers, id, 'delete');
     } else {
       console.log("This event has no members.")
     }
@@ -187,39 +187,46 @@ const getEventDetails = async (req, res, next) => {
   }
 };
 
-const addEvent = (req, res, next) => {
+const addEvent = async (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
-  connection.query(
-    "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
-    [name, description, date, imageName, time],
-    (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send("Internal server error");
-      }
 
-      connection.query(
-        "SELECT LAST_INSERT_ID() AS inserted_id",
-        (err, result) => {
-          if (err) throw err;
-
-          const insertedId = result[0].inserted_id;
-
-          members.forEach((element) => {
-            connection.query(
-              "INSERT INTO events_users (user_id, event_id) VALUES (?, ?)",
-              [element, insertedId],
-              (err, result) => {
-                if (err) throw err;
-              }
-            );
-          });
+  const results = await new Promise((resolve, reject) => {
+    connection.query(
+      "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
+      [name, description, date, imageName, time],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).send("Internal server error");
         }
-      );
+  
+        connection.query(
+          "SELECT LAST_INSERT_ID() AS inserted_id",
+          (err, result) => {
+            if (err) throw err;
+  
+            const insertedId = result[0].inserted_id;
+  
+            members.forEach((element) => {
+              connection.query(
+                "INSERT INTO events_users (user_id, event_id) VALUES (?, ?)",
+                [element, insertedId],
+                (err, result) => {
+                  if (err) throw err;
+                }
+              );
+            });
+          }
+        );
+  
+        res.json(results);
+      }
+    );
+  });
 
-      res.json(results);
-    }
-  );
+  if (results.affectedRows !== 0) {
+    await notifyAllMembers(); // GET EVENT ID OF EVENT JUST ADDED TO DB
+  }
 };
 
 const checkAuthenticated = async (req, res, next) => {
