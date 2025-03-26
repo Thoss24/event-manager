@@ -190,42 +190,50 @@ const getEventDetails = async (req, res, next) => {
 const addEvent = async (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
 
-  const results = await new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
-      [name, description, date, imageName, time],
-      (error, results) => {
-        if (error) {
-          console.log(error);
-          return res.status(500).send("Internal server error");
-        }
+  let insertedId;
+
+  try {
+    const results = await new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
+        [name, description, date, imageName, time],
+        (error, results) => {
+          if (error) {
+            console.log(error);
+            return reject(new Error("Internal server error"));
+          }
+
+          insertedId = results.insertId;
   
-        connection.query(
-          "SELECT LAST_INSERT_ID() AS inserted_id",
-          (err, result) => {
-            if (err) throw err;
-  
-            const insertedId = result[0].inserted_id;
-  
-            members.forEach((element) => {
+          const eventMembersPromises = members.map((memberId) => {
+            return new Promise((resolve, reject) => {
               connection.query(
                 "INSERT INTO events_users (user_id, event_id) VALUES (?, ?)",
-                [element, insertedId],
+                [memberId, insertedId],
                 (err, result) => {
-                  if (err) throw err;
+                  if (err) return reject(err);
+                  resolve(result); // Resolve the promise for each insertion
                 }
               );
             });
-          }
-        );
-  
-        res.json(results);
-      }
-    );
-  });
+          });
 
-  if (results.affectedRows !== 0) {
-    await notifyAllMembers(); // GET EVENT ID OF EVENT JUST ADDED TO DB
+          // Wait for all member insertions to complete
+          Promise.all(eventMembersPromises)
+            .then(() => resolve(results)) // Resolve the main promise after all are done
+            .catch(reject); // Handle any insertion errors
+        }
+      );
+    });
+
+    if (results.affectedRows !== 0) {
+      await notifyAllMembers(members, insertedId, 'add'); // Call to notify members
+    }
+
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
   }
 };
 

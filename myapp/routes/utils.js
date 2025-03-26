@@ -33,17 +33,17 @@ const notifyAllMembers = async (members, eventId, actionType) => {
     return reject('Event details not provided. Cannot notify associated members.');
   };
 
+  let notification;
+
   const notificationPromises = members.map(member => {
 
     const userId = member.user_id ? member.user_id : member;
 
-    let notification;
-
-    switch(notification) {
-      case notification === 'delete':
+    switch(actionType) {
+      case 'delete':
         notification = `Event with ID: ${eventId} has been deleted by the event creator.`
         break;
-      case notification === 'add':
+      case 'add':
         notification = `User with ID: ${userId} has been added to event with event ID: ${eventId}`
         break;
     }
