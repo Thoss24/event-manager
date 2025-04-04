@@ -17,10 +17,11 @@ const NewEventForm = () => {
   const [eventMembers, setEventMembers] = useState([]);
   const [filteredMembers, setFilteredMembers] = useState();
   const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
+  const [requestResponseMessage, setRequestResponseMessage] = useState("");
 
   useEffect(() => {
     getUsers().then((response) => {
-      if (response != "undefined") {
+      if (response !== "undefined") {
         setMembers(response.data);
         setFilteredMembers(response.data);
       }
@@ -39,7 +40,6 @@ const NewEventForm = () => {
   const time = useRef();
 
   const {
-    inputValue: nameInputValue,
     inputValid: nameValid,
     inputInvalid: nameInputInvalid,
     handleChangeInput: nameChangeInput,
@@ -63,23 +63,28 @@ const NewEventForm = () => {
     handleReset: descriptionHandleReset,
   } = useFormInput(validateInput);
 
-  const submitFormHandler = (event) => {
+  const submitFormHandler = async (event) => {
     event.preventDefault();
 
-    const membersIds = eventMembers.map((member) => member.id);
+    try {
 
-    const newEvent = {
-      name: name.current.value,
-      date: date.current.value,
-      description: description.current.value,
-      imageName: image,
-      time: time.current.value,
-      members: membersIds
-    };
+      const membersIds = eventMembers.map((member) => member.id);
 
-    console.log(newEvent)
+      const newEvent = {
+        name: name.current.value,
+        date: date.current.value,
+        description: description.current.value,
+        imageName: image,
+        time: time.current.value,
+        members: membersIds
+      };
 
-    addEvent(newEvent);
+      const addEventRequest = await addEvent(newEvent);
+      setRequestResponseMessage(addEventRequest.message);
+
+    } catch (error) {
+      console.log(error)
+    }
 
     nameHandleReset();
     dateHandleReset();
@@ -114,7 +119,7 @@ const NewEventForm = () => {
   const addMemberToEvent = (member) => {
     let memberExists = false;
     for (let i = 0; i < eventMembers.length; i++) {
-      if (eventMembers[i].id == member.id) {
+      if (eventMembers[i].id === member.id) {
         memberExists = true;
       }
     }
@@ -214,6 +219,7 @@ const NewEventForm = () => {
       <div className={classes["event-images-container"]}>
         {images.map((img, index) => (
           <img
+            alt={`Event ${index}`}
             src={img}
             key={index}
             onClick={() => handleImgSelect(index, img)}
