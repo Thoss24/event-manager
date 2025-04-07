@@ -112,3 +112,17 @@ h3 {
     text-decoration: none;
     color: black;
 }
+
+.request-response-area {
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 8px;
+    color: rgb(20, 179, 23);
+    font-weight: 600;
+}
+
+.failure {
+    color: red;
+}

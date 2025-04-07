@@ -18,6 +18,7 @@ const NewEventForm = () => {
   const [filteredMembers, setFilteredMembers] = useState();
   const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
   const [requestResponseMessage, setRequestResponseMessage] = useState("");
+  const [requestResponseMessageSuccess, setRequestResponseMessageSuccess] = useState(false);
 
   useEffect(() => {
     getUsers().then((response) => {
@@ -80,7 +81,26 @@ const NewEventForm = () => {
       };
 
       const addEventRequest = await addEvent(newEvent);
-      setRequestResponseMessage(addEventRequest.message);
+
+      if (!addEventRequest.message) {
+        setRequestResponseMessage("Request to add event failed.");
+      } 
+      else if (addEventRequest.status === 500) {
+        // if failure
+        setRequestResponseMessage(addEventRequest.message);
+        setRequestResponseMessageSuccess(false);
+        setTimeout(() => {
+          setRequestResponseMessage("")
+        }, 3000)
+      } else {
+        // if success
+        setRequestResponseMessage(addEventRequest.message);
+        setRequestResponseMessageSuccess(true);
+        setTimeout(() => {
+          setRequestResponseMessage("")
+        }, 3000)
+      }
+      
 
     } catch (error) {
       console.log(error)
@@ -141,8 +161,16 @@ const NewEventForm = () => {
     formIsValid = true;
   }
 
+  const requestResponseArea = (
+    <div className={`${classes['request-response-area']} ${!requestResponseMessageSuccess ? classes['failure'] : ''}`}>
+      {requestResponseMessage}
+    </div>
+  );
+
   return (
     <form onSubmit={submitFormHandler} className={classes["new-event-form"]}>
+      {/* display response to user after form has been submitted */}
+      {requestResponseMessage.length > 0 && requestResponseArea}
       <div className={classes["input-section"]}>
         <h3>Name</h3>
         <input
@@ -241,7 +269,7 @@ const NewEventForm = () => {
           <Link to={"/events"}>Cancel</Link>
         </button>
       </div>
-    </form>
+    </form>                                    
   );
 };
 
