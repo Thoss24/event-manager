@@ -191,12 +191,13 @@ const addEvent = async (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
 
   let insertedId;
+  const userId = req.sessionStore.user.user_id;
 
   try {
     const results = await new Promise((resolve, reject) => {
       connection.query(
-        "INSERT INTO events (event_name, event_description, event_date, event_img, event_time) VALUES (?, ?, ?, ?, ?)",
-        [name, description, date, imageName, time],
+        "INSERT INTO events (event_name, event_description, event_date, event_img, event_time, creator_user_id) VALUES (?, ?, ?, ?, ?, ?)",
+        [name, description, date, imageName, time, userId],
         (error, results) => {
           if (error) {
             console.log(error);
@@ -239,6 +240,8 @@ const addEvent = async (req, res, next) => {
 
 const checkAuthenticated = async (req, res, next) => {
   const sessionId = Object.keys(req.sessionStore.sessions)[0];
+
+  console.log("SESSION IDDDD: ", sessionId)
 
   connection.query(
     "SELECT * FROM sessions WHERE session_id = ?",

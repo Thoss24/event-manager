@@ -8,3 +8,14 @@
   justify-content: center;
   align-items: center;
 }
+
+.close-notification-icon {
+  font-size: 20px;
+}
+
+.notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}

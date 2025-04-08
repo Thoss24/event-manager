@@ -1,4 +1,3 @@
-const express = require("express");
 const { connection } = require("../db");
 
 const getAllEventMembers = async (eventId) => { 
@@ -67,8 +66,22 @@ const notifyAllMembers = async (members, eventId, actionType) => {
   await Promise.all(notificationPromises); // Wait for all notifications to complete
 }
 
+const checkAccountType = (req, res, next) => {
+
+  const userId = req.sessionStore.user.user_id; // assigned at login
+  
+  connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
+    if (err) {
+      return res.status(500).send("Could not find user");
+    }
+    res.json(results)
+  })
+
+}
+
 // export functions
 module.exports = {
   getAllEventMembers,
-  notifyAllMembers
+  notifyAllMembers,
+  checkAccountType,
 };

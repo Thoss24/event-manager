@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { connection } = require("../db");
 const bcrypt = require("bcrypt");
-
-let globalUserId = null;
+const { checkAccountType } = require('./utils');
 
 const checkUserExists = (req, res, next) => {
   const { email } = req.body;
@@ -80,7 +79,7 @@ const login = (req, res, next) => {
           req.session.authenticated = true;
           req.session.user = user;
 
-          console.log("Login - SESSION ID: ", req.session.cookie.expires)
+          req.sessionStore.user = user;
 
           connection.query(
             "INSERT INTO sessions (session_id, expires) VALUES (?, ?)",
@@ -102,23 +101,6 @@ const login = (req, res, next) => {
   );
 };
 
-const checkAccountType = (req, res, next) => {
-  const userString = Object.entries(req.sessionStore.sessions)[0];
-  const userObj = JSON.parse(userString[1]).user
-  const userId = userObj.user_id
-  globalUserId = userId;
-
-  console.log(userId)
-  
-  connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
-    if (err) {
-      return res.status(500).send("Could not find user");
-    }
-    res.json(results)
-  })
-
-}
-
 const getAllUsers = (req, res, next) => {
   connection.query('SELECT * FROM users', (err, results) => {
     if (err) {
@@ -131,9 +113,9 @@ const getAllUsers = (req, res, next) => {
 const createResponse = (req, res, next) => {
   const {response, eventId} = req.body;
 
-  console.log(response)
+  const userId = req.sessionStore.user.user_id;
 
-  connection.query('INSERT INTO responses (response, event_id, user_id) VALUES (?, ?, ?)', [response, eventId, globalUserId], (err, results) => {
+  connection.query('INSERT INTO responses (response, event_id, user_id) VALUES (?, ?, ?)', [response, eventId, userId], (err, results) => {
     if (err) {
       console.log(err)
       console.log("Could not add response")
@@ -170,7 +152,7 @@ const getNotifications = (req, res, next) => {
 router.get("/get-all-users", getAllUsers);
 router.get("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
-router.post("/login", login, checkAccountType);
+router.post("/login", login);
 router.post("/create-response", createResponse);
 router.post("/get-responses", getResponses);
 router.post("/get-notifications", getNotifications);
