@@ -73,7 +73,11 @@ function NotificationSystem() {
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (
-                <Notification message={notification.notification} />
+                <Notification 
+                message={notification.notification} 
+                key={notification.id}
+                id={notification.id}
+                />
               ))}
           </div>
         </div>

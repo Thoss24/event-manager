@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const createResponse = (response) => {
+const createResponse = async (response) => {
     return axios.post("http://localhost:3001/users/create-response", response)
     .then((response) => {
         return response

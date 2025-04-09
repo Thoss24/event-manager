@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getResponses = (response) => {
+const getResponses = async (response) => {
 
     return axios.post("http://localhost:3001/users/get-responses", response)
     .then((response) => {

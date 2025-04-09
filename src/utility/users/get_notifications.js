@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getNotifications = (userId) => {
+const getNotifications = async (userId) => {
 
     console.log("User id get notifications", userId)
 
