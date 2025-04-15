@@ -13,9 +13,12 @@ const app = express();
 app.use(express.json()); // Middleware to parse JSON requests
 app.use('/api', router); // Use your router
 
+// console.log("App:", app)
+
 jest.mock("../utility/users/clear_notification");
 
 describe('Notification component', () => {
+
   test('calls clearNotification function on clicking close icon to remove the notification and mark as seen', async () => {
 
     clearNotification.mockResolvedValue({status: 200});
@@ -32,10 +35,20 @@ describe('Notification component', () => {
 
     const response = await request(app).post('/api/get-notifications').send({userId});
 
-    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true); // Check that result is an array
+    expect(response.body.length).toBeGreaterThan(0); // Ensure it has at least one object
+
+    expect(response.body[0]).toEqual(expect.objectContaining({
+      id: expect.any(Number),
+      event_id: expect.any(Number),
+      notification: expect.any(String), // Example for email format
+      user_id: expect.any(Number),
+      seen: 0
+    }));
   })
+
 })
 
-console.log('DB_USERNAME:', process.env.DB_USERNAME);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DATABASE:', process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE);
+// console.log('DB_USERNAME:', process.env.DB_USERNAME);
+// console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+// console.log('DATABASE:', process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE);
