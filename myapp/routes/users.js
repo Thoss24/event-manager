@@ -149,8 +149,29 @@ const getNotifications = (req, res, next) => {
   })
 }
 
-const clearNotification = (req, res, next) => {
+const getNotificationById = (req, res, next) => {
+  const {notificationId} = req.body;
 
+  console.log("NOTIFICATION ID", notificationId)
+
+  connection.query('SELECT * FROM notifications WHERE id = ?', [notificationId], (err, results) => {
+    if (err) {
+      res.json(err)
+    }
+    res.json(results)
+  })
+}
+
+const clearNotification = (req, res, next) => {
+  const {notificationId} = req.body;
+  const seen = 1;
+
+  connection.query('UPDATE notifications SET seen = ? WHERE id = ?', [seen, notificationId], (err, results) => {
+    if (err) {
+      res.json(err)
+    }
+    res.json(results)
+  })
 }
 
 router.get("/get-all-users", getAllUsers);
@@ -160,6 +181,7 @@ router.post("/login", login);
 router.post("/create-response", createResponse);
 router.post("/get-responses", getResponses);
 router.post("/get-notifications", getNotifications);
+router.post("/get-notification-by-id", getNotificationById);
 router.post("/clear-notification", clearNotification);
 
 module.exports = router;

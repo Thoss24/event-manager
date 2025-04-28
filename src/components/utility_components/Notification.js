@@ -6,8 +6,9 @@ import React from "react";
 const Notification = (props) => {
 
   const clearNotificationHandler = async () => {
+
     try {
-      const response = await clearNotification();
+      const response = await clearNotification(props.id);
 
       if (response.status === 200) {
         // request successful

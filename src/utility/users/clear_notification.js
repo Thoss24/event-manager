@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const clearNotification = async () => {
-  return axios.patch("http://localhost:3001/users/clear-notification", {
-    seen: true
-  }).then((response) => {
+const clearNotification = async (notificationId) => {
+  console.log(notificationId)
+  return axios.post("http://localhost:3001/users/clear-notification", {notificationId: notificationId}).then((response) => {
     if (response.status === 200) {
       return {'message': 'Notification successfully cleared', 'status': response.status}
     }
