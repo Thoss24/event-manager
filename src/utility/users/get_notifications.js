@@ -1,16 +1,15 @@
 import axios from "axios";
 
 const getNotifications = async (userId) => {
+    console.log("User id get notifications", userId);
 
-    console.log("User id get notifications", userId)
-
-    return axios.post("http://localhost:3001/users/get-notifications", {userId: userId})
-    .then((response) => {
-        return response
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
+    try {
+        const response = await axios.post("http://localhost:3001/users/get-notifications", { userId });
+        return response; // Return the response if successful
+    } catch (error) {
+        console.error("Error fetching notifications:", error);
+        throw error; // Rethrow the error for upstream handling
+    }
+};
 
 export default getNotifications;

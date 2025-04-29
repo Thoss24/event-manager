@@ -7,6 +7,7 @@ import { IoIosNotifications } from "react-icons/io";
 import classes from "./Notifications.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { modalActions } from "../../store/event_details_modal_slice";
+import { GiConsoleController } from "react-icons/gi";
 
 function NotificationSystem() {
   const [userId, setUserId] = useState(null);
@@ -24,31 +25,47 @@ function NotificationSystem() {
   };
 
   const fetchAccountDetails = async () => {
-    try {
-      const response = await checkAccountType();
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await checkAccountType();
 
-      if (response.status === 200) {
-        setUserId(response.data[0].user_id);
-      } else {
-        setError("Could not load account details.");
+        console.log("Account: ", response)
+  
+        if (response.status === 200) {
+          setUserId(response.data[0].user_id);
+          resolve(response.data[0].user_id)
+        } else {
+          setError("Could not load account details.");
+          reject(new Error())
+        }
+      } catch (error) {
+        throw error;
       }
-    } catch (error) {
-      throw error;
-    }
+    })
   };
 
   const fetchNotifications = async () => {
-    try {
-      const response = await getNotifications(userId);
 
-      if (response.status === 200 && response.data.length > 0) {
-        setNotifications(response.data);
-      } else {
-        setError("Could not load notifications.");
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await getNotifications(userId);
+
+        if (response.status === 500) { // server error
+          setError(response.data.error);
+        }
+  
+        if (response.status === 200 && response.data.length > 0) { // request successful, not empty
+          setNotifications(response.data);
+          resolve(response.data)
+        } else { // request successful, empty
+          setError(response.data.message);
+        } 
+
+      } catch (error) {
+        throw error;
       }
-    } catch (error) {
-      throw error;
-    }
+    })
+
   };
 
   useEffect(() => {

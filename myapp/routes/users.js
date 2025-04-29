@@ -139,15 +139,25 @@ const getResponses = (req, res, next) => {
 }
 
 const getNotifications = (req, res, next) => {
-  const {userId} = req.body;
+  const { userId } = req.body;
+  console.log("Notification userid", userId)
 
-  connection.query('SELECT * FROM notifications WHERE user_id = (?)', [userId], (err, results) => {
+  connection.query('SELECT * FROM notifications WHERE user_id = ? AND seen = 0', [userId], (err, results) => {
+    console.log("Notification results", results)
     if (err) {
-      res.json(err)
+      // Send a 500 status code for server errors
+      return res.status(500).json({ error: 'Database query error', details: err });
     }
-    res.json(results)
-  })
-}
+
+    // Check if results are empty
+    if (results.length === 0) {
+      return res.json({ message: 'No notifications found.' });
+    }
+
+    // Send the results as a response
+    res.status(200).json(results);
+  });
+};
 
 const getNotificationById = (req, res, next) => {
   const {notificationId} = req.body;
