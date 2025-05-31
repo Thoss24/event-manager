@@ -9,6 +9,7 @@ export const removeBookedEvent = (eventId, userId) => {
     })
     .catch((error) => {
         console.log(error)
+        return error
     })
 
 };

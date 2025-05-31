@@ -3,7 +3,7 @@ import classes from './ErrorElement.module.css';
 const ErrorElement = (props) => {
   return (
     <div>
-      <p>{props.error}</p>
+      <p className={classes.error}>{props.error}</p>
     </div>
   )
 }

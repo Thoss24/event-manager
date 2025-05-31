@@ -59,7 +59,7 @@ function removeBookedEvent(req, res, next) {
   connection.query("DELETE FROM booked_events WHERE event_id = ? AND user_id = ?", [eventId, userId], (err, results) => {
     if (err) {
       console.log(err)
-      return res.status(500).send("Internal server error")
+      return res.status(500).send("Unable to remove event from booked events list")
     } else {
       res.status(200).send("Event successfully removed from booked events list");
     }

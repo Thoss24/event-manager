@@ -15,6 +15,7 @@ const BookedEventDetails = (props) => {
   const [confirmationMsg, setConfirmationMsg] = useState(null);
   const [userAuth, setUserAuth] = useState();
   const [eventItem, setEventItem] = useState();
+  const [modalDefaultMessage, setModalDefaultMessage] = useState("Are you sure you want to remove this event from your booked events?")
 
   useEffect(() => {
 
@@ -53,7 +54,7 @@ const BookedEventDetails = (props) => {
   );
 
   const removeBookedEventHandler = () => {
-    dispatch(modalActions.showRemoveBookedEventModal())
+    dispatch(modalActions.removeBookedEventModalHandler())
   };
 
   const confirmRemoveBookedEventHandler = async (confirm) => {
@@ -62,21 +63,20 @@ const BookedEventDetails = (props) => {
             const response = await removeBookedEvent(props.id, userAuth.user_id); // booked event id + user id
 
             if (response.status === 200) {
-              setConfirmationMsg(response.data.message)
+              setConfirmationMsg(response.data)
+              setModalDefaultMessage(null)
             }
 
             setTimeout(() => {
-              setConfirmationMsg("");
-              dispatch(modalActions.hideRemoveBookedEventModal());
+              dispatch(modalActions.removeBookedEventModalHandler());
               window.location.href = "http://localhost:3000/"
             }, 2000);
             
         } catch (error) {
-          console.log(error)
-            setConfirmationMsg("Could not remove booked event. Please try again later.")
+          setConfirmationMsg(error.response ? error.response.data : "Unable to remove event");
         }
     } else {
-        dispatch(modalActions.hideRemoveBookedEventModal())
+        dispatch(modalActions.removeBookedEventModalHandler())
     }
   };
 
@@ -86,7 +86,7 @@ const BookedEventDetails = (props) => {
         <ConfirmationModal
           confirmationMessage={confirmationMsg}
           confirmAction={confirmRemoveBookedEventHandler}
-          message={"Are you sure you want to remove this event from your booked events?"}
+          message={modalDefaultMessage}
         />
       )}
       <div>
