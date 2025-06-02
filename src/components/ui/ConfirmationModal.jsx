@@ -18,7 +18,6 @@ const ConfirmationModal = (props) => {
       <div className={classes.backdrop} />
       <div className={classes.confirmation}>
         <p>{props.message}</p>
-        <p>{props.confirmationMessage}</p>
         {!actionConfirmed && (
           <div className={classes["confirmation-buttons"]}>
             <button onClick={confirmActionHandler}>Yes</button>

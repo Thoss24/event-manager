@@ -13,7 +13,9 @@ import Member from "../../users_elements/Member";
 
 const EventDetails = (props) => {
   const [userAuth, setUserAuth] = useState();
-  const [confirmationMsg, setConfirmationMsg] = useState("");
+  const [deleteEventModalMessage, setDeleteEventModalMessage] = useState("Are you sure you want to delete this event?");
+  const [bookEventModalMessage, setBookEventModalMessage] = useState("Are you sure you want to book this event?");
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,22 +46,27 @@ const EventDetails = (props) => {
 
   const confirmBookEventHandler = async (confirm) => {
     if (confirm) {
-      const bookEventRequest = await bookEvent(
-        props.id,
-        userAuth[0].user_id
-      );
+      try {
+        const bookEventRequest = await bookEvent(
+          props.id,
+          userAuth.user_id
+        );
 
-      if (bookEventRequest.status === 200) {
-        setConfirmationMsg(bookEventRequest.data);
+        if (bookEventRequest.status === 200) {
+          setBookEventModalMessage(bookEventRequest.data);
+
+          setTimeout(() => {
+            dispatch(modalActions.bookEventModalHandler());
+            window.location.href = "http://localhost:3000/";
+          }, 2000);
+
+        }
+      } catch (error) {
+        setBookEventModalMessage(error.response ? error.response.data : 'Could not book event');
       }
 
-      setTimeout(() => {
-        setConfirmationMsg("");
-        dispatch(modalActions.hideBookEventModal());
-        window.location.href = "http://localhost:3000/";
-      }, 2000);
     } else {
-      dispatch(modalActions.hideBookEventModal());
+      dispatch(modalActions.bookEventModalHandler());
     }
   };
 
@@ -77,19 +84,21 @@ const EventDetails = (props) => {
 
   const confirmDeleteEventHandler = async (confirm) => {
     if (confirm) {
-      const deletedEvent = await deleteEvent(props.id);
+      try {
+        const deletedEventRequest = await deleteEvent(props.id);
 
-      console.log("Deleted event: ", deletedEvent)
+        if (deletedEventRequest.status === 200) {
+          setDeleteEventModalMessage(deletedEventRequest.data);
 
-      if (deletedEvent.status === 200) {
-        setConfirmationMsg("Event successfully deleted.");
+          setTimeout(() => {
+            dispatch(modalActions.eventDetailsModalHandler());
+            window.location.href = "/events";
+          }, 2000);
+        }
+      } catch (error) {
+        setDeleteEventModalMessage(error.response ? error.response.data : 'Could not delete event');
       }
 
-      setTimeout(() => {
-        setConfirmationMsg("");
-        dispatch(modalActions.eventDetailsModalHandler());
-        window.location.href = "/events";
-      }, 2000);
     } else {
       dispatch(modalActions.eventDetailsModalHandler());
     }
@@ -116,17 +125,15 @@ const EventDetails = (props) => {
     <div className={classes.container}>
       {deleteEventModalDisplaying && (
         <ConfirmationModal
-          confirmationMessage={confirmationMsg}
           confirmAction={confirmDeleteEventHandler}
-          message={"Are you sure you want to delete this event?"}
+          message={deleteEventModalMessage}
         />
       )}
 
       {bookEventModalDisplaying && (
         <ConfirmationModal
-          confirmationMessage={confirmationMsg}
           confirmAction={confirmBookEventHandler}
-          message={"Are you sure you want to book this event?"}
+          message={bookEventModalMessage}
         />
       )}
 

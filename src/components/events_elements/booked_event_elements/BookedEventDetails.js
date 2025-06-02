@@ -12,10 +12,9 @@ import { useParams } from "react-router-dom";
 const BookedEventDetails = (props) => {
 
   const dispatch = useDispatch();
-  const [confirmationMsg, setConfirmationMsg] = useState(null);
   const [userAuth, setUserAuth] = useState();
   const [eventItem, setEventItem] = useState();
-  const [modalDefaultMessage, setModalDefaultMessage] = useState("Are you sure you want to remove this event from your booked events?")
+  const [removeBookedEventModalMessage, setRemoveBookedEventModalMessage] = useState("Are you sure you want to remove this event from your booked events?")
 
   useEffect(() => {
 
@@ -63,8 +62,7 @@ const BookedEventDetails = (props) => {
             const response = await removeBookedEvent(props.id, userAuth.user_id); // booked event id + user id
 
             if (response.status === 200) {
-              setConfirmationMsg(response.data)
-              setModalDefaultMessage(null)
+              setRemoveBookedEventModalMessage(response.data)
             }
 
             setTimeout(() => {
@@ -73,7 +71,7 @@ const BookedEventDetails = (props) => {
             }, 2000);
             
         } catch (error) {
-          setConfirmationMsg(error.response ? error.response.data : "Unable to remove event");
+          setRemoveBookedEventModalMessage(error.response ? error.response.data : "Unable to remove event");
         }
     } else {
         dispatch(modalActions.removeBookedEventModalHandler())
@@ -84,9 +82,8 @@ const BookedEventDetails = (props) => {
     <div>
       {removeBookedEventModalDisplaying && (
         <ConfirmationModal
-          confirmationMessage={confirmationMsg}
           confirmAction={confirmRemoveBookedEventHandler}
-          message={modalDefaultMessage}
+          message={removeBookedEventModalMessage}
         />
       )}
       <div>
