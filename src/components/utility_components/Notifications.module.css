@@ -3,10 +3,30 @@
   font-size: 30px;
 }
 
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 40px;
+}
+
 .notification-area {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid rgb(201, 182, 12);
+  border-radius: 8px;
+  padding: 12px;
+  background-color: rgba(39, 36, 36, 0.8);
+  color: #f1f1f1;
+  align-items: flex-start;
 }
 
 .close-notification-icon {
@@ -18,4 +38,11 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  gap: 6px;
+}
+
+.clear-notification-button {
+  background: none;
+  border: none;
+  color: #f1f1f1
 }

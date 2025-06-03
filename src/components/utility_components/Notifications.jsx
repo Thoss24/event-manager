@@ -21,7 +21,7 @@ function NotificationSystem() {
   );
 
   const showNotificationsHandler = () => {
-    dispatch(modalActions.notificationsModalHandler())
+    dispatch(modalActions.notificationsModalHandler());
   };
 
   const fetchAccountDetails = async () => {
@@ -29,43 +29,41 @@ function NotificationSystem() {
       try {
         const response = await checkAccountType();
 
-        console.log("Account: ", response)
-  
         if (response.status === 200) {
           setUserId(response.data[0].user_id);
-          resolve(response.data[0].user_id)
+          resolve(response.data[0].user_id);
         } else {
           setError("Could not load account details.");
-          reject(new Error())
+          reject(new Error());
         }
       } catch (error) {
         throw error;
       }
-    })
+    });
   };
 
   const fetchNotifications = async () => {
-
     return new Promise(async (resolve, reject) => {
       try {
         const response = await getNotifications(userId);
 
-        if (response.status === 500) { // server error
+        if (response.status === 500) {
+          // server error
           setError(response.data.error);
         }
-  
-        if (response.status === 200 && response.data.length > 0) { // request successful, not empty
-          setNotifications(response.data);
-          resolve(response.data)
-        } else { // request successful, empty
-          setError(response.data.message);
-        } 
 
+        if (response.status === 200 && response.data.length > 0) {
+          // request successful, not empty
+          setNotifications(response.data);
+          resolve(response.data);
+        } else {
+          // request successful, empty
+          setError(response.data.message);
+        }
       } catch (error) {
         throw error;
       }
-    })
-
+    });
   };
 
   useEffect(() => {
@@ -81,24 +79,26 @@ function NotificationSystem() {
   useEffect(() => {}, [notifications]);
 
   return (
-    <div className={classes["notification-area"]}>
-      <IoIosNotifications className={classes["notification-icon"]} onClick={showNotificationsHandler}/>
-      {notificationsModalShowing && (
-        <div className="p-4">
-          <h2>Notifications</h2>
-          <div>
+    <div className={classes["notifications-container"]}>
+      <IoIosNotifications
+        className={classes["notification-icon"]}
+        onClick={showNotificationsHandler}
+      />
+      <div className={classes["notification-area"]}>
+        {notificationsModalShowing && (
+          <div className={classes.notifications}>
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (
-                <Notification 
-                message={notification.notification} 
-                key={notification.id}
-                id={notification.id}
+                <Notification
+                  message={notification.notification}
+                  key={notification.id}
+                  id={notification.id}
                 />
               ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

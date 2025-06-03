@@ -30,6 +30,7 @@
 
 .nav-large-screen {
     display: flex;
+    gap: 15px;
 }
 
 .main-nav ul {

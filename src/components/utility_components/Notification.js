@@ -25,7 +25,8 @@ const Notification = (props) => {
   return (
     <div className={classes.notification}>
       <p>{props.message}</p>
-      <button aria-label="Clear notification" onClick={clearNotificationHandler}><IoIosClose className={classes["close-notification-icon"]} /></button>
+      <IoIosClose onClick={clearNotificationHandler} className={classes["close-notification-icon"]} />
+      {/* <button className={classes['clear-notification-button']} aria-label="Clear notification"><IoIosClose onClick={clearNotificationHandler} className={classes["close-notification-icon"]} /></button> */}
     </div>
   )
 }
