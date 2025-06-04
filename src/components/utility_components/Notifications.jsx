@@ -87,6 +87,7 @@ function NotificationSystem() {
       <div className={classes["notification-area"]}>
         {notificationsModalShowing && (
           <div className={classes.notifications}>
+            <h2>Notifications</h2>
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (
