@@ -6,7 +6,7 @@ const EventListItem = (props) => {
 
   return (
     <div className={classes["list-item"]}>
-      <Link to={`${props.id}`}>
+      <Link to={`/events/${props.id}`}>
         <div className={classes["event-details-section"]}>
           <h2>{props.eventName}</h2>
           <h4>{props.description}</h4>

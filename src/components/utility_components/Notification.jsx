@@ -1,7 +1,6 @@
 import { IoIosClose } from "react-icons/io";
 import classes from "./Notifications.module.css";
 import clearNotification from "../../utility/users/clear_notification";
-import React from "react";
 
 const Notification = (props) => {
   const clearNotificationHandler = async () => {
@@ -9,23 +8,30 @@ const Notification = (props) => {
       const response = await clearNotification(props.id);
 
       if (response.status === 200) {
-        // request successful
+        if (props.onDelete) {
+          props.onDelete(props.id);
+          props.setResponseMsgHandler("Notification successfully deleted");
+        }
       } else {
-        // request unsuccessful
+        props.setResponseMsgHandler("Unable to delete notification");
       }
     } catch (error) {
       console.log(error);
       // display error
+    } finally {
+      setTimeout(() => {
+        props.setResponseMsgHandler(null);
+      }, [2000]);
     }
   };
 
   return (
     <div className={classes.notification}>
       <p className={classes["notification-text"]}>{props.message}</p>
-        <IoIosClose
-          onClick={clearNotificationHandler}
-          className={classes["close-notification-icon"]}
-        />
+      <IoIosClose
+        onClick={clearNotificationHandler}
+        className={classes["close-notification-icon"]}
+      />
     </div>
   );
 };

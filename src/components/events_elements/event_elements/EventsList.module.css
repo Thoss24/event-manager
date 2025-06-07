@@ -3,4 +3,5 @@
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    z-index: 0;
 }

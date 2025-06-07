@@ -7,12 +7,12 @@ import { IoIosNotifications } from "react-icons/io";
 import classes from "./Notifications.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { modalActions } from "../../store/event_details_modal_slice";
-import { GiConsoleController } from "react-icons/gi";
 
 function NotificationSystem() {
   const [userId, setUserId] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
+  const [responseMsg, setResponseMsg] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -66,6 +66,17 @@ function NotificationSystem() {
     });
   };
 
+  const clearNotificationHandler = (id) => {
+    setNotifications((prev) => {
+      return prev.filter((notification) => notification.id !== id)
+    });
+    console.log("Notifications after clearing: ", notifications)
+  };
+
+  const setResponseMsgHandler = (message) => {
+    setResponseMsg(message);
+  };
+
   useEffect(() => {
     fetchAccountDetails();
   }, []);
@@ -88,6 +99,7 @@ function NotificationSystem() {
         {notificationsModalShowing && (
           <div className={classes.notifications}>
             <h2>Notifications</h2>
+            <p className={classes['response-msg']}>{responseMsg}</p>
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (
@@ -95,6 +107,8 @@ function NotificationSystem() {
                   message={notification.notification}
                   key={notification.id}
                   id={notification.id}
+                  onDelete={clearNotificationHandler}
+                  setResponseMsgHandler={setResponseMsgHandler}
                 />
               ))}
           </div>
