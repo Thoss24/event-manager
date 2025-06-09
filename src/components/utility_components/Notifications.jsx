@@ -7,6 +7,7 @@ import { IoIosNotifications } from "react-icons/io";
 import classes from "./Notifications.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { modalActions } from "../../store/event_details_modal_slice";
+import useWindowResize from "../../hooks/use-window-resize";
 
 function NotificationSystem() {
   const [userId, setUserId] = useState(null);
@@ -15,6 +16,8 @@ function NotificationSystem() {
   const [responseMsg, setResponseMsg] = useState(null);
 
   const dispatch = useDispatch();
+
+  const width = useWindowResize();
 
   const notificationsModalShowing = useSelector(
     (state) => state.eventsModal.notificationsModalDisplaying
@@ -88,6 +91,12 @@ function NotificationSystem() {
   }, [userId]);
 
   useEffect(() => {}, [notifications]);
+
+  useEffect(() => {
+    if (width <= 520 && notificationsModalShowing === true) {
+      dispatch(modalActions.notificationsModalHandler());
+    }
+  }, [width])
 
   return (
     <div className={classes["notifications-container"]}>

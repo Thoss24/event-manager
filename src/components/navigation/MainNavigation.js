@@ -4,31 +4,36 @@ import { CiMenuBurger } from "react-icons/ci";
 import { useState } from "react";
 import NavModal from "../ui/NavModal";
 import NotificationSystem from "../utility_components/Notifications";
+import useWindowResize from "../../hooks/use-window-resize";
 
 const MainNavigation = () => {
-  const [navDisplaying, setNavDisplaying] = useState(false);
+  const [mobileNavDisplaying, setMobileNavDisplaying] = useState(false);
+
+  const width = useWindowResize();
+
+  const mobileNavModalModalDisplaying = width <= 520 && mobileNavDisplaying === true;
 
   const isActive = ({ isActive }) => {
     return isActive ? classes.active : classes["list-item"];
   };
 
   const handleNavIcon = () => {
-    setNavDisplaying((state) => {
+    setMobileNavDisplaying((state) => {
       return !state;
     });
   };
 
   const hideNavModalHandler = () => {
     console.log("Hide nav")
-    setNavDisplaying(false)
+    setMobileNavDisplaying(false)
   };
 
   return (
     <>
-    {navDisplaying && <NavModal isNavDisplaying={navDisplaying} hideNavModal={hideNavModalHandler}/>}
+    {mobileNavModalModalDisplaying && <NavModal isNavDisplaying={mobileNavModalModalDisplaying} hideNavModal={hideNavModalHandler}/>}
     <nav className={classes["main-nav"]}>
       <div className={classes["nav-small-screen"]}>
-        <CiMenuBurger onClick={!navDisplaying ? handleNavIcon : null} className={`${classes["nav-icon"]} ${navDisplaying && classes['rotate']}`} />
+        <CiMenuBurger onClick={!mobileNavModalModalDisplaying ? handleNavIcon : null} className={`${classes["nav-icon"]} ${mobileNavModalModalDisplaying && classes['rotate']}`} />
       </div>
       <div className={classes["nav-large-screen"]}>
         <ul>
