@@ -53,8 +53,8 @@ const MainNavigation = () => {
             </NavLink>
           </li>
         </ul>
-        <NotificationSystem />
       </div>
+      <NotificationSystem />
     </nav>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import getNotifications from "../../utility/users/get_notifications";
 import checkAccountType from "../../utility/authentication/check_account_type";
 import ErrorElement from "../ui/ErrorElement";

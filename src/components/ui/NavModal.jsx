@@ -1,6 +1,7 @@
 import classes from "./NavModal.module.css";
 import { NavLink } from "react-router-dom";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import NotificationSystem from "../utility_components/Notifications";
 
 const NavModal = (props) => {
 

@@ -4,6 +4,7 @@
     width: 100vw;
     background-color: rgba(66, 64, 64, 0.5);
     position: fixed;
+    z-index: 2;
 }
 
 @keyframes slide {
