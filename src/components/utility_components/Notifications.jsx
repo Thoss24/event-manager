@@ -71,9 +71,9 @@ function NotificationSystem() {
 
   const clearNotificationHandler = (id) => {
     setNotifications((prev) => {
-      return prev.filter((notification) => notification.id !== id)
+      return prev.filter((notification) => notification.id !== id);
     });
-    console.log("Notifications after clearing: ", notifications)
+    console.log("Notifications after clearing: ", notifications);
   };
 
   const setResponseMsgHandler = (message) => {
@@ -96,19 +96,26 @@ function NotificationSystem() {
     if (width <= 520 && notificationsModalShowing === true) {
       dispatch(modalActions.notificationsModalHandler());
     }
-  }, [width])
+  }, [width]);
 
   return (
     <div className={classes["notifications-container"]}>
+      <div className={classes["notification-icon-area"]}>
       <IoIosNotifications
         className={classes["notification-icon"]}
         onClick={showNotificationsHandler}
       />
+      {notifications && notifications.length > 0 && (
+        <div className={classes["notification-icon-count"]}>
+          {notifications.length}
+        </div>
+      )}
+      </div>
       <div className={classes["notification-area"]}>
         {notificationsModalShowing && (
           <div className={classes.notifications}>
             <h2>Notifications</h2>
-            <p className={classes['response-msg']}>{responseMsg}</p>
+            <p className={classes["response-msg"]}>{responseMsg}</p>
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (
