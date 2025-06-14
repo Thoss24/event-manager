@@ -33,72 +33,25 @@ const UpcommingEvents = () => {
   const filterNextSevenDays = () => {
     // Get the current date
     const currentDate = new Date();
-    const formattedCurrentDate = formatDate(currentDate);
 
     // Get the date 7 days from now
     const futureDate = new Date();
     futureDate.setDate(currentDate.getDate() + 7);
-    const formattedFutureDate = formatDate(futureDate);
 
-    let filteredEvents = [];
-
-    events.forEach((event) => {
-      //  get the event date
-      const targetDate = new Date(event.event_date);
-      const formattedTargetDate = formatDate(targetDate);
-
-      formattedTargetDate >= formattedCurrentDate &&
-        formattedTargetDate <= formattedFutureDate &&
-        filteredEvents.push(event);
+    return events.filter((event) => {
+      const eventDate = new Date(event.event_date);
+      return eventDate >= currentDate && eventDate <= futureDate;
     });
-
-    return filteredEvents;
   };
 
   const filterAllUpcommingEvents = () => {
-    // Get the current date
     const currentDate = new Date();
-    const formattedCurrentDate = formatDate(currentDate);
-
-    let filteredEvents = [];
-
-    events.forEach((event) => {
-      //  get the event date
-      const targetDate = new Date(event.event_date);
-      const formattedTargetDate = formatDate(targetDate);
-
-      formattedTargetDate >= formattedCurrentDate && filteredEvents.push(event);
-    });
-
-    return filteredEvents;
+    return events.filter((event) => new Date(event.event_date) >= currentDate);
   };
 
   const filterAllPastEvents = () => {
-    // Get the current date
     const currentDate = new Date();
-    const formattedCurrentDate = formatDate(currentDate);
-
-    let filteredEvents = [];
-
-    events.forEach((event) => {
-      //  get the event date
-      const targetDate = new Date(event.event_date);
-      const formattedTargetDate = formatDate(targetDate);
-
-      formattedTargetDate < formattedCurrentDate && filteredEvents.push(event);
-    });
-
-    return filteredEvents;
-  };
-
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    const dateStr = `${year}/${month}/${day}`;
-
-    return dateStr;
+    return events.filter((event) => new Date(event.event_date) < currentDate);
   };
 
   // next seven days of events
@@ -113,43 +66,39 @@ const UpcommingEvents = () => {
       {loading && <p>Loading events...</p>}
       {error && <p>Error: {error}</p>}
       <div>
-        <h2 className={classes['events-header']}>Events coming up in the next 7 days</h2>
-        {nextSevenDaysOfEvents.length === 0 ? <Loading message="You don't have any events in the next 7 days." /> :
-        <div className={classes['events-section']}>
-          {nextSevenDaysOfEvents && (
+        <h2 className={classes["events-header"]}>
+          Events coming up in the next 7 days
+        </h2>
+        {nextSevenDaysOfEvents.length === 0 ? (
+          <Loading message="You don't have any events in the next 7 days." />
+        ) : (
+          <div className={classes["events-section"]}>
             <ScrollableGallery
               items={nextSevenDaysOfEvents}
               scrollAmount={100}
             />
-          )}
-        </div>
-        }
+          </div>
+        )}
       </div>
       <div>
-        <h2 className={classes['events-header']}>All upcomming events</h2>
-        {allUpcommingEvents.length == 0 ? <Loading message="You don't have any upcomming events."/> :
-        <div className={classes['events-section']}>
-          {allUpcommingEvents && (
-            <ScrollableGallery
-              items={allUpcommingEvents}
-              scrollAmount={100}
-            />
-          )}
-        </div>
-        }
+        <h2 className={classes["events-header"]}>All upcomming events</h2>
+        {allUpcommingEvents.length == 0 ? (
+          <Loading message="You don't have any upcomming events." />
+        ) : (
+          <div className={classes["events-section"]}>
+            <ScrollableGallery items={allUpcommingEvents} scrollAmount={100} />
+          </div>
+        )}
       </div>
       <div>
-        <h2 className={classes['events-header']}>Past events</h2>
-        {allPastEvents.length === 0 ? <Loading message="You don't have any previous events." /> :
-        <div className={classes['events-section']}>
-        {allPastEvents && (
-            <ScrollableGallery
-              items={allPastEvents}
-              scrollAmount={100}
-            />
-          )}
-        </div>
-        }
+        <h2 className={classes["events-header"]}>Past events</h2>
+        {allPastEvents.length === 0 ? (
+          <Loading message="You don't have any previous events." />
+        ) : (
+          <div className={classes["events-section"]}>
+            <ScrollableGallery items={allPastEvents} scrollAmount={100} />
+          </div>
+        )}
       </div>
     </div>
   );

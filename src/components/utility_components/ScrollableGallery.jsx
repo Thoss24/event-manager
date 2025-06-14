@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import EventListItem from "../events_elements/event_elements/EventsListItem";
 import classes from "./ScrollableGallery.module.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -6,19 +6,27 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 const ScrollableGallery = ({items, scrollAmount}) => {
 
   const scrollContainerRef = useRef(null);
+  const [previsScrollAmount, setPreviousScrollAmount] = useState(0);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft -= scrollAmount;
-      console.log(scrollContainerRef.current.scrollLeft)
-    }
+    };
   }
 
   const scrollRight = () => {
+
+    const previousScrollAmount = scrollContainerRef.current.scrollLeft;
+
+    if (scrollContainerRef.current.scrollLeft += scrollAmount === previousScrollAmount) {
+      console.log("MAX ")
+      return
+    }
+
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft += scrollAmount;
-      console.log(scrollContainerRef.current.scrollLeft)
-    }
+      console.log(scrollContainerRef.current.scrollLeft += scrollAmount)
+    };
   }
 
   return (

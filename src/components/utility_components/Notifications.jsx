@@ -107,7 +107,7 @@ function NotificationSystem() {
       />
       {notifications && notifications.length > 0 && (
         <div className={classes["notification-icon-count"]}>
-          {notifications.length}
+          {notifications.length > 9 ? '9+' : notifications.length}
         </div>
       )}
       </div>
