@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import EventListItem from "../events_elements/event_elements/EventsListItem";
 import classes from "./ScrollableGallery.module.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -6,27 +6,43 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 const ScrollableGallery = ({items, scrollAmount}) => {
 
   const scrollContainerRef = useRef(null);
-  const [previsScrollAmount, setPreviousScrollAmount] = useState(0);
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft -= scrollAmount;
+    const {scrollLeft} = scrollContainerRef.current;
+
+    if (!scrollContainerRef.current) {
+      return;
     };
+
+    let currentScrollWidth = scrollLeft - scrollAmount;
+    
+    scrollContainerRef.current.scrollTo({
+      left: currentScrollWidth - scrollAmount,
+      behavior: "smooth",
+    });
   }
 
   const scrollRight = () => {
+    const {scrollLeft, clientWidth, scrollWidth} = scrollContainerRef.current;
 
-    const previousScrollAmount = scrollContainerRef.current.scrollLeft;
-
-    if (scrollContainerRef.current.scrollLeft += scrollAmount === previousScrollAmount) {
-      console.log("MAX ")
-      return
+    if (!scrollContainerRef.current) {
+      return;
     }
 
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft += scrollAmount;
-      console.log(scrollContainerRef.current.scrollLeft += scrollAmount)
-    };
+    let maxScrollWidth = scrollWidth - clientWidth ;
+    let currentScrollWidth = scrollLeft + scrollAmount;
+    
+    if (currentScrollWidth >= maxScrollWidth - 1) {
+      scrollContainerRef.current.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+    } else {
+       scrollContainerRef.current.scrollTo({
+        left: currentScrollWidth + scrollAmount,
+        behavior: "smooth",
+      });
+    }
   }
 
   return (
