@@ -6,7 +6,7 @@ import PageHeading from "../../components/ui/PageHeading";
 import EventDetails from "../../components/events_elements/event_elements/EventDetails";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import fetchEvent from "../../utility/events_actions/fetch-event-data";
-import Loading from "../../components/ui/Loading";
+import Message from "../../components/ui/Message";
 
 const EventDetailPage = () => {
   let { eventId } = useParams();
@@ -32,7 +32,7 @@ const EventDetailPage = () => {
   eventItem && console.log("Event Item:", eventItem)
 
   return (
-    <Suspense fallback={<Loading message={"Loading event details..."} />}>
+    <Suspense fallback={<Message message={"Loading event details..."} />}>
       <PageHeading header={"Event Details"} />
       {eventItem && (
         <EventDetails

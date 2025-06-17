@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import fetchEvent from "../../utility/events_actions/fetch-event-data";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import PageHeading from "../../components/ui/PageHeading";
-import Loading from "../../components/ui/Loading";
+import Message from "../../components/ui/Message";
 
 const EditEventPage = () => {
   const { eventId } = useParams();
@@ -18,7 +18,7 @@ const EditEventPage = () => {
 
   return (
     <MainContentWrapper>
-      <Suspense fallback={<Loading message={"Loading event details..."} />}>
+      <Suspense fallback={<Message message={"Loading event details..."} />}>
         <PageHeading header={"Edit Event Details"} />
         {editableEvent && (
           <EditEventForm

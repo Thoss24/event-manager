@@ -4,7 +4,7 @@ import PageHeading from "../../components/ui/PageHeading";
 import BookedEventDetails from "../../components/events_elements/booked_event_elements/BookedEventDetails";
 import { useParams } from "react-router-dom";
 import { useState, Suspense } from "react";
-import Loading from "../../components/ui/Loading";
+import Message from "../../components/ui/Message.js";
 
 const BookedEventDetailPage = () => {
   const { bookedEventId } = useParams();
@@ -26,11 +26,11 @@ const BookedEventDetailPage = () => {
 
   return (
     <>
-      <Suspense fallback={<Loading message={"Loading event details..."} />}>
+      <Suspense fallback={<Message message={"Loading event details..."} />}>
         <PageHeading header={"Booked Event Details"} />
 
         {!bookedEvent ? (
-          <Loading message={"Loading event details..."} />
+          <Message message={"Loading event details..."} />
         ) : (
           <BookedEventDetails name={bookedEvent.event_name} date={bookedEvent.created_at} id={bookedEvent.event_id}/>
         )}

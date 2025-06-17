@@ -3,7 +3,7 @@ import fetchBookedEvents from "../../utility/events_actions/fetch-booked-events"
 import { useState } from "react";
 import ErrorElement from "../../components/ui/ErrorElement";
 import BookedEventsList from "../../components/events_elements/booked_event_elements/BookedEventsList";
-import Loading from "../../components/ui/Loading";
+import Loading from "../../components/ui/Message";
 
 const BookedEventsHomePage = () => {
   const [bookedEvents, setBookedEvents] = useState();
@@ -31,8 +31,7 @@ const BookedEventsHomePage = () => {
     fetchEvents();
   }, []);
 
-  return loading ? (<Loading message={"Loading booked events.."} />) : (error ? <ErrorElement error={error} /> :  <BookedEventsList events={bookedEvents} />);
-
+  return loading ? (<Loading message={"Loading booked events.."} />) : (error ? <ErrorElement error={error} /> : <BookedEventsList events={bookedEvents} />);
 };
 
 export default BookedEventsHomePage;
