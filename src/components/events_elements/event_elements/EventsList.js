@@ -7,9 +7,9 @@ import useFilterEvents from "../../../hooks/use-filter-events";
 
 const EventsList = () => {
   const [events, setEvents] = useState([]);
-  const [filterType, setFilterType] = useState(null);
+  const [filters, setFilters] = useState([]);
 
-  const {filteredEvents} = useFilterEvents(events, filterType)
+  const {filteredEvents} = useFilterEvents(events, filters)
 
   useEffect(() => {
     const fetchEventsHandler = async () => {
@@ -28,14 +28,31 @@ const EventsList = () => {
   }, []);
 
   const updateFilterHandler = (filter) => {
-    setFilterType(filter)
+    // need to support setting multiple filters
+    
+    setFilters((prevFilters) => {
+      if (prevFilters.includes(filter)) {
+        return prevFilters.filter((prevFilter) => prevFilter !== filter)
+      } else {
+        return [...prevFilters, filter];
+      }
+    })
+    
   };
+
+  useEffect(()=> {
+    console.log("Filters: ", filters)
+  }, [filters])
+
+  const filterOptions = [
+    { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
+    { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
+    { label: 'Next 7 days', type: 'Date', value: 'next7days' },
+    { label: 'Within the next month', type: 'Date', value: 'nextMonth' }];
 
   return (
     <div className={classes.list}>
-
-      <Filter applyFilter={updateFilterHandler} filters={['Type', 'Booked', 'Next 7 days', 'Within the next month']}/>
-
+      <Filter applyFilter={updateFilterHandler} filters={filterOptions}/>
       {filteredEvents &&
         filteredEvents.map((event) => (
           <EventListItem

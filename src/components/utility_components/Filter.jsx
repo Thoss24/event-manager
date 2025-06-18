@@ -12,13 +12,26 @@ const Filter = (props) => {
     props.applyFilter(filter)
   }
 
+  //console.log(props.filters)
+
   return (
     <div>
       <h3>Filter</h3>
       <ul>
-        {props.filters.map(filter => (
-          <li key={filter} onClick={() => applyFilterHandler(filter)}>{filter}</li>
-        ))}
+        {props.filters.map(filter => {
+          if (filter.type === 'Type' || filter.type === 'Booked') {
+            return (
+            <li key={filter.label}>
+              <span>{filter.label}:</span>
+              {filter.values.map((value) => (
+                <label key={value}>
+                  <input type="checkbox" onChange={() => applyFilterHandler(value)}/>
+                  {value}
+                </label>
+              ))}
+            </li>)
+          } 
+        })}
       </ul>
     </div>
   )
