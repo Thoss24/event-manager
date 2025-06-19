@@ -1,4 +1,6 @@
-const useFilterEvents = (events, filterType) => {
+const useFilterEvents = (events, filtersTypes) => {
+
+  console.log("filtersTypes",filtersTypes)
 
   const filterNextSevenDays = () => {
     // Get the current date
@@ -25,16 +27,6 @@ const useFilterEvents = (events, filterType) => {
   };
 
   let filteredEvents = events;
-
-  switch(filterType){
-    case "Booked":
-      // 
-    case "Next 7 days":
-      filteredEvents = filterNextSevenDays();
-      break;
-    case "Within the next month":
-      //
-  }
 
   return {
     filteredEvents,

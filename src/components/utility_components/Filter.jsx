@@ -25,7 +25,7 @@ const Filter = (props) => {
               <span>{filter.label}:</span>
               {filter.values.map((value) => (
                 <label key={value}>
-                  <input type="checkbox" onChange={() => applyFilterHandler(value)}/>
+                  <input type="checkbox" onChange={() => applyFilterHandler({"value": value, "type": filter.type})}/>
                   {value}
                 </label>
               ))}

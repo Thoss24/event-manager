@@ -31,18 +31,14 @@ const EventsList = () => {
     // need to support setting multiple filters
     
     setFilters((prevFilters) => {
-      if (prevFilters.includes(filter)) {
-        return prevFilters.filter((prevFilter) => prevFilter !== filter)
+      if (prevFilters.some((val) => val.value === filter.value)) {
+        return prevFilters.filter((prevFilter) =>  prevFilter.value !== filter.value)
       } else {
         return [...prevFilters, filter];
       }
     })
     
   };
-
-  useEffect(()=> {
-    console.log("Filters: ", filters)
-  }, [filters])
 
   const filterOptions = [
     { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
