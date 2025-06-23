@@ -14,6 +14,8 @@ const useFilterEvents = (
   allPastEvents: EventType[];
 } => {
 
+  // Type, Booked, Next 7 days, Within the next month
+
   const filtersByType = useMemo(() => {
     return Array.isArray(filtersTypes)
       ? filtersTypes.reduce((acc, filter) => {
@@ -23,6 +25,8 @@ const useFilterEvents = (
         }, {} as Record<string, string[]>)
       : {};
   }, [filtersTypes]);
+
+  console.log("filtersByType", filtersByType)
 
   const filterByType = useCallback(
     (events: EventType[]) => {
@@ -58,6 +62,18 @@ const useFilterEvents = (
     });
   };
 
+  const filterNextMonth = (events: EventType[]) => {
+    const currentDate = new Date();
+
+    const futureDate = new Date();
+    futureDate.setDate(currentDate.getDate() + 30);
+
+    return events.filter((event) => {
+      const eventDate = new Date(event.event_date);
+      return eventDate >= currentDate && eventDate <= futureDate;
+    });
+  };
+
   const filterAllUpcommingEvents = (events: EventType[]) => {
     const currentDate = new Date();
     return events.filter((event) => new Date(event.event_date) >= currentDate);
@@ -73,6 +89,16 @@ const useFilterEvents = (
 
     if (filtersByType.Type && filtersByType.Type.length > 0) {
       filtered = filterByType(filtered);
+    };
+
+    if (filtersByType.Date && filtersByType.Date.length > 0) {
+      if (filtersByType.Date.includes('next7days')) {
+        filtered = filterNextSevenDays(filtered);
+      };
+
+      if (filtersByType.Date.includes('nextMonth')) {
+        filtered = filterNextMonth(filtered);
+      };
     };
 
     // if (filtersByType.Booked && filtersByType.Booked.length > 0) {

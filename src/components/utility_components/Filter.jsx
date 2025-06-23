@@ -1,4 +1,5 @@
-
+import classes from "./Filter.module.css";
+import { useState } from "react";
 
 const Filter = (props) => {
 
@@ -8,23 +9,23 @@ const Filter = (props) => {
 
   // type will need a seperate filter becasue there are multiple types
 
-  const applyFilterHandler = (filter) => {
-    props.applyFilter(filter)
-  }
+  const [filterCategoryShowing, setFilterCategoryShowing] = useState(false);
 
-  //console.log(props.filters)
+  const applyFilterHandler = (filter) => {
+    props.applyFilter(filter);
+  };
 
   return (
     <div>
       <h3>Filter</h3>
       <ul>
         {props.filters.map(filter => {
-          if (filter.type === 'Type' || filter.type === 'Booked') {
+          if (filter.type === 'Type' || filter.type === 'Booked' || filter.type === 'Date') {
             return (
-            <li key={filter.label}>
+            <li key={filter.label} className={classes['filter-category']}>
               <span>{filter.label}:</span>
               {filter.values.map((value) => (
-                <label key={value}>
+                <label key={value} className={classes['filter-item']}>
                   <input type="checkbox" onChange={() => applyFilterHandler({"value": value, "type": filter.type})}/>
                   {value}
                 </label>

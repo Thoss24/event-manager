@@ -17,8 +17,13 @@ const EventsList = () => {
         const response = await fetchEvents();
         
         if (response) {
-          console.log("Response", response)
-          setEvents(response);
+          const onlyUpcommingEvents = response.filter((event) => {
+            const todaysDate = new Date();
+            const eventDate = new Date(event.event_date);
+            return eventDate >= todaysDate
+          });
+
+          setEvents(onlyUpcommingEvents);
         } 
       } catch (error) {
         console.log("Could not load events", error)
@@ -42,9 +47,8 @@ const EventsList = () => {
 
   const filterOptions = [
     { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
-    { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
-    { label: 'Next 7 days', type: 'Date', value: 'next7days' },
-    { label: 'Within the next month', type: 'Date', value: 'nextMonth' }];
+    // { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
+    { label: 'Date Time', type: 'Date', values: ['next7days', 'nextMonth']}];
 
   return (
     <div className={classes.list}>
