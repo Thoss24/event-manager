@@ -1,5 +1,22 @@
+.filter-area {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
+.filter-category-label {
+  background-color: rgba(39, 36, 36, 0.8);
+  border-radius: 8px;
+  padding: 4px;
+}
 
-.filter-item {
-  display: none;
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style-type: none;
+}
+
+.showing {
+  visibility: visible;
 }

@@ -53,6 +53,7 @@ const EventsList = () => {
   return (
     <div className={classes.list}>
       <Filter applyFilter={updateFilterHandler} filters={filterOptions}/>
+      <div>
       {filteredEvents &&
         filteredEvents.map((event) => (
           <EventListItem
@@ -66,6 +67,7 @@ const EventsList = () => {
             eventType={event.event_type}
           />
         ))}
+        </div>
     </div>
   );
 };
