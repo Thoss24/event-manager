@@ -35,7 +35,8 @@ const Filter = ({filters, applyFilter}: FilterProps) => {
   };
 
   return (
-    <div>
+    <div className={classes['filter-component']}>
+      <div>
       <h3>Filter</h3>
       <ul className={classes['filter-container']}>
         {filters.map(filter => {
@@ -44,7 +45,7 @@ const Filter = ({filters, applyFilter}: FilterProps) => {
             <li key={filter.label} className={classes['filter-category']}>
               <span className={classes['filter-category-label']} onClick={() => toggleFilterCategory(filter.label)}>{filter.label}</span>
               <div className={`${classes['filter-area']} ${openCategories.has(filter.label) ? classes.showing : ''}`}>
-                {filter.values.map((value) => (
+                {openCategories.has(filter.label) && filter.values.map((value) => (
                   <label key={value} className={classes['filter-item']}>
                     <input type="checkbox" onChange={() => applyFilterHandler({"value": value, "type": filter.type})}/>
                     {value}
@@ -55,6 +56,7 @@ const Filter = ({filters, applyFilter}: FilterProps) => {
           } 
         })}
       </ul>
+      </div>
     </div>
   )
 }

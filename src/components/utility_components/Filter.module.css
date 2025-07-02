@@ -2,21 +2,72 @@
   visibility: hidden;
   display: flex;
   flex-direction: column;
+  height: auto;
+  background-color: #fff;
+}
+
+.filter-category {
+  width: 120px;
+}
+
+.filter-component {
+  display: flex;
+  flex: 0 0 30%;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  font-size: 0.875rem; 
+  color: #333; 
+  cursor: pointer;
+  padding: 4px 8px; 
+  border-radius: 4px; 
+  transition: background-color 0.2s ease, color 0.2s ease; 
+  padding: 6px;
 }
 
 .filter-category-label {
-  background-color: rgba(39, 36, 36, 0.8);
   border-radius: 8px;
   padding: 4px;
+  cursor: pointer;
 }
 
 .filter-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
   list-style-type: none;
+  z-index: 1;
+  width: 150px;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 4px;
+  gap: 6px;
 }
 
 .showing {
   visibility: visible;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    
+    flex-direction: row;
+    width: auto;
+   
+  }
+
+  .filter-area {
+    left: 0;
+    right: 0; 
+    flex-direction: column;
+  }
+
+  .filter-component {
+    width: 100%;
+    height: fit-content;
+  }
 }

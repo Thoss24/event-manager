@@ -1,7 +1,31 @@
 .list {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
     z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    align-items: flex-start;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    flex: 0 0 70%;
+}
+
+@media (max-width: 768px) {
+ .list {
+    flex-direction: column;
+}
+
+.events-list {
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
 }
