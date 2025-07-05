@@ -45,6 +45,10 @@ const EventsList = () => {
     
   };
 
+  const ResetFilters = () => {
+    setFilters([]);
+  }
+
   const filterOptions = [
     { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
     // { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
@@ -52,7 +56,7 @@ const EventsList = () => {
 
   return (
     <div className={classes.list}>
-      <Filter applyFilter={updateFilterHandler} filters={filterOptions}/>
+      <Filter applyFilter={updateFilterHandler} filters={filterOptions} resetFilters={ResetFilters}/>
       <div className={classes['events-list']}>
       {filteredEvents &&
         filteredEvents.map((event) => (

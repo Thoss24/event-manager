@@ -5,14 +5,15 @@
     background-color: rgba(39, 36, 36, 0.8);
     border: none;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .button a {
     color: rgb(201, 182, 12);
     text-decoration: none;
     width: 100%;
-    padding: 6px;
+    padding: 2px;
 }
 
 .button:hover {
