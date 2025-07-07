@@ -185,7 +185,7 @@ const clearNotification = (req, res, next) => {
 }
 
 router.get("/get-all-users", getAllUsers);
-router.get("/get-account-type", checkAccountType);
+router.post("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login);
 router.post("/create-response", createResponse);

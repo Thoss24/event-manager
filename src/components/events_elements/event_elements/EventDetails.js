@@ -113,6 +113,7 @@ const EventDetails = (props) => {
             firstName={user.firstName}
             lastName={user.lastName}
             key={user.userId}
+            id={user.userId}
             profileImgColor={user.profileColor}
             profileImage={user.profileImage}
           />

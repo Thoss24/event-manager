@@ -68,7 +68,7 @@ const notifyAllMembers = async (members, eventId, actionType) => {
 
 const checkAccountType = (req, res, next) => {
 
-  const userId = req.sessionStore.user.user_id; // assigned at login
+  const userId = req.body.userId ? req.body.userId : req.sessionStore.user.user_id; // assigned at login
   
   connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
     if (err) {

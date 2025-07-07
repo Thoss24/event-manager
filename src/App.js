@@ -16,7 +16,7 @@ import BookedEventsRoot from "./routes/booked_events_pages/BookedEventsRoot";
 import BookedEventDetailPage from "./routes/booked_events_pages/BookedEventDetailPage";
 import LoginPage from "./routes/login/LoginPage";
 import Register from "./routes/login/Register";
-import UserProfilePage from './routes/users/UserProfilePage';
+import UserProfileInfo from './routes/users/UserProfileInfo';
 
 function App() {
   const route = createBrowserRouter([
@@ -38,8 +38,8 @@ function App() {
           element: <HomePage />,
         },
         {
-          path: ":userId", // User Profile Route
-          element: <UserProfilePage />,
+          path: ":userId", 
+          element: <UserProfileInfo />,
         },
         {
           path: "events",

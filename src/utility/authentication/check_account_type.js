@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const checkAccountType = async () => {
+const checkAccountType = async (userId) => {
   return axios
-    .get("http://localhost:3001/users/get-account-type")
+    .post("http://localhost:3001/users/get-account-type", {userId: userId})
     .then((response) => {
         return response;
     })

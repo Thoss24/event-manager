@@ -7,13 +7,16 @@
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
 }
 
 .button a {
     color: rgb(201, 182, 12);
     text-decoration: none;
     width: 100%;
-    padding: 2px;
+    padding: 4px;
 }
 
 .button:hover {
