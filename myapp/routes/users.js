@@ -184,7 +184,33 @@ const clearNotification = (req, res, next) => {
   })
 }
 
+const getUserInfo = (req, res, next) => {
+  const { userId } = req.body; // expecting userId to be a string
+
+  if (!userId) {
+    return res.status(400).json({ error: 'Invalid or missing userId.' });
+  }
+
+  connection.query(
+    'SELECT user_id, email, first_name, last_name, profile_image, profile_color FROM users WHERE user_id = ?',
+    [userId],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Database query failed.' });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+
+      return res.status(200).json(results[0]);
+    }
+  );
+};
+
 router.get("/get-all-users", getAllUsers);
+router.post("/get-user-info", getUserInfo);
 router.post("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login);

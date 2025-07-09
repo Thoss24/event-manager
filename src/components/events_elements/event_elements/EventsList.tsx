@@ -1,13 +1,16 @@
+import React from "react";
 import EventListItem from "./EventsListItem";
 import classes from "./EventsList.module.css";
 import { useEffect, useState } from "react";
 import fetchEvents from "../../../utility/events_actions/fetch-events-data";
 import Filter from "../../utility_components/Filter";
 import useFilterEvents from "../../../hooks/use-filter-events";
+import { Event as EventType } from "../../../types/Events";
+import { Filter as FilterType } from "../../../types/filters";
 
 const EventsList = () => {
-  const [events, setEvents] = useState([]);
-  const [filters, setFilters] = useState([]);
+  const [events, setEvents] = useState<EventType[]>([]);
+  const [filters, setFilters] = useState<FilterType[]>([]);
 
   const {filteredEvents} = useFilterEvents(events, filters)
 
@@ -17,7 +20,7 @@ const EventsList = () => {
         const response = await fetchEvents();
         
         if (response) {
-          const onlyUpcommingEvents = response.filter((event) => {
+          const onlyUpcommingEvents = response.filter((event: EventType) => {
             const todaysDate = new Date();
             const eventDate = new Date(event.event_date);
             return eventDate >= todaysDate
@@ -32,7 +35,7 @@ const EventsList = () => {
     fetchEventsHandler();
   }, []);
 
-  const updateFilterHandler = (filter) => {
+  const updateFilterHandler = (filter: FilterType) => {
     // need to support setting multiple filters
     
     setFilters((prevFilters) => {
@@ -62,13 +65,15 @@ const EventsList = () => {
         filteredEvents.map((event) => (
           <EventListItem
             key={event.event_id}
-            id={event.event_id}
-            eventName={event.event_name}
-            eventDate={event.event_date}
-            eventImg={event.event_img}
-            description={event.event_description}
-            eventTime={event.event_time}
-            eventType={event.event_type}
+            event_name={event.event_name}
+            event_date={event.event_date}
+            event_img={event.event_img}
+            event_description={event.event_description}
+            event_time={event.event_time}
+            event_type={event.event_type}
+            created_at={event.created_at}
+            event_id={event.event_id}
+            creator_user_id={event.creator_user_id}
           />
         ))}
         </div>

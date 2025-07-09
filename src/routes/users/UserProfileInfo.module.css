@@ -1,0 +1,68 @@
+.user-profile-card {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(39, 36, 36, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(60, 80, 120, 0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin: 0 auto;
+  transition: box-shadow 0.2s;
+}
+
+.user-profile-card:hover {
+  box-shadow: 0 8px 32px rgba(60, 80, 120, 0.18);
+}
+
+.user-profile-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.7rem;
+  font-weight: 700;
+  color: #283040;
+  margin-bottom: 1.25rem;
+  border: 3px solid #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: border-color 0.2s;
+}
+
+.user-profile-info {
+  text-align: center;
+}
+
+.user-profile-name {
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.4rem 0;
+  color: rgb(201, 182, 12);
+}
+
+.user-profile-email {
+  font-size: 1.02rem;
+  color: #465066;
+  background: #f5f6fa;
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+  display: inline-block;
+  margin: 0;
+  word-break: break-all;
+}
+
+@media (max-width: 500px) {
+  .user-profile-card {
+    max-width: 98vw;
+    padding: 1.1rem 0.5rem 1rem 0.5rem;
+  }
+  .user-profile-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.7rem;
+  }
+}
