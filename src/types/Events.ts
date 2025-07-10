@@ -10,3 +10,6 @@ export interface Event {
   event_type: string
 };
 
+export interface EventsListProps {
+  pageType: string;
+}

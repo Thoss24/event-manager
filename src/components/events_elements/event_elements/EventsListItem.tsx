@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import { Event as EventType } from "../../../types/Events";
 
 const EventListItem = ({event_id, event_name, event_date, event_description, event_img, event_time, event_type, }: EventType) => {
-  const eventDate = event_date.slice(0, 10);
+
+  console.log("EVENT DATE", event_date)
+
+  // const eventDate = event_date.slice(0, 10);
 
   return (
     <div className={classes["list-item"]}>
@@ -13,7 +16,7 @@ const EventListItem = ({event_id, event_name, event_date, event_description, eve
           <h2>{event_name}</h2>
           <h4>{event_description}</h4>
           <div className={classes["time-details"]}>
-            <p>Date: {eventDate}</p> 
+            {/* <p>Date: {eventDate}</p>  */}
             <p>Time: {event_time}</p>  
           </div>
         </div>

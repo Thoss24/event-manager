@@ -7,8 +7,9 @@ import Filter from "../../utility_components/Filter";
 import useFilterEvents from "../../../hooks/use-filter-events";
 import { Event as EventType } from "../../../types/Events";
 import { Filter as FilterType } from "../../../types/filters";
+import { EventsListProps } from "../../../types/Events";
 
-const EventsList = () => {
+const EventsList = ({pageType}: EventsListProps) => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [filters, setFilters] = useState<FilterType[]>([]);
 
@@ -17,7 +18,16 @@ const EventsList = () => {
   useEffect(() => {
     const fetchEventsHandler = async () => {
       try {
-        const response = await fetchEvents();
+
+        let response;
+        
+        switch (pageType) {
+          case "userProfile":
+            //const response = await fetchEvents(); // create new middleware to get events that curr user and user I am visiting are both on together
+            break;
+          case "eventsPage":
+            response = await fetchEvents();
+        }
         
         if (response) {
           const onlyUpcommingEvents = response.filter((event: EventType) => {
@@ -34,6 +44,10 @@ const EventsList = () => {
     }
     fetchEventsHandler();
   }, []);
+
+  useEffect(() => {
+    console.log("filtered",filteredEvents)
+  }, [filteredEvents])
 
   const updateFilterHandler = (filter: FilterType) => {
     // need to support setting multiple filters

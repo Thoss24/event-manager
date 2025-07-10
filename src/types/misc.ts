@@ -5,3 +5,4 @@ export type RouteParams = { // useParams id
 export interface ErrorElementProps { // error element props type
   error: string;
 }
+

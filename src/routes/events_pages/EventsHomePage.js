@@ -4,7 +4,7 @@ const EventsHomePage = () => {
   
     return (
       <div>
-      <EventsList />
+      <EventsList pageType={'eventsPage'} />
       </div>
     );
 };
