@@ -2,3 +2,23 @@
     height: 90px;
     width: 90px;
 }
+
+.profile-events-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 50vh;
+  gap: 2rem;
+}
+
+.profile-events-container > * {
+  flex: 1 1 0;
+  min-width: 0; 
+}
+
+@media (max-width: 1168px) {
+  .profile-events-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

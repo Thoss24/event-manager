@@ -6,3 +6,6 @@ export interface ErrorElementProps { // error element props type
   error: string;
 }
 
+export interface UpcommingEventsProps { // error element props type
+  message: string;
+}

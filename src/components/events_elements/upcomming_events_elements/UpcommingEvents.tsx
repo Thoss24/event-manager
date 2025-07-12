@@ -1,4 +1,5 @@
-import fetchEvents from "../../../utility/events_actions/fetch-events-data";
+import React from "react";
+import { fetchEvents } from "../../../utility/events_actions/fetch-events-data";
 import { useEffect, useState } from "react";
 import ScrollableGallery from "../../utility_components/ScrollableGallery";
 import classes from "./UpcommingEvents.module.css";
@@ -21,7 +22,7 @@ const UpcommingEvents = () => {
         } else {
           throw new Error("No events found"); // Handle case where response is empty
         }
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message); // Set error message in state
       } finally {
         setLoading(false); // End loading regardless of success or failure

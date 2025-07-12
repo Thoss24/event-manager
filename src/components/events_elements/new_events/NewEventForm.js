@@ -86,14 +86,12 @@ const NewEventForm = () => {
         setRequestResponseMessage("Request to add event failed.");
       } 
       else if (addEventRequest.status === 500) {
-        // if failure
         setRequestResponseMessage(addEventRequest.message);
         setRequestResponseMessageSuccess(false);
         setTimeout(() => {
           setRequestResponseMessage("")
         }, 3000)
       } else {
-        // if success
         setRequestResponseMessage(addEventRequest.message);
         setRequestResponseMessageSuccess(true);
         setTimeout(() => {

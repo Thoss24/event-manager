@@ -6,7 +6,7 @@ import { useMemo, useCallback } from "react";
 
 const useFilterEvents = (
   events: EventType[],
-  filtersTypes: FilterType[]
+  filtersTypes?: FilterType[]
 ): {
   filteredEvents: EventType[];
   nextSevenDaysOfEvents: EventType[];

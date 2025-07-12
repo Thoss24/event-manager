@@ -13,6 +13,25 @@ function getEvents(req, res, next) {
   });
 }
 
+function getMyEvents(req, res, next) {
+  const userId = req.sessionStore.user.user_id;
+
+  console.log("RESULTS BACKEND TEST")
+
+  connection.query(
+    `SELECT DISTINCT e.*
+    FROM events e
+    LEFT JOIN events_users eu ON e.event_id = eu.event_id
+    WHERE e.creator_user_id = ? OR eu.user_id = ?`, [userId, userId], (err, results) => {
+    if (err) {
+      console.log("Issue fetching events");
+      return res.status(500).json({ error: "Error fetching events" });
+    }
+    console.log("RESULTS BACKEND", results)
+    res.json(results);
+  });
+}
+
 const deleteEvent = async (req, res, next) => {
   const { id } = req.body;
 
@@ -261,6 +280,7 @@ const checkAuthenticated = async (req, res, next) => {
 };
 
 router.get("/", checkAuthenticated, getEvents);
+router.get("/my-events", checkAuthenticated, getMyEvents);
 router.get("/booked-events", checkAuthenticated, getBookedEvents);
 router.post("/", addEvent);
 router.post("/delete-event", deleteEvent);

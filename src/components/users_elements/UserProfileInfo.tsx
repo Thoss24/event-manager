@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import getUserInfo from "../../utility/users/get_user_info";
 import { User as UserType } from "../../types/users";
 import { RouteParams } from "../../types/misc";
-import ErrorElement from "../../components/ui/ErrorElement";
+import ErrorElement from "../ui/ErrorElement";
 import axios from "axios";
 import classes from "./UserProfileInfo.module.css";
-import EventsList from "../../components/events_elements/event_elements/EventsList";
+import EventsList from "../events_elements/event_elements/EventsList";
 
 const UserProfileInfo = () => {
   // const { userId } = useParams<RouteParams>(); // Use the defined RouteParams
@@ -65,7 +65,6 @@ const UserProfileInfo = () => {
           <ErrorElement error="Could not load user details" />
         )}
       </div>
-      <EventsList pageType={'userProfile'} />
     </div>
   );
 };

@@ -102,9 +102,13 @@ const login = (req, res, next) => {
 };
 
 const getAllUsers = (req, res, next) => {
-  connection.query('SELECT * FROM users', (err, results) => {
+
+  const userId = req.sessionStore.user.user_id;
+
+  connection.query('SELECT * FROM users WHERE user_id != ?', [userId], (err, results) => {
     if (err) {
       console.log("Issue fetching users")
+      return res.status(500).json({ error: "Error fetching users" });
     }
     res.json(results)
   })

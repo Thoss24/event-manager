@@ -1,7 +1,7 @@
+import React from "react";
 import EventsList from "../../components/events_elements/event_elements/EventsList";
 
 const EventsHomePage = () => {
-  
     return (
       <div>
       <EventsList pageType={'eventsPage'} />

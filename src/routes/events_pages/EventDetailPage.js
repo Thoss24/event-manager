@@ -5,7 +5,7 @@ import { useParams, Await } from "react-router-dom";
 import PageHeading from "../../components/ui/PageHeading";
 import EventDetails from "../../components/events_elements/event_elements/EventDetails";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
-import fetchEvent from "../../utility/events_actions/fetch-event-data";
+import { fetchEvent } from "../../utility/events_actions/fetch-event-data";
 import Message from "../../components/ui/Message";
 
 const EventDetailPage = () => {

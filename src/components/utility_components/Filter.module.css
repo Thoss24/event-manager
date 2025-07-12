@@ -20,7 +20,7 @@
 
 .filter-component {
   display: flex;
-  flex: 0 0 30%;
+  margin-right: 50px;
   align-items: center;
   justify-content: center;
   height: auto;
@@ -61,7 +61,7 @@
   visibility: visible;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1168px) {
   .filter-container {
     flex-direction: row;
     width: auto;

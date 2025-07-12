@@ -1,7 +1,7 @@
 .list {
     display: flex;
     z-index: 0;
-    width: 100vw;
+    /* width: 100vw; */
     /* height: 100vh; */
     align-items: flex-start;
 }
@@ -17,7 +17,7 @@
     align-self: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1168px) {
  .list {
     flex-direction: column;
     gap: 30px;

@@ -4,7 +4,7 @@ import PageHeading from "../../components/ui/PageHeading";
 import BookedEventDetails from "../../components/events_elements/booked_event_elements/BookedEventDetails";
 import { useParams } from "react-router-dom";
 import { useState, Suspense } from "react";
-import Message from "../../components/ui/Message.js";
+import Message from "../../components/ui/Message";
 
 const BookedEventDetailPage = () => {
   const { bookedEventId } = useParams();

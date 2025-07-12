@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const fetchEvents = () => {
+export const fetchEvents = () => {
     return axios
     .get("http://localhost:3001/events/", {withCredentials: true})
     .then((response) => {
@@ -11,4 +11,14 @@ const fetchEvents = () => {
     }));
 };
 
-export default fetchEvents
+export const fetchMyEvents = async () => {
+    return axios
+    .get("http://localhost:3001/events/my-events")
+    .then((response) => {
+        console.log("UTIL", response)
+        return response.data
+    })
+    .catch((error => {
+        console.log(error)
+    }));
+};

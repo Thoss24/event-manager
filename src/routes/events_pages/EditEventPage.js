@@ -1,7 +1,7 @@
 import EditEventForm from "../../components/events_elements/edit_event_elements/EditEventForm";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, Suspense } from "react";
-import fetchEvent from "../../utility/events_actions/fetch-event-data";
+import { fetchEvent } from "../../utility/events_actions/fetch-event-data";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import PageHeading from "../../components/ui/PageHeading";
 import Message from "../../components/ui/Message";

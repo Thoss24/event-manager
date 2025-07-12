@@ -2,12 +2,13 @@ import React from "react";
 import EventListItem from "./EventsListItem";
 import classes from "./EventsList.module.css";
 import { useEffect, useState } from "react";
-import fetchEvents from "../../../utility/events_actions/fetch-events-data";
+import { fetchEvents, fetchMyEvents } from "../../../utility/events_actions/fetch-events-data";
 import Filter from "../../utility_components/Filter";
 import useFilterEvents from "../../../hooks/use-filter-events";
 import { Event as EventType } from "../../../types/Events";
 import { Filter as FilterType } from "../../../types/filters";
 import { EventsListProps } from "../../../types/Events";
+
 
 const EventsList = ({pageType}: EventsListProps) => {
   const [events, setEvents] = useState<EventType[]>([]);
@@ -18,7 +19,6 @@ const EventsList = ({pageType}: EventsListProps) => {
   useEffect(() => {
     const fetchEventsHandler = async () => {
       try {
-
         let response;
         
         switch (pageType) {
@@ -27,7 +27,13 @@ const EventsList = ({pageType}: EventsListProps) => {
             break;
           case "eventsPage":
             response = await fetchEvents();
+          break;
+          case "homePage":
+            response = await fetchMyEvents();
+          break
         }
+
+        console.log("GET MY RESPONSE", typeof response)
         
         if (response) {
           const onlyUpcommingEvents = response.filter((event: EventType) => {
@@ -36,6 +42,8 @@ const EventsList = ({pageType}: EventsListProps) => {
             return eventDate >= todaysDate
           });
 
+          console.log("upcomming",onlyUpcommingEvents)
+
           setEvents(onlyUpcommingEvents);
         } 
       } catch (error) {
@@ -43,11 +51,15 @@ const EventsList = ({pageType}: EventsListProps) => {
       }
     }
     fetchEventsHandler();
-  }, []);
+  }, [pageType]);
 
   useEffect(() => {
     console.log("filtered",filteredEvents)
   }, [filteredEvents])
+
+  useEffect(() => {
+    console.log("EVENTS: ", events)
+  }, [events])
 
   const updateFilterHandler = (filter: FilterType) => {
     // need to support setting multiple filters
