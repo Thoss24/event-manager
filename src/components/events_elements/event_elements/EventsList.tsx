@@ -32,8 +32,6 @@ const EventsList = ({pageType}: EventsListProps) => {
             response = await fetchMyEvents();
           break
         }
-
-        console.log("GET MY RESPONSE", typeof response)
         
         if (response) {
           const onlyUpcommingEvents = response.filter((event: EventType) => {

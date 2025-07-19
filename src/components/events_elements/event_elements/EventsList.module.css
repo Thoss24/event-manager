@@ -3,7 +3,9 @@
     z-index: 0;
     /* width: 100vw; */
     /* height: 100vh; */
-    align-items: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .events-list {

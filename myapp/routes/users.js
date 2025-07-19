@@ -189,10 +189,14 @@ const clearNotification = (req, res, next) => {
 }
 
 const getUserInfo = (req, res, next) => {
-  const { userId } = req.body; // expecting userId to be a string
+  let userId = req.body.userId; // expecting userId to be a string
 
   if (!userId) {
     return res.status(400).json({ error: 'Invalid or missing userId.' });
+  }
+
+  if (userId === 'current') {
+    userId = req.sessionStore.user.user_id;
   }
 
   connection.query(

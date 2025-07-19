@@ -1,10 +1,11 @@
 import axios from "axios";
+import { getUserInfoData } from "../../types/misc";
 
-const getUserInfo = async (userId:string) => {
+const getUserInfo = async (req:getUserInfoData) => {
 
-    console.log("UserId: ",userId)
+    console.log("REQ", req.userId)
 
-    return axios.post("http://localhost:3001/users/get-user-info", {userId: userId})
+    return axios.post("http://localhost:3001/users/get-user-info", {userId: req.userId})
     .then((response) => {
 
         return response

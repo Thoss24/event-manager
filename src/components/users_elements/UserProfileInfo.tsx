@@ -7,58 +7,30 @@ import { RouteParams } from "../../types/misc";
 import ErrorElement from "../ui/ErrorElement";
 import axios from "axios";
 import classes from "./UserProfileInfo.module.css";
-import EventsList from "../events_elements/event_elements/EventsList";
 
-const UserProfileInfo = () => {
+const UserProfileInfo = ({user_id, email, first_name, last_name, account_type, profile_color, profile_image,}: UserType) => {
   // const { userId } = useParams<RouteParams>(); // Use the defined RouteParams
-  const { userId } = useParams() as { userId: string };
-
-  const [user, setUser] = useState<UserType | null>(null);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const getUserProfileInfo = async () => {
-      try {
-        const response = await getUserInfo(userId);
-
-        console.log("RESPONSE", response);
-
-        if (response.status === 200) {
-          setUser(response["data"]);
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const backendMessage = error.response?.data?.error;
-          setError(backendMessage || error.message);
-        }
-      }
-    };
-    getUserProfileInfo();
-  }, [userId]);
-
-  useEffect(() => {
-    console.log("User", user);
-  }, [user]);
+  //const { userId } = useParams() as { userId: string };
 
   return (
     <div>
       <div className={classes["user-profile-card"]}>
-        {user ? (
+        {user_id ? (
           <div>
             <div
               className={classes["user-profile-avatar"]}
               style={{
-                backgroundColor: `#${user.profile_color.replace(/^#/, "")}`,
+                backgroundColor: `#${profile_color}`,
               }}
-              aria-label={`Profile image for ${user.first_name} ${user.last_name}`}
+              aria-label={`Profile image for ${first_name} ${last_name}`}
             >
-              {user.profile_image}
+              {profile_image}
             </div>
             <div className={classes["user-profile-info"]}>
               <h2 className={classes["user-profile-name"]}>
-                {user.first_name} {user.last_name}
+                {first_name} {last_name}
               </h2>
-              <p className={classes["user-profile-email"]}>{user.email}</p>
+              <p className={classes["user-profile-email"]}>{email}</p>
             </div>
           </div>
         ) : (

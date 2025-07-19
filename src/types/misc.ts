@@ -9,3 +9,7 @@ export interface ErrorElementProps { // error element props type
 export interface UpcommingEventsProps { // error element props type
   message: string;
 }
+
+export type getUserInfoData = { // get user info type - UserProfileInfo
+    userId?: string
+}

@@ -3,7 +3,7 @@
     width: 90px;
 }
 
-.profile-events-container {
+.profile-all-events-container {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -11,9 +11,16 @@
   gap: 2rem;
 }
 
-.profile-events-container > * {
+.profile-all-events-container > * {
   flex: 1 1 0;
   min-width: 0; 
+}
+
+.profile-events-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 @media (max-width: 1168px) {
