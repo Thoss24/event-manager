@@ -24,11 +24,11 @@
     max-width: 350px;
 }
 
-/* .booked_event_img {
+.booked_event_img {
     height: 90px;
     width: 110px;
     border-radius: 12px;
-} */
+}
 
 .time-details {
     display: flex;

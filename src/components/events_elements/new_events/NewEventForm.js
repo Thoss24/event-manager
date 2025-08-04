@@ -236,6 +236,7 @@ const NewEventForm = () => {
                 lastName={member.last_name}
                 profileImgColor={member.profile_color}
                 addMemberToEvent={addMemberToEvent}
+                eventForm={true}
               />
           )) : <p className={classes['no-results']}>No results found</p>}
         </div>

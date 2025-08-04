@@ -24,7 +24,7 @@
 }
 
 @media (max-width: 1168px) {
-  .profile-events-container {
+  .profile-all-events-container {
     flex-direction: column;
     gap: 1.5rem;
   }

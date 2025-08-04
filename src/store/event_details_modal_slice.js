@@ -15,6 +15,7 @@ const modalSlice = createSlice({
            state.deleteEventDetailsModalDisplaying = !state.deleteEventDetailsModalDisplaying
         },
         bookEventModalHandler(state, action) {
+            
             state.bookEventModalDisplaying = !state.bookEventModalDisplaying
         },
         removeBookedEventModalHandler(state, action) {

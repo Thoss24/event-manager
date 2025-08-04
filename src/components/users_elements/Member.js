@@ -17,8 +17,15 @@ const Member = (props) => {
         props.addMemberToEvent(member)
     }
 
-    return (
-        <Link to={`/${props.id}`}>
+    let member = props.eventForm ? (
+         <div className={classes['member']} onClick={props.addMemberToEvent && addMemberToEvent}>
+                <div style={{backgroundColor: `#${props.profileImgColor}`}} className={classes['profile_image']}>{props.profileImage}</div>
+                <div className={classes.name}>
+                <p>{firstNameCapitalized}</p>
+                <p>{lastNameCapitalized}</p>
+                </div>
+            </div>
+    ) : (<Link to={`/${props.id}`}>
             <div className={classes['member']} onClick={props.addMemberToEvent && addMemberToEvent}>
                 <div style={{backgroundColor: `#${props.profileImgColor}`}} className={classes['profile_image']}>{props.profileImage}</div>
                 <div className={classes.name}>
@@ -26,8 +33,9 @@ const Member = (props) => {
                 <p>{lastNameCapitalized}</p>
                 </div>
             </div>
-        </Link>
-    )
+        </Link>)
+
+    return member
 }
 
 export default Member;

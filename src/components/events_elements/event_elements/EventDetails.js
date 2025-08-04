@@ -41,6 +41,7 @@ const EventDetails = (props) => {
   };
 
   const bookEventHandler = () => {
+    console.log("modal handler")
     dispatch(modalActions.bookEventModalHandler());
   };
 
@@ -116,6 +117,7 @@ const EventDetails = (props) => {
             id={user.userId}
             profileImgColor={user.profileColor}
             profileImage={user.profileImage}
+            eventForm={false}
           />
         ))}
       </div>
@@ -148,12 +150,12 @@ const EventDetails = (props) => {
       </div>
       <div className={classes.buttons}>
         {userAuth && userAuth.user_id === props.eventCreatorId && (
-          <Button text={"Edit"} onclick={proceedToEdit} />
+          <Button text={"Edit"} onClick={proceedToEdit} />
         )}
         {userAuth && userAuth.user_id === props.eventCreatorId && (
-          <Button text={"Delete"} onclick={deleteEventHandler} />
+          <Button text={"Delete"} onClick={deleteEventHandler} />
         )}
-        <Button text={"Book Event"} onclick={bookEventHandler} />
+        <Button text={"Book Event"} onClick={bookEventHandler} />
         <Button link={".."} text={"Back"} />
       </div>
     </div>
