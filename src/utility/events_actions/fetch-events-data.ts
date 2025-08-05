@@ -22,3 +22,14 @@ export const fetchMyEvents = async () => {
         console.log(error)
     }));
 };
+
+export const fetchUserEvents = async (userId?: string) => {
+    return axios
+    .post("http://localhost:3001/events/get-user-events", {userId: userId})
+    .then((response) => {
+        return response.data
+    })
+    .catch((error => {
+        console.log(error)
+    }));
+};

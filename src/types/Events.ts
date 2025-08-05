@@ -12,4 +12,5 @@ export interface Event {
 
 export interface EventsListProps {
   pageType: string;
+  userId?: string
 }

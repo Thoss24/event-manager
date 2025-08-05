@@ -13,6 +13,22 @@ function getEvents(req, res, next) {
   });
 }
 
+function getUserEvents(req, res, next) {
+  const {userId} = req.body;
+
+  connection.query(
+    `SELECT DISTINCT e.*
+    FROM events e
+    LEFT JOIN events_users eu ON e.event_id = eu.event_id
+    WHERE e.creator_user_id = ? OR eu.user_id = ?`, [userId, userId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Error fetching events" });
+    }
+    res.json(results);
+  });
+}
+
 function getMyEvents(req, res, next) {
   const userId = req.sessionStore.user.user_id;
 
@@ -289,5 +305,6 @@ router.post("/booked-event-details", getBookedEventDetails);
 router.post("/edit-event", editEvent);
 router.post("/event-details", checkAuthenticated, getEventDetails);
 router.post("/remove-booked-event", checkAuthenticated, removeBookedEvent)
+router.post("/get-user-events", getUserEvents)
 
 module.exports = router;

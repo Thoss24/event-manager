@@ -8,3 +8,7 @@ export interface FilterOptions {
   type: string, 
   values: string[]
 }
+
+export interface SearchComponentProps {
+  searchEvents: (query: string) => void,
+}

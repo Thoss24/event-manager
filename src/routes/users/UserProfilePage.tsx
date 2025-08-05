@@ -48,7 +48,7 @@ const UserProfilePage = () => {
         />
       </div>
       <div className={classes.eventsList}>
-        <EventsList pageType={"userProfile"} />
+        <EventsList pageType={"userProfile"} userId={userId}/>
       </div>
     </div>
   );

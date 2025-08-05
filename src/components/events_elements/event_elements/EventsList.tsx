@@ -2,15 +2,16 @@ import React from "react";
 import EventListItem from "./EventsListItem";
 import classes from "./EventsList.module.css";
 import { useEffect, useState } from "react";
-import { fetchEvents, fetchMyEvents } from "../../../utility/events_actions/fetch-events-data";
+import { fetchEvents, fetchMyEvents, fetchUserEvents } from "../../../utility/events_actions/fetch-events-data";
 import Filter from "../../utility_components/Filter";
 import useFilterEvents from "../../../hooks/use-filter-events";
 import { Event as EventType } from "../../../types/Events";
 import { Filter as FilterType } from "../../../types/filters";
 import { EventsListProps } from "../../../types/Events";
+import Message from "../../ui/Message";
+import Search from "../../utility_components/Search";
 
-
-const EventsList = ({pageType}: EventsListProps) => {
+const EventsList = ({pageType, userId}: EventsListProps) => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [filters, setFilters] = useState<FilterType[]>([]);
 
@@ -23,7 +24,7 @@ const EventsList = ({pageType}: EventsListProps) => {
         
         switch (pageType) {
           case "userProfile":
-            //const response = await fetchEvents(); // create new middleware to get events that curr user and user I am visiting are both on together
+            response = await fetchUserEvents(userId);
             break;
           case "eventsPage":
             response = await fetchEvents();
@@ -76,6 +77,10 @@ const EventsList = ({pageType}: EventsListProps) => {
     setFilters([]);
   }
 
+  const searchEventsHandler = (query: string) => {
+    console.log("Search ref: ", query)
+  }
+
   const filterOptions = [
     { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
     // { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
@@ -84,8 +89,9 @@ const EventsList = ({pageType}: EventsListProps) => {
   return (
     <div className={classes.list}>
       <Filter applyFilter={updateFilterHandler} filters={filterOptions} resetFilters={ResetFilters}/>
+      <Search searchEvents={searchEventsHandler}/>
       <div className={classes['events-list']}>
-      {filteredEvents &&
+      {filteredEvents && filteredEvents.length > 0 ?
         filteredEvents.map((event) => (
           <EventListItem
             key={event.event_id}
@@ -99,7 +105,7 @@ const EventsList = ({pageType}: EventsListProps) => {
             event_id={event.event_id}
             creator_user_id={event.creator_user_id}
           />
-        ))}
+        )) : <Message message="No events to show."/>}
         </div>
     </div>
   );
