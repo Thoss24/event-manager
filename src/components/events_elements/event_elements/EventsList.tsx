@@ -14,8 +14,9 @@ import Search from "../../utility_components/Search";
 const EventsList = ({pageType, userId}: EventsListProps) => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [filters, setFilters] = useState<FilterType[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const {filteredEvents} = useFilterEvents(events, filters)
+  const {filteredEvents} = useFilterEvents(events,searchQuery, filters)
 
   useEffect(() => {
     const fetchEventsHandler = async () => {
@@ -78,7 +79,7 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
   }
 
   const searchEventsHandler = (query: string) => {
-    console.log("Search ref: ", query)
+    setSearchQuery(query);
   }
 
   const filterOptions = [

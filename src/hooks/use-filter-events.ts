@@ -6,6 +6,7 @@ import { useMemo, useCallback } from "react";
 
 const useFilterEvents = (
   events: EventType[],
+  searchQuery?: string,
   filtersTypes?: FilterType[]
 ): {
   filteredEvents: EventType[];
@@ -25,8 +26,6 @@ const useFilterEvents = (
         }, {} as Record<string, string[]>)
       : {};
   }, [filtersTypes]);
-
-  console.log("filtersByType", filtersByType)
 
   const filterByType = useCallback(
     (events: EventType[]) => {
@@ -50,6 +49,18 @@ const useFilterEvents = (
   //   ])
   // };
 
+  const searchForEvent = (events: EventType[]) => {
+    if (typeof searchQuery === 'string') {
+      return events.filter(event =>
+        event.event_name &&
+        searchQuery &&
+        event.event_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else {
+      throw new Error("Invalid search query input")
+    }
+  }
+
   const filterNextSevenDays = (events: EventType[]) => {
     const currentDate = new Date();
 
@@ -59,8 +70,8 @@ const useFilterEvents = (
     return events.filter((event) => {
       const eventDate = new Date(event.event_date);
       return eventDate >= currentDate && eventDate <= futureDate;
-    });
-  };
+    })
+  }
 
   const filterNextMonth = (events: EventType[]) => {
     const currentDate = new Date();
@@ -71,25 +82,25 @@ const useFilterEvents = (
     return events.filter((event) => {
       const eventDate = new Date(event.event_date);
       return eventDate >= currentDate && eventDate <= futureDate;
-    });
-  };
+    })
+  }
 
   const filterAllUpcommingEvents = (events: EventType[]) => {
     const currentDate = new Date();
     return events.filter((event) => new Date(event.event_date) >= currentDate);
-  };
+  }
 
   const filterAllPastEvents = (events: EventType[]) => {
     const currentDate = new Date();
     return events.filter((event) => new Date(event.event_date) < currentDate);
-  };
+  }
 
   const filteredEvents = useMemo(() => {
     let filtered = events;
 
     if (filtersByType.Type && filtersByType.Type.length > 0) {
       filtered = filterByType(filtered);
-    };
+    }
 
     if (filtersByType.Date && filtersByType.Date.length > 0) {
       if (filtersByType.Date.includes('next7days')) {
@@ -99,14 +110,21 @@ const useFilterEvents = (
       if (filtersByType.Date.includes('nextMonth')) {
         filtered = filterNextMonth(filtered);
       };
-    };
+    }
+
+    if (searchQuery && searchQuery.length > 0) {
+      
+      filtered = searchForEvent(filtered);
+    }
 
     // if (filtersByType.Booked && filtersByType.Booked.length > 0) {
     //   filtered = filterByBooked(filtered);
     // }
 
+
+
     return filtered;
-  }, [events, filtersByType, filterByType]);
+  }, [events, filtersByType, filterByType, searchQuery]);
 
   return {
     filteredEvents,
