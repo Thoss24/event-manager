@@ -8,6 +8,8 @@ const connection = mysql.createConnection({
     database: process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE
 });
 
+// db
+
 connection.connect((err) => {
     if (err) {
         // console.error('Error connecting to MySQL database:', err);
