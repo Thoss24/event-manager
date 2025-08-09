@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useRef } from "react";
 import { SearchComponentProps } from "../../types/filters";
+import classes from "./Search.module.css";
 
 const Search = ({searchEvents}: SearchComponentProps) => {
 
@@ -13,7 +14,7 @@ const Search = ({searchEvents}: SearchComponentProps) => {
 
   return (
     <div>
-      <input type="text" ref={searchInputRef} onChange={searchEventsHandler}/>
+      <input type="text" ref={searchInputRef} onChange={searchEventsHandler} className={classes.search}/>
     </div>
   )
 }

@@ -5,12 +5,12 @@ import React from "react";
 import Button from '../ui/Button';
 
 interface FilterProps {
-  filters: FilterOptions[],
   applyFilter: (param: FilterType) => void,
-  resetFilters: () => void
+  resetFilters: () => void,
+  page: string
 };
 
-const Filter = ({filters, applyFilter, resetFilters}: FilterProps) => {
+const Filter = ({applyFilter, resetFilters, page}: FilterProps) => {
 
   // filter by event type, events I am booked to, in the next 7 days, in the next 1 month, all past events, all future events
   // by default, display all upcomming events
@@ -41,12 +41,16 @@ const Filter = ({filters, applyFilter, resetFilters}: FilterProps) => {
     resetFilters();
   }
 
+  const filterOptions = [
+  { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
+  { label: 'Date Time', type: 'Date', values: ['next7days', 'nextMonth']}];
+
   return (
     <div className={classes['filter-component']}>
       <div>
         <h3>Filters</h3>
         <ul className={classes['filter-container']}>
-          {filters.map(filter => {
+          {filterOptions.map(filter => {
             if (filter.type === 'Type' || filter.type === 'Booked' || filter.type === 'Date') {
               return (
               <li key={filter.label} className={classes['filter-category']}>

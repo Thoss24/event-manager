@@ -26,7 +26,7 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
         switch (pageType) {
           case "userProfile":
             response = await fetchUserEvents(userId);
-            break;
+          break;
           case "eventsPage":
             response = await fetchEvents();
           break;
@@ -63,7 +63,6 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
 
   const updateFilterHandler = (filter: FilterType) => {
     // need to support setting multiple filters
-    
     setFilters((prevFilters) => {
       if (prevFilters.some((val) => val.value === filter.value)) {
         return prevFilters.filter((prevFilter) =>  prevFilter.value !== filter.value)
@@ -71,7 +70,6 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
         return [...prevFilters, filter];
       }
     })
-    
   };
 
   const ResetFilters = () => {
@@ -82,14 +80,9 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
     setSearchQuery(query);
   }
 
-  const filterOptions = [
-    { label: 'Type', type: 'Type', values: ['meeting', 'workshop', 'conference', 'party', 'training'] },
-    // { label: 'Booked', type: 'Booked', values: ['booked', 'notBooked'] },
-    { label: 'Date Time', type: 'Date', values: ['next7days', 'nextMonth']}];
-
   return (
     <div className={classes.list}>
-      <Filter applyFilter={updateFilterHandler} filters={filterOptions} resetFilters={ResetFilters}/>
+      <Filter applyFilter={updateFilterHandler} resetFilters={ResetFilters} page={'eventsHome'}/>
       <Search searchEvents={searchEventsHandler}/>
       <div className={classes['events-list']}>
       {filteredEvents && filteredEvents.length > 0 ?

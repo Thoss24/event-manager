@@ -16,7 +16,6 @@ const useFilterEvents = (
 } => {
 
   // Type, Booked, Next 7 days, Within the next month
-
   const filtersByType = useMemo(() => {
     return Array.isArray(filtersTypes)
       ? filtersTypes.reduce((acc, filter) => {
@@ -113,7 +112,6 @@ const useFilterEvents = (
     }
 
     if (searchQuery && searchQuery.length > 0) {
-      
       filtered = searchForEvent(filtered);
     }
 

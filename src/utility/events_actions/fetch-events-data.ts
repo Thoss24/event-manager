@@ -33,3 +33,15 @@ export const fetchUserEvents = async (userId?: string) => {
         console.log(error)
     }));
 };
+
+export const fetchBookedEvents = () => {
+    return axios
+    .get("http://localhost:3001/events/booked-events")
+    .then((response) => {
+        return response.data
+    })
+    .catch((error => {
+        //window.location.href = "http://localhost:3000/login"
+        //return redirect("/login")
+    }));
+}

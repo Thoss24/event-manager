@@ -14,3 +14,17 @@ export interface EventsListProps {
   pageType: string;
   userId?: string
 }
+
+export interface BookedEventsListProps {
+  events: Event[];
+}
+
+export interface BookedEventsListItemProps {
+  key: number;
+  id: number;
+  name: string;
+  description: string;
+  eventDate: string;
+  eventImg: string;
+  eventTime: string
+}
