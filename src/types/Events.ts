@@ -28,3 +28,9 @@ export interface BookedEventsListItemProps {
   eventImg: string;
   eventTime: string
 }
+
+export interface BookedEventDetailsProps{
+  id: number;
+  name: string;
+  date: string;
+}

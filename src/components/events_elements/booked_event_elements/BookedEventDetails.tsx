@@ -1,6 +1,8 @@
+
+import React from "react";
 import removeBookedEvent from "../../../utility/events_actions/remove-booked-event";
 import classes from "./BookedEvents.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../types/hooks";
 import { modalActions } from "../../../store/event_details_modal_slice";
 import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
@@ -8,17 +10,18 @@ import checkAccountType from "../../../utility/authentication/check_account_type
 import Responses from "../../utility_components/Responses";
 import { fetchEvent } from "../../../utility/events_actions/fetch-event-data";
 import { useParams } from "react-router-dom";
+import { BookedEventDetailsProps } from "../../../types/Events";
 
-const BookedEventDetails = (props) => {
+const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [userAuth, setUserAuth] = useState();
   const [eventItem, setEventItem] = useState();
-  const [removeBookedEventModalMessage, setRemoveBookedEventModalMessage] = useState("Are you sure you want to remove this event from your booked events?")
+  const [removeBookedEventModalMessage, setRemoveBookedEventModalMessage] = useState<string>("Are you sure you want to remove this event from your booked events?")
 
   useEffect(() => {
 
-    const fetchAccountData = async (res) => {
+    const fetchAccountData = async () => {
       try {
         const response = await checkAccountType();
 
@@ -31,9 +34,9 @@ const BookedEventDetails = (props) => {
       }
     }
 
-    const fetchEventData = async (res) => {
+    const fetchEventData = async () => {
       try {
-        const response = await fetchEvent(props.id);
+        const response = await fetchEvent(id);
 
         if (response.status === 200) {
           console.log("Event data collected successfully");
@@ -48,8 +51,8 @@ const BookedEventDetails = (props) => {
     fetchAccountData();
   }, []);
 
-  const removeBookedEventModalDisplaying = useSelector(
-    (state) => state.eventsModal.removeBookedEventModalDisplaying
+  const removeBookedEventModalDisplaying = useAppSelector(
+    state => state.eventsModal.removeBookedEventModalDisplaying
   );
 
   const removeBookedEventHandler = () => {
@@ -59,7 +62,7 @@ const BookedEventDetails = (props) => {
   const confirmRemoveBookedEventHandler = async (confirm) => {
     if (confirm) {
         try {
-            const response = await removeBookedEvent(props.id, userAuth.user_id); // booked event id + user id
+            const response = await removeBookedEvent(id, userAuth.user_id); // booked event id + user id
 
             if (response.status === 200) {
               setRemoveBookedEventModalMessage(response.data)
@@ -87,11 +90,11 @@ const BookedEventDetails = (props) => {
         />
       )}
       <div>
-        <h1>{props.name}</h1>
-        <h1>{props.date}</h1>
+        <h1>{name}</h1>
+        <h1>{date}</h1>
         <button onClick={removeBookedEventHandler}>Delete</button>
       </div>
-      <Responses bookedEventId={props.id} />
+      <Responses bookedEventId={id} />
     </div>
   );
 

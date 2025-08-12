@@ -1,3 +1,4 @@
+import React from "react";
 import fetchBookedEvent from "../../utility/events_actions/fetch-booked-event-data";
 import { useEffect } from "react";
 import PageHeading from "../../components/ui/PageHeading";
@@ -9,7 +10,7 @@ import Message from "../../components/ui/Message";
 const BookedEventDetailPage = () => {
   const { bookedEventId } = useParams();
   const [bookedEvent, setBookedEvent] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string|null>(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -21,7 +22,7 @@ const BookedEventDetailPage = () => {
       }
     };
 
-    fetchEvent()
+  fetchEvent()
   }, []);
 
   return (

@@ -11,5 +11,10 @@ export interface UpcommingEventsProps { // error element props type
 }
 
 export type getUserInfoData = { // get user info type - UserProfileInfo
-    userId?: string
+  userId?: string
+}
+
+export type confirmationModalComponentProps = { // get user info type - UserProfileInfo
+  confirmAction: (arg0: boolean) => {},
+  message: string
 }

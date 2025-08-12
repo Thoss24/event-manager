@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import BookedEventsNavigation from "../../components/navigation/BookedEventsNavigation";
 
