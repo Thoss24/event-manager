@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import getUserInfo from "../../utility/users/get_user_info";
+import getUserInfo from "../../utility/users/user_actions";
 import { User as UserType } from "../../types/users";
 import { RouteParams } from "../../types/misc";
 import ErrorElement from "../ui/ErrorElement";

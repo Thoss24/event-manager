@@ -18,3 +18,8 @@ export type confirmationModalComponentProps = { // get user info type - UserProf
   confirmAction: (arg0: boolean) => {},
   message: string
 }
+
+export interface ResponseParams {
+  response?: string,
+  eventId: number
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchEvents } from "../../../utility/events_actions/fetch-events-data";
+import { fetchEvents } from "../../../utility/events_actions/event_actions";
 import { useEffect, useState } from "react";
 import ScrollableGallery from "../../utility_components/ScrollableGallery";
 import classes from "./UpcommingEvents.module.css";

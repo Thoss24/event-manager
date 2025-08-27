@@ -1,4 +1,6 @@
 import axios from "axios";
+import { AxiosResponse } from "axios";
+import { RemoveBookedEventResponse } from "../../types/Events";
 
 export const fetchEvents = () => {
     return axios
@@ -45,3 +47,34 @@ export const fetchBookedEvents = () => {
         //return redirect("/login")
     }));
 }
+
+export const removeBookedEvent = async (
+  eventId: number,
+  userId?: number
+): Promise<AxiosResponse<RemoveBookedEventResponse>> => {
+  try {
+    const response = await axios.post<RemoveBookedEventResponse>(
+      "http://localhost:3001/events/remove-booked-event",
+      { eventId, userId }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+export const fetchEvent = async (eventId: number): Promise<AxiosResponse<any>> => {
+    return axios
+    .post("http://localhost:3001/events/event-details", {id: eventId})
+    .then((response) => {
+        return response
+    })
+    .catch((error => {
+        console.log(error)
+        throw error;
+    }));
+};
+

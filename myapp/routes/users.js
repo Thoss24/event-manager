@@ -131,7 +131,7 @@ const createResponse = (req, res, next) => {
 
 const getResponses = (req, res, next) => {
 
-  const {eventId} = req.body;
+  const eventId = req.body;
 
   connection.query('SELECT * FROM responses WHERE event_id = (?)', [eventId], (err, results) => {
     if (err) {

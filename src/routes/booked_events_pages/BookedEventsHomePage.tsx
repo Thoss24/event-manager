@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { fetchBookedEvents } from "../../utility/events_actions/fetch-events-data";
+import { fetchBookedEvents } from "../../utility/events_actions/event_actions";
 import { useState } from "react";
 import ErrorElement from "../../components/ui/ErrorElement";
 import BookedEventsList from "../../components/events_elements/booked_event_elements/BookedEventsList";

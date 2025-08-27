@@ -1,21 +1,23 @@
 
 import React from "react";
-import removeBookedEvent from "../../../utility/events_actions/remove-booked-event";
+import { removeBookedEvent } from "../../../utility/events_actions/event_actions";
 import classes from "./BookedEvents.module.css";
 import { useAppDispatch, useAppSelector } from "../../../types/hooks";
 import { modalActions } from "../../../store/event_details_modal_slice";
 import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
-import checkAccountType from "../../../utility/authentication/check_account_type";
+import { checkAccountType } from "../../../utility/authentication/auth_actions";
 import Responses from "../../utility_components/Responses";
-import { fetchEvent } from "../../../utility/events_actions/fetch-event-data";
+import { fetchEvent } from "../../../utility/events_actions/event_actions";
 import { useParams } from "react-router-dom";
 import { BookedEventDetailsProps } from "../../../types/Events";
+import { User as UserType } from "../../../types/users";
+import axios, { AxiosError } from "axios";
 
 const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
   const dispatch = useAppDispatch();
-  const [userAuth, setUserAuth] = useState();
+  const [userAuth, setUserAuth] = useState<UserType|undefined>();
   const [eventItem, setEventItem] = useState();
   const [removeBookedEventModalMessage, setRemoveBookedEventModalMessage] = useState<string>("Are you sure you want to remove this event from your booked events?")
 
@@ -59,13 +61,17 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
     dispatch(modalActions.removeBookedEventModalHandler())
   };
 
-  const confirmRemoveBookedEventHandler = async (confirm) => {
+  const confirmRemoveBookedEventHandler = async (confirm: boolean) => {
     if (confirm) {
         try {
-            const response = await removeBookedEvent(id, userAuth.user_id); // booked event id + user id
+            let response;
 
-            if (response.status === 200) {
-              setRemoveBookedEventModalMessage(response.data)
+            if (userAuth) {
+              response = await removeBookedEvent(id, userAuth.user_id);
+            }
+
+            if (response?.status === 200) {
+              setRemoveBookedEventModalMessage(response.data.message);
             }
 
             setTimeout(() => {
@@ -73,8 +79,15 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
               window.location.href = "http://localhost:3000/"
             }, 2000);
             
-        } catch (error) {
-          setRemoveBookedEventModalMessage(error.response ? error.response.data : "Unable to remove event");
+        } catch (error: unknown) {
+          if (axios.isAxiosError(error)) {
+            // error is now typed as AxiosError
+            setRemoveBookedEventModalMessage(
+              error.response?.data?.message || "Unable to remove event"
+            );
+          } else {
+            setRemoveBookedEventModalMessage("Unable to remove event");
+          }
         }
     } else {
         dispatch(modalActions.removeBookedEventModalHandler())

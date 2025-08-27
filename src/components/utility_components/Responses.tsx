@@ -1,21 +1,23 @@
+import React, { FormEvent } from "react";
 import classes from "./Responses.module.css";
 import { useRef, useEffect, useState } from "react";
-import createResponse from "../../utility/users/create_response";
-import getResponses from "../../utility/users/get_responses";
+import { createResponse, getResponses } from "../../utility/users/user_actions";
 import ResponseListItem from "./ResponseListItem";
+import { ResponseParams } from "../../types/misc";
 
-const Responses = (props) => {
-  const textAreaRef = useRef(null);
-  const [responses, setResponses] = useState(null);
+interface ResponsesProps {
+  bookedEventId: number;
+}
+
+const Responses = ({bookedEventId}: ResponsesProps) => {
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [responses, setResponses] = useState<ResponseParams[] | null>(null);
 
   useEffect(() => {
     const getResponsesHandler = async () => {
-      const bookedEventObj = {
-        eventId: props.bookedEventId,
-      };
 
       try {
-        const response = await getResponses(bookedEventObj);
+        const response = await getResponses(bookedEventId);
 
         if (response) {
           setResponses(response.data);
@@ -27,14 +29,14 @@ const Responses = (props) => {
     };
 
     getResponsesHandler();
-  }, [props.bookedEventId]);
+  }, [bookedEventId]);
 
-  const createResponseHandler = async (event) => {
+  const createResponseHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userResponse = {
-      response: textAreaRef.current.value,
-      eventId: props.bookedEventId,
+    const userResponse: ResponseParams = {
+      response: textAreaRef.current?.value ?? undefined,
+      eventId: bookedEventId,
     };
 
     try {
@@ -48,8 +50,6 @@ const Responses = (props) => {
     }
   };
 
-  responses && console.log(responses)
-
   return (
     <div>
       <form action="" onSubmit={createResponseHandler}>
@@ -62,8 +62,8 @@ const Responses = (props) => {
       </form>
       <section>
         {responses &&
-          responses.map((response) => (
-            <ResponseListItem response={response.response} key={response.id}/>
+          responses.map((responseItem) => (
+            <ResponseListItem response={responseItem.response} key={responseItem.eventId}/>
           ))}
       </section>
     </div>

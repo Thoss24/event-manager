@@ -34,3 +34,7 @@ export interface BookedEventDetailsProps{
   name: string;
   date: string;
 }
+
+export interface RemoveBookedEventResponse {
+  message: string;
+}

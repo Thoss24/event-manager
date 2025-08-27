@@ -2,7 +2,7 @@ import React from "react";
 import EventListItem from "./EventsListItem";
 import classes from "./EventsList.module.css";
 import { useEffect, useState } from "react";
-import { fetchEvents, fetchMyEvents, fetchUserEvents } from "../../../utility/events_actions/fetch-events-data";
+import { fetchEvents, fetchMyEvents, fetchUserEvents } from "../../../utility/events_actions/event_actions";
 import Filter from "../../utility_components/Filter";
 import useFilterEvents from "../../../hooks/use-filter-events";
 import { Event as EventType } from "../../../types/Events";
