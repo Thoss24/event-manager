@@ -1,21 +1,20 @@
 import Button from "../../ui/Button";
 import classes from "./EventDetails.module.css";
 import { useNavigate } from "react-router-dom";
-import checkAccountType from "../../../utility/authentication/check_account_type";
+import {checkAccountType} from "../../../utility/authentication/auth_actions";
 import { useEffect, useState } from "react";
-import bookEvent from "../../../utility/events_actions/book_event";
+import { bookEvent } from "../../../utility/events_actions/event_actions";
 import { modalActions } from "../../../store/event_details_modal_slice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import ConfirmationModal from "../../ui/ConfirmationModal";
-import { deleteEvent } from "../../../utility/events_actions/delete_event";
+import { deleteEvent } from "../../../utility/events_actions/event_actions";
 import Member from "../../users_elements/Member";
 
 const EventDetails = (props) => {
   const [userAuth, setUserAuth] = useState();
   const [deleteEventModalMessage, setDeleteEventModalMessage] = useState("Are you sure you want to delete this event?");
   const [bookEventModalMessage, setBookEventModalMessage] = useState("Are you sure you want to book this event?");
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

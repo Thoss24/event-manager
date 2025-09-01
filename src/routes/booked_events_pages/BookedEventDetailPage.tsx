@@ -1,15 +1,16 @@
 import React from "react";
-import fetchBookedEvent from "../../utility/events_actions/fetch-booked-event-data";
+import { fetchBookedEvent } from "../../utility/events_actions/event_actions";
 import { useEffect } from "react";
 import PageHeading from "../../components/ui/PageHeading";
 import BookedEventDetails from "../../components/events_elements/booked_event_elements/BookedEventDetails";
 import { useParams } from "react-router-dom";
 import { useState, Suspense } from "react";
 import Message from "../../components/ui/Message";
+import { Event as EventType } from "../../types/Events";
 
 const BookedEventDetailPage = () => {
-  const { bookedEventId } = useParams();
-  const [bookedEvent, setBookedEvent] = useState(null);
+  const { bookedEventId = "" } = useParams();
+  const [bookedEvent, setBookedEvent] = useState<EventType|null>(null);
   const [error, setError] = useState<string|null>(null);
 
   useEffect(() => {

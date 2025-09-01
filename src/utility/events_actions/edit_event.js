@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const editEvent = (eventData) => {
+export const editEvent = async (eventData) => {
 
     return axios.post("http://localhost:3001/events/edit-event", eventData)
     .then((response) => {

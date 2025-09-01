@@ -38,3 +38,12 @@ export interface BookedEventDetailsProps{
 export interface RemoveBookedEventResponse {
   message: string;
 }
+
+export interface NewEventType {
+  name: string,
+  date: string,
+  description: string,
+  imageName: string,
+  time: string,
+  members: number[]
+}

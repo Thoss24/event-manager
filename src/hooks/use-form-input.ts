@@ -1,15 +1,14 @@
 import { useState } from "react";
 
-const useFormInput = (validate) => {
+const useFormInput = (validate: (input: string) => boolean) => {
     const [isTouched, setIsTouched] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
     const inputValid = validate(inputValue);
     const inputInvalid = isTouched && !inputValid;
 
-    const handleChangeInput = (event) => {
-        setInputValue(event.target.value)
-    };
+const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
+
 
     const handleIsTouched = () => {
         setIsTouched(true)

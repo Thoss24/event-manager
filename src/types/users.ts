@@ -8,3 +8,21 @@ export interface User {
   profile_color?: string
 }
 
+export interface MemberComponentProps {
+  firstName: string,
+  lastName: string,
+  key: number,
+  id: number,
+  profileImgColor: string,
+  profileImage: string,
+  eventForm: boolean,
+  addMemberToEvent?: () => void
+}
+
+export interface MemberType {
+  firstName: string,
+  lastName: string,
+  id: number,
+  profileImgColor: string,
+  profileImage: string,
+}

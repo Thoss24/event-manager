@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import getUsers from "../../../utility/users/get_users";
 import Member from "../../users_elements/Member";
 
+
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 

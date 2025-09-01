@@ -1,7 +1,7 @@
 
 const useValidateForm = () => {
 
-    const validateInput = (input) => input.length > 0;
+    const validateInput = (input: string) => input.length > 0;
 
     return {
         validateInput
