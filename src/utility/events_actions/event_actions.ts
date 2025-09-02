@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
 import { RemoveBookedEventResponse } from "../../types/Events";
+import { NewEventType } from "../../types/Events";
 
 export const fetchEvents = () => {
     return axios
@@ -112,7 +113,7 @@ export const deleteEvent = async (id: number) => {
 
 };
 
-export const addEvent = async (eventData) => {
+export const addEvent = async (eventData: NewEventType) => {
     return axios.post("http://localhost:3001/events/", eventData)
     .then((response) => {
         if (response.status === 200) {

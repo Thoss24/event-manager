@@ -3,18 +3,18 @@ import useValidateForm from "../../../hooks/use-validate-form";
 import { Link } from "react-router-dom";
 import classes from "./NewEventForm.module.css";
 import { useRef } from "react";
-import addEvent from "../../../utility/events_actions/add_event";
+import { addEvent } from "../../../utility/events_actions/event_actions";
 import { useState, useEffect } from "react";
-import getUsers from "../../../utility/users/get_users";
+import { getUsers } from "../../../utility/users/user_actions";
 import Member from "../../users_elements/Member";
-
+import { User as UserType } from "../../../types/users";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 
   const [image, setImage] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
-  const [members, setMembers] = useState();
+  const [members, setMembers] = useState<UserType[]|undefined>();
   const [eventMembers, setEventMembers] = useState([]);
   const [filteredMembers, setFilteredMembers] = useState();
   const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
@@ -23,7 +23,7 @@ const NewEventForm = () => {
 
   useEffect(() => {
     getUsers().then((response) => {
-      if (response !== "undefined") {
+      if (response) {
         setMembers(response.data);
         setFilteredMembers(response.data);
       }
@@ -65,11 +65,9 @@ const NewEventForm = () => {
     handleReset: descriptionHandleReset,
   } = useFormInput(validateInput);
 
-  const submitFormHandler = async (event) => {
+  const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-
       const membersIds = eventMembers.map((member) => member.id);
 
       const newEvent = {

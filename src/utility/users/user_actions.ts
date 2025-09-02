@@ -3,9 +3,6 @@ import axios from "axios";
 import { getUserInfoData, ResponseParams } from "../../types/misc";
 
 export const getUserInfo = async (req:getUserInfoData) => {
-
-    console.log("REQ", req.userId)
-
     return axios.post("http://localhost:3001/users/get-user-info", {userId: req.userId})
     .then((response) => {
 
@@ -31,8 +28,17 @@ export const createResponse = async (
 };
 
 export const getResponses = async (response:number) => {
-
     return axios.post("http://localhost:3001/users/get-responses", response)
+    .then((response) => {
+        return response
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
+
+export const getUsers = async () => {
+    return axios.get("http://localhost:3001/users/get-all-users")
     .then((response) => {
         return response
     })
