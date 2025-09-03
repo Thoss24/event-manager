@@ -1,3 +1,4 @@
+import React from "react";
 import useFormInput from "../../../hooks/use-form-input";
 import useValidateForm from "../../../hooks/use-validate-form";
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import { addEvent } from "../../../utility/events_actions/event_actions";
 import { useState, useEffect } from "react";
 import { getUsers } from "../../../utility/users/user_actions";
 import Member from "../../users_elements/Member";
-import { User as UserType } from "../../../types/users";
+import { User as UserType, MemberType } from "../../../types/users";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
@@ -15,8 +16,8 @@ const NewEventForm = () => {
   const [image, setImage] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
   const [members, setMembers] = useState<UserType[]|undefined>();
-  const [eventMembers, setEventMembers] = useState([]);
-  const [filteredMembers, setFilteredMembers] = useState();
+  const [eventMembers, setEventMembers] = useState<MemberType[]>([]);
+  const [filteredMembers, setFilteredMembers] = useState<UserType[]|undefined>();
   const [membersSectionDisplaying, setMembersSectionDisplaying] = useState(false);
   const [requestResponseMessage, setRequestResponseMessage] = useState("");
   const [requestResponseMessageSuccess, setRequestResponseMessageSuccess] = useState(false);
@@ -30,16 +31,16 @@ const NewEventForm = () => {
     });
   }, []);
 
-  const images = [
+  const images: string[] = [
     "/images/event_img_one.jpg",
     "/images/event_img_two.jpg",
     "/images/event_img_three.jpg",
   ];
 
-  const name = useRef();
-  const description = useRef();
-  const date = useRef();
-  const time = useRef();
+  const name = useRef<HTMLInputElement>(null);
+  const description = useRef<HTMLTextAreaElement>(null);
+  const date = useRef<HTMLInputElement>(null);
+  const time = useRef<HTMLInputElement>(null);
 
   const {
     inputValid: nameValid,
@@ -71,34 +72,33 @@ const NewEventForm = () => {
       const membersIds = eventMembers.map((member) => member.id);
 
       const newEvent = {
-        name: name.current.value,
-        date: date.current.value,
-        description: description.current.value,
+        name: name.current && name.current.value,
+        date: date.current && date.current.value,
+        description: description.current && description.current.value,
         imageName: image,
-        time: time.current.value,
+        time: time.current && time.current.value,
         members: membersIds
       };
 
       const addEventRequest = await addEvent(newEvent);
-
-      if (!addEventRequest.message) {
+      if (addEventRequest) {
+        if (!addEventRequest.message) {
         setRequestResponseMessage("Request to add event failed.");
-      } 
-      else if (addEventRequest.status === 500) {
-        setRequestResponseMessage(addEventRequest.message);
-        setRequestResponseMessageSuccess(false);
-        setTimeout(() => {
-          setRequestResponseMessage("")
-        }, 3000)
-      } else {
-        setRequestResponseMessage(addEventRequest.message);
-        setRequestResponseMessageSuccess(true);
-        setTimeout(() => {
-          setRequestResponseMessage("")
-        }, 3000)
+        } 
+        if (addEventRequest.status === 500) {
+          setRequestResponseMessage(addEventRequest.message);
+          setRequestResponseMessageSuccess(false);
+          setTimeout(() => {
+            setRequestResponseMessage("")
+          }, 3000)
+        } else {
+          setRequestResponseMessage(addEventRequest.message);
+          setRequestResponseMessageSuccess(true);
+          setTimeout(() => {
+            setRequestResponseMessage("")
+          }, 3000)
+        }
       }
-      
-
     } catch (error) {
       console.log(error)
     }
@@ -108,7 +108,7 @@ const NewEventForm = () => {
     descriptionHandleReset();
   };
 
-  const handleImgSelect = (index, img) => {
+  const handleImgSelect = (index: number, img: string) => {
     const splitUrl = img.split("/");
     const imageName = splitUrl[splitUrl.length - 1];
 
@@ -123,17 +123,17 @@ const NewEventForm = () => {
     });
   };
 
-  const searchMembers = (event) => {
-    const search = event.target.value.replace(/\s/g, "");
-    const filteredResults = members.filter((member) => {
-      const fullName = member.first_name + member.last_name;
+  const searchMembers = (event: HTMLInputElement) => {
+    const search = event.value.replace(/\s/g, "");
+    const filteredResults = members && members.filter((member) => {
+      const fullName = (member.first_name ?? "") + (member.last_name ?? "");
       return fullName.toLowerCase().includes(search);
     })
     setFilteredMembers(filteredResults)
     console.log(filteredMembers)
   }
 
-  const addMemberToEvent = (member) => {
+  const addMemberToEvent = (member: MemberType) => {
     let memberExists = false;
     for (let i = 0; i < eventMembers.length; i++) {
       if (eventMembers[i].id === member.id) {
@@ -183,7 +183,6 @@ const NewEventForm = () => {
         <h3>Description</h3>
         <textarea
           className={descriptionInputIsValid}
-          type="text"
           name="description"
           onChange={descriptionChangeInput}
           onBlur={descriptionIsTouched}

@@ -9,6 +9,9 @@ const Member = ({firstName, lastName, key, id, profileImgColor, profileImage, ev
     const lastNameCapitalized = lastName && lastName.charAt(0).toUpperCase() + lastName.slice(1);
 
     const addMemberToEventHandler = () => {
+
+
+
         const member = {
             id:id,
             profileImage:profileImage,

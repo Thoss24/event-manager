@@ -23,6 +23,6 @@ export interface MemberType {
   firstName: string,
   lastName: string,
   id: number,
-  profileImgColor: string,
+  profileImageColor: string,
   profileImage: string,
 }

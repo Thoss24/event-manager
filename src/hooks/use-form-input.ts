@@ -7,8 +7,7 @@ const useFormInput = (validate: (input: string) => boolean) => {
     const inputValid = validate(inputValue);
     const inputInvalid = isTouched && !inputValid;
 
-const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
-
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => setInputValue(e.target.value);
 
     const handleIsTouched = () => {
         setIsTouched(true)
