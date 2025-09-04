@@ -8,21 +8,21 @@ export interface User {
   profile_color?: string
 }
 
-export interface MemberComponentProps {
-  firstName: string,
-  lastName: string,
-  key: number,
-  id: number,
-  profileImgColor: string,
-  profileImage: string,
-  eventForm: boolean,
-  addMemberToEvent?: () => void
+export interface MemberType {
+  firstName: string | undefined,
+  lastName: string | undefined,
+  id: number | undefined,
+  profileImageColor: string | undefined,
+  profileImage: string | undefined,
 }
 
-export interface MemberType {
-  firstName: string,
-  lastName: string,
-  id: number,
-  profileImageColor: string,
-  profileImage: string,
+export interface MemberComponentProps {
+  firstName: string | undefined,
+  lastName: string | undefined,
+  key: number | undefined,
+  id: number | undefined,
+  profileImgColor: string | undefined,
+  profileImage: string | undefined,
+  eventForm?: boolean | undefined,
+  addMemberToEvent?: (props: MemberType) => void
 }

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { getUsers } from "../../../utility/users/user_actions";
 import Member from "../../users_elements/Member";
 import { User as UserType, MemberType } from "../../../types/users";
+import { NewEventType } from "../../../types/Events";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
@@ -71,14 +72,17 @@ const NewEventForm = () => {
     try {
       const membersIds = eventMembers.map((member) => member.id);
 
-      const newEvent = {
-        name: name.current && name.current.value,
-        date: date.current && date.current.value,
-        description: description.current && description.current.value,
-        imageName: image,
-        time: time.current && time.current.value,
-        members: membersIds
-      };
+ const newEvent: NewEventType = {
+  name: name.current?.value || undefined,
+  date: date.current?.value || undefined,
+  description: description.current?.value || undefined,
+  imageName: image || undefined,
+  time: time.current?.value || undefined,
+  members: (membersIds ?? []).filter(
+    (id): id is number => id !== undefined
+  ),
+};
+
 
       const addEventRequest = await addEvent(newEvent);
       if (addEventRequest) {
@@ -123,8 +127,8 @@ const NewEventForm = () => {
     });
   };
 
-  const searchMembers = (event: HTMLInputElement) => {
-    const search = event.value.replace(/\s/g, "");
+  const searchMembers = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const search = event.target.value.replace(/\s/g, "");
     const filteredResults = members && members.filter((member) => {
       const fullName = (member.first_name ?? "") + (member.last_name ?? "");
       return fullName.toLowerCase().includes(search);
@@ -224,7 +228,7 @@ const NewEventForm = () => {
         <div>
         <input className={classes.search} type="text" placeholder="Search..." onChange={searchMembers}/>
         <div className={classes["members"]}>
-          {filteredMembers.length > 0 ?
+          {filteredMembers && filteredMembers.length > 0 ?
             filteredMembers.map((member) => (
               <Member
                 key={member.user_id}
@@ -262,7 +266,7 @@ const NewEventForm = () => {
         >
           Add
         </button>
-        <button className={classes["form-buttons"]} type="none" text={"Cancel"}>
+        <button className={classes["form-buttons"]}>
           <Link to={"/events"}>Cancel</Link>
         </button>
       </div>

@@ -40,10 +40,10 @@ export interface RemoveBookedEventResponse {
 }
 
 export interface NewEventType {
-  name: string | null,
-  date: string | null,
-  description: string | null,
-  imageName: string | null,
-  time: string | null,
-  members: number[] | null
+  name: string | undefined,
+  date: string | undefined,
+  description: string | undefined,
+  imageName: string | undefined,
+  time: string | undefined,
+  members: number[] | undefined
 }
