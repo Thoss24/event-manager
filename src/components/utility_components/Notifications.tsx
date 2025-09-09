@@ -1,6 +1,7 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import getNotifications from "../../utility/users/get_notifications";
-import checkAccountType from "../../utility/authentication/check_account_type";
+import { getNotifications } from "../../utility/users/user_actions";
+import { checkAccountType } from "../../utility/authentication/auth_actions";
 import ErrorElement from "../ui/ErrorElement";
 import Notification from "./Notification";
 import { IoIosNotifications } from "react-icons/io";
@@ -8,11 +9,12 @@ import classes from "./Notifications.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { modalActions } from "../../store/event_details_modal_slice";
 import useWindowResize from "../../hooks/use-window-resize";
+import { RootState } from "../../store/store_index";
 
 function NotificationSystem() {
   const [userId, setUserId] = useState(null);
   const [notifications, setNotifications] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string|null>(null);
   const [responseMsg, setResponseMsg] = useState(null);
 
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ function NotificationSystem() {
   const width = useWindowResize();
 
   const notificationsModalShowing = useSelector(
-    (state) => state.eventsModal.notificationsModalDisplaying
+    (state: RootState) => state.eventsModal.notificationsModalDisplaying
   );
 
   const showNotificationsHandler = () => {

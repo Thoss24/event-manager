@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 import { CiMenuBurger } from "react-icons/ci";
@@ -13,7 +14,7 @@ const MainNavigation = () => {
 
   const mobileNavModalModalDisplaying = width <= 520 && mobileNavDisplaying === true;
 
-  const isActive = ({ isActive }) => {
+  const isActive = ({ isActive }: {isActive: boolean}) => {
     return isActive ? classes.active : classes["list-item"];
   };
 
@@ -30,7 +31,7 @@ const MainNavigation = () => {
 
   return (
     <>
-    {mobileNavModalModalDisplaying && <NavModal isNavDisplaying={mobileNavModalModalDisplaying} hideNavModal={hideNavModalHandler}/>}
+    {mobileNavModalModalDisplaying && <NavModal hideNavModal={hideNavModalHandler}/>}
     <nav className={classes["main-nav"]}>
       <div className={classes["nav-small-screen"]}>
         <CiMenuBurger onClick={!mobileNavModalModalDisplaying ? handleNavIcon : null} className={`${classes["nav-icon"]} ${mobileNavModalModalDisplaying && classes['rotate']}`} />

@@ -46,3 +46,28 @@ export const getUsers = async () => {
         console.log(error)
     })
 }
+
+export const clearNotification = async (notificationId: number) => {
+  console.log(notificationId)
+  return axios.post("http://localhost:3001/users/clear-notification", {notificationId: notificationId}).then((response) => {
+    if (response.status === 200) {
+      return {'message': 'Notification successfully cleared', 'status': response.status}
+    }
+  }).catch((error) => {
+    if (error.response && error.response.status === 500) {
+      return {'message': 'Unable to clear notification', 'status': error.response.status}
+    }
+  })
+};
+
+export const getNotifications = async (userId: number) => {
+    console.log("User id get notifications", userId);
+
+    try {
+        const response = await axios.post("http://localhost:3001/users/get-notifications", { userId });
+        return response; // Return the response if successful
+    } catch (error) {
+        console.error("Error fetching notifications:", error);
+        throw error; // Rethrow the error for upstream handling
+    }
+};

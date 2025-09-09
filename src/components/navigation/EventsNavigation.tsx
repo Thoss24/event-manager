@@ -1,7 +1,8 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import classes from "./EventsNavigation.module.css";
 import { useEffect, useState } from "react";
-import checkAccountType from "../../utility/authentication/check_account_type";
+import { checkAccountType } from "../../utility/authentication/auth_actions";
 
 const EventsNavigation = () => {
   const [userAuth, setUserAuth] = useState();

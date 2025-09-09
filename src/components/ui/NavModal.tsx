@@ -1,11 +1,15 @@
+import React from "react";
 import classes from "./NavModal.module.css";
 import { NavLink } from "react-router-dom";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import NotificationSystem from "../utility_components/Notifications";
 
-const NavModal = (props) => {
+interface NavModalProps {
+  hideNavModal: () => void
+}
 
-  const isActive = ({ isActive }) => {
+const NavModal = ({ hideNavModal}: NavModalProps) => {
+
+  const isActive = ({ isActive }: {isActive: boolean}) => {
     return isActive ? classes.active : classes["list-item"];
   };
 
@@ -14,20 +18,20 @@ const NavModal = (props) => {
   return (
     <div className={classes["nav-modal"]}>
       <div className={classes.menu}>
-        <IoIosCloseCircleOutline className={classes.close} onClick={props.hideNavModal}/>
+        <IoIosCloseCircleOutline className={classes.close} onClick={hideNavModal}/>
         <ul className={classes['nav-menu-list']}>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"/"} onClick={props.hideNavModal}>
+            <NavLink className={isActive} to={"/"} onClick={hideNavModal}>
               Home
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"events"} onClick={props.hideNavModal}>
+            <NavLink className={isActive} to={"events"} onClick={hideNavModal}>
               Events
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"booked-events"} onClick={props.hideNavModal}>
+            <NavLink className={isActive} to={"booked-events"} onClick={hideNavModal}>
               Booked Events
             </NavLink>
           </li>
