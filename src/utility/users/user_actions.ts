@@ -60,7 +60,7 @@ export const clearNotification = async (notificationId: number) => {
   })
 };
 
-export const getNotifications = async (userId: number) => {
+export const getNotifications = async (userId: number|null) => {
     console.log("User id get notifications", userId);
 
     try {

@@ -3,7 +3,8 @@ import useFormInput from "../../../hooks/use-form-input";
 import useValidateForm from "../../../hooks/use-validate-form";
 import classes from "./EditEventForm.module.css";
 import { Link } from "react-router-dom";
-import { editEvent } from "../../../utility/events_actions/edit_event";
+import { editEvent } from "../../../utility/events_actions/event_actions";
+
 import { useRef } from "react";
 
 const EditEventForm = (props) => {

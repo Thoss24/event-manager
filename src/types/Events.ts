@@ -47,3 +47,10 @@ export interface NewEventType {
   time: string | undefined,
   members: number[] | undefined
 }
+
+export interface editedEvent {
+  name: string,
+  description: string,
+  date: string,
+  eventId: number
+}

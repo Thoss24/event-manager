@@ -2,6 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { RemoveBookedEventResponse } from "../../types/Events";
 import { NewEventType } from "../../types/Events";
+import { editedEvent } from "../../types/Events";
 
 export const fetchEvents = () => {
     return axios
@@ -126,5 +127,15 @@ export const addEvent = async (eventData: NewEventType) => {
             return {'message': 'Event could not be added', "status": 500}
         }
     })
+};
 
+export const editEvent = async (eventData: editedEvent) => {
+    return axios.post("http://localhost:3001/events/edit-event", eventData)
+    .then((response) => {
+        console.log(response)
+        window.location.href = "http://localhost:3000/events"
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 };

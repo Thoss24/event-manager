@@ -1,17 +1,20 @@
+import React from "react";
 import EditEventForm from "../../components/events_elements/edit_event_elements/EditEventForm";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, Suspense } from "react";
-import { fetchEvent } from "../../utility/events_actions/fetch-event-data";
+import { fetchEvent } from "../../utility/events_actions/event_actions";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import PageHeading from "../../components/ui/PageHeading";
 import Message from "../../components/ui/Message";
+import { Event as EventType } from "../../types/Events";
 
 const EditEventPage = () => {
   const { eventId } = useParams();
-  const [editableEvent, setEvent] = useState();
+  const [editableEvent, setEvent] = useState<EventType>();
 
   useEffect(() => {
-    fetchEvent(eventId).then((response) => {
+    let eventIdToInt = Number(eventId);
+    fetchEvent(eventIdToInt).then((response) => {
       setEvent(response.data[0]);
     });
   }, []);

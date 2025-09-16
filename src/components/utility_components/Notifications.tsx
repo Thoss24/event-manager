@@ -11,11 +11,19 @@ import { modalActions } from "../../store/event_details_modal_slice";
 import useWindowResize from "../../hooks/use-window-resize";
 import { RootState } from "../../store/store_index";
 
+interface NotificationType {
+  id: number,
+  user_id: number,
+  event_id: number,
+  notification: string,
+  seen: boolean
+}
+
 function NotificationSystem() {
-  const [userId, setUserId] = useState(null);
-  const [notifications, setNotifications] = useState([]);
+  const [userId, setUserId] = useState<number>(0);
+  const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [error, setError] = useState<string|null>(null);
-  const [responseMsg, setResponseMsg] = useState(null);
+  const [responseMsg, setResponseMsg] = useState<string|null>('');
 
   const dispatch = useDispatch();
 
@@ -71,15 +79,15 @@ function NotificationSystem() {
     });
   };
 
-  const clearNotificationHandler = (id) => {
+  const clearNotificationHandler = (id: number) => {
     setNotifications((prev) => {
       return prev.filter((notification) => notification.id !== id);
     });
     console.log("Notifications after clearing: ", notifications);
   };
 
-  const setResponseMsgHandler = (message) => {
-    setResponseMsg(message);
+  const setResponseMsgHandler = (message: string|null) => {
+    setResponseMsg(message)
   };
 
   useEffect(() => {
@@ -95,7 +103,7 @@ function NotificationSystem() {
   useEffect(() => {}, [notifications]);
 
   useEffect(() => {
-    if (width <= 520 && notificationsModalShowing === true) {
+    if (width && width <= 520 && notificationsModalShowing === true) {
       dispatch(modalActions.notificationsModalHandler());
     }
   }, [width]);
@@ -117,7 +125,7 @@ function NotificationSystem() {
         {notificationsModalShowing && (
           <div className={classes.notifications}>
             <h2>Notifications</h2>
-            <p className={classes["response-msg"]}>{responseMsg}</p>
+            <p className={classes["response-msg"]}>{responseMsg && responseMsg.length > 0 && responseMsg}</p>
             {error && <ErrorElement error={error} />}
             {notifications &&
               notifications.map((notification) => (

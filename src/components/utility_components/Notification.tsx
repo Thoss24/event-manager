@@ -29,7 +29,7 @@ const Notification = ({message, key, id, onDelete, setResponseMsgHandler}: Notif
       // display error
     } finally {
       setTimeout(() => {
-        setResponseMsgHandler(null);
+        setResponseMsgHandler('');
       }, 2000);
     }
   };
