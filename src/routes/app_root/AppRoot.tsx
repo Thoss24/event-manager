@@ -1,3 +1,4 @@
+import React from "react";
 import MainNavigation from "../../components/navigation/MainNavigation";
 import { Outlet } from "react-router-dom";
 import classes from "./AppRoot.module.css";

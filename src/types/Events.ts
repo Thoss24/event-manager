@@ -54,3 +54,20 @@ export interface editedEvent {
   date: string,
   eventId: number
 }
+
+export interface EventUser {
+  userId: number;
+  firstName: string;
+  lastName: string;
+  profileColor?: string;
+  profileImage?: string;
+}
+
+export interface EventType {
+  eventId: number;
+  eventName: string;
+  eventDescription: string;
+  eventDate: string; // ISO string (from DB / API)
+  eventCreatorId: number;
+  users: EventUser[];
+}

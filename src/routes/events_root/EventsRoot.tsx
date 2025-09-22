@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import EventsNavigation from "../../components/navigation/EventsNavigation";
 import classes from './EventsRoot.module.css';

@@ -28,7 +28,7 @@ const EditEventPage = () => {
             name={editableEvent.event_name}
             date={editableEvent.event_date}
             description={editableEvent.event_description}
-            eventId={eventId}
+            eventId={Number(eventId)}
           />
         )}
       </Suspense>

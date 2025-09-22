@@ -1,8 +1,6 @@
-// css
 import "./App.css";
-// third party
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// local components from top level to deeply rooted
+import React from "react";
 import AppRoot from "./routes/app_root/AppRoot";
 import AppError from "./routes/error/AppError";
 import HomePage from "./routes/home/HomePage";
@@ -16,77 +14,53 @@ import BookedEventsRoot from "./routes/booked_events_pages/BookedEventsRoot";
 import BookedEventDetailPage from "./routes/booked_events_pages/BookedEventDetailPage";
 import LoginPage from "./routes/login/LoginPage";
 import Register from "./routes/login/Register";
-import UserProfilePage from './routes/users/UserProfilePage';
+import UserProfilePage from "./routes/users/UserProfilePage";
 
-function App() {
+function App(): JSX.Element {
   const route = createBrowserRouter([
     {
       path: "/login",
-      element: <LoginPage />
+      element: <LoginPage />,
     },
     {
       path: "/register",
-      element: <Register />
+      element: <Register />,
     },
     {
       path: "/",
       element: <AppRoot />,
       errorElement: <AppError />,
       children: [
-        {
-          index: true,
-          element: <HomePage />,
-        },
-        {
-          path: ":userId", 
-          element: <UserProfilePage />,
-        },
+        { index: true, element: <HomePage /> },
+        { path: ":userId", element: <UserProfilePage /> },
         {
           path: "events",
           element: <EventsRoot />,
           children: [
-            {
-              index: true,
-              element: <EventsHomePage />,
-            },
+            { index: true, element: <EventsHomePage /> },
             {
               path: ":eventId",
               children: [
-                {
-                  index: true,
-                  element: <EventDetailPage />,
-                },
-                {
-                  path: "edit",
-                  element: <EditEventPage />,
-                },
+                { index: true, element: <EventDetailPage /> },
+                { path: "edit", element: <EditEventPage /> },
               ],
             },
-            {
-              path: "new-event",
-              element: <NewEventPage />,
-            },
+            { path: "new-event", element: <NewEventPage /> },
           ],
         },
         {
           path: "booked-events",
           element: <BookedEventsRoot />,
           children: [
-            {
-              index: true,
-              element: <BookedEventsHomePage />,
-            },
-            {
-              path: ":bookedEventId",
-              element: <BookedEventDetailPage />,
-            }
+            { index: true, element: <BookedEventsHomePage /> },
+            { path: ":bookedEventId", element: <BookedEventDetailPage /> },
           ],
         },
       ],
     },
   ]);
 
-  return <RouterProvider router={route}></RouterProvider>;
+  return <RouterProvider router={route} />;
 }
 
 export default App;

@@ -1,3 +1,4 @@
+import React from "react";
 import NewEventForm from "../../components/events_elements/new_events/NewEventForm";
 
 const NewEventPage = () => {

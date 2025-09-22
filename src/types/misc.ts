@@ -23,3 +23,18 @@ export interface ResponseParams {
   response?: string,
   eventId: number
 }
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export interface RegisterUserData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  profileImage: string;
+  profileImgColor: string;
+  accountType?: "admin" | "user";
+}
