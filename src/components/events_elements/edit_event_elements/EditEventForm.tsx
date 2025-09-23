@@ -90,55 +90,59 @@ const EditEventForm: React.FC<EditEventFormProps> = ({
   }
 
   return (
-    <Form
-      method="PATCH"
-      onSubmit={submitFormHandler}
-      className={classes["edit-event-form"]}
-    >
-      <div className={classes["input-section"]}>
-        <label htmlFor="name">Name</label>
-        <input
-          ref={nameInputRef}
-          className={nameInputIsValid}
-          type="text"
-          name="name"
-          onChange={handleNameChange}
-          onBlur={handleNameIsTouched}
-          defaultValue={name}
-        />
-      </div>
-      <div className={classes["input-section"]}>
-        <label htmlFor="description">Description</label>
-        <textarea
-          ref={descriptionInputRef}
-          className={descriptionInputIsValid}
-          name="description"
-          onChange={handleDescriptionChange}
-          onBlur={handleDescriptionIsTouched}
-          defaultValue={description}
-        />
-      </div>
-      <div className={classes["input-section"]}>
-        <label htmlFor="date">Date</label>
-        <input
-          ref={dateInputRef}
-          className={dateInputIsValid}
-          type="date"
-          name="date"
-          onChange={handleDateChange}
-          onBlur={handleDateIsTouched}
-          defaultValue={date}
-        />
-      </div>
-      <div className={classes.buttons}>
-        <button type="submit" disabled={!formIsValid}>
-          Done
-        </button>
-        <button type="button">
-          <Link to={"/events"}>Cancel</Link>
-        </button>
-      </div>
-    </Form>
+<Form
+  method="PATCH"
+  onSubmit={submitFormHandler}
+  className={classes["edit-event-form"]}
+>
+  <div className={classes["form-section"]}>
+    <label htmlFor="name">Name</label>
+    <input
+      ref={nameInputRef}
+      className={nameInputIsValid}
+      type="text"
+      name="name"
+      onChange={handleNameChange}
+      onBlur={handleNameIsTouched}
+      defaultValue={name}
+    />
+  </div>
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="description">Description</label>
+    <textarea
+      ref={descriptionInputRef}
+      className={descriptionInputIsValid}
+      name="description"
+      onChange={handleDescriptionChange}
+      onBlur={handleDescriptionIsTouched}
+      defaultValue={description}
+      rows={4}
+    />
+  </div>
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="date">Date</label>
+    <input
+      ref={dateInputRef}
+      className={dateInputIsValid}
+      type="date"
+      name="date"
+      onChange={handleDateChange}
+      onBlur={handleDateIsTouched}
+      defaultValue={date}
+    />
+  </div>
+
+  <div className={classes.buttons}>
+    <button type="submit" disabled={!formIsValid}>
+      Done
+    </button>
+    <Link to="/events" className={classes.cancelBtn}>
+      Cancel
+    </Link>
+  </div>
+</Form>
   );
 };
 

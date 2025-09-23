@@ -6,7 +6,7 @@ import { fetchEvent } from "../../utility/events_actions/event_actions";
 import MainContentWrapper from "../../components/wrapper/MainContentWrapper";
 import PageHeading from "../../components/ui/PageHeading";
 import Message from "../../components/ui/Message";
-import { Event as EventType } from "../../types/Events";
+import { EventType } from "../../types/Events";
 
 const EditEventPage = () => {
   const { eventId } = useParams();
@@ -15,9 +15,14 @@ const EditEventPage = () => {
   useEffect(() => {
     let eventIdToInt = Number(eventId);
     fetchEvent(eventIdToInt).then((response) => {
-      setEvent(response.data[0]);
+      console.log("Response: ", response.data)
+      setEvent(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    console.log("EDITABLE EVENT: ", editableEvent)
+  }, [editableEvent])
 
   return (
     <MainContentWrapper>
@@ -25,9 +30,9 @@ const EditEventPage = () => {
         <PageHeading header={"Edit Event Details"} />
         {editableEvent && (
           <EditEventForm
-            name={editableEvent.event_name}
-            date={editableEvent.event_date}
-            description={editableEvent.event_description}
+            name={editableEvent.eventName}
+            date={editableEvent.eventDate}
+            description={editableEvent.eventDescription}
             eventId={Number(eventId)}
           />
         )}

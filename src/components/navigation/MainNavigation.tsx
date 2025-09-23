@@ -12,7 +12,7 @@ const MainNavigation = () => {
 
   const width = useWindowResize();
 
-  const mobileNavModalModalDisplaying = width <= 520 && mobileNavDisplaying === true;
+  const mobileNavModalModalDisplaying = width && width <= 520 && mobileNavDisplaying === true;
 
   const isActive = ({ isActive }: {isActive: boolean}) => {
     return isActive ? classes.active : classes["list-item"];
@@ -34,7 +34,10 @@ const MainNavigation = () => {
     {mobileNavModalModalDisplaying && <NavModal hideNavModal={hideNavModalHandler}/>}
     <nav className={classes["main-nav"]}>
       <div className={classes["nav-small-screen"]}>
-        <CiMenuBurger onClick={!mobileNavModalModalDisplaying ? handleNavIcon : null} className={`${classes["nav-icon"]} ${mobileNavModalModalDisplaying && classes['rotate']}`} />
+        <CiMenuBurger
+          onClick={!mobileNavModalModalDisplaying ? handleNavIcon : undefined}
+          className={`${classes["nav-icon"]} ${mobileNavModalModalDisplaying && classes["rotate"]}`}
+        />
       </div>
       <div className={classes["nav-large-screen"]}>
         <ul>

@@ -1,29 +1,73 @@
 .edit-event-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(39, 36, 36, 0.95),
+    rgba(39, 36, 36, 0.85)
+  );
+  border-radius: 16px;
+  border: 1px solid rgba(201, 182, 12, 0.4);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.input-section {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.input-section input {
-    border: none;
-    border-radius: 4px;
-    padding-left: 2px;
+.form-section label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.form-section input,
+.form-section textarea {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 182, 12, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-section input:focus,
+.form-section textarea:focus {
+  outline: none;
+  border-color: rgb(201, 182, 12);
+  box-shadow: 0 0 6px rgba(201, 182, 12, 0.4);
 }
 
 .buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
-.invalid {
-    color: red;
-    background-color: lightsalmon;
+.buttons button,
+.cancelBtn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 182, 12, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+}
+
+.buttons button:hover:not(:disabled),
+.cancelBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border-color: rgb(201, 182, 12);
+}
+
+.buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

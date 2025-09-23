@@ -169,108 +169,125 @@ const NewEventForm = () => {
   );
 
   return (
-    <form onSubmit={submitFormHandler} className={classes["new-event-form"]}>
-      {/* display response to user after form has been submitted */}
-      {requestResponseMessage.length > 0 && requestResponseArea}
-      <div className={classes["input-section"]}>
-        <h3>Name</h3>
-        <input
-          className={nameInputIsValid}
-          type="text"
-          name="name"
-          onChange={nameChangeInput}
-          onBlur={nameIsTouched}
-          ref={name}
-        />
+<form onSubmit={submitFormHandler} className={classes["new-event-form"]}>
+  {/* display response to user after form has been submitted */}
+  {requestResponseMessage.length > 0 && requestResponseArea}
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="name">Name</label>
+    <input
+      className={nameInputIsValid}
+      type="text"
+      name="name"
+      onChange={nameChangeInput}
+      onBlur={nameIsTouched}
+      ref={name}
+    />
+  </div>
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="description">Description</label>
+    <textarea
+      className={descriptionInputIsValid}
+      name="description"
+      onChange={descriptionChangeInput}
+      onBlur={descriptionIsTouched}
+      ref={description}
+      rows={4}
+    />
+  </div>
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="date">Date</label>
+    <input
+      className={dateInputIsValid}
+      type="date"
+      name="date"
+      onChange={dateChangeInput}
+      onBlur={dateIsTouched}
+      ref={date}
+    />
+  </div>
+
+  <div className={classes["form-section"]}>
+    <label htmlFor="time">Time</label>
+    <input type="time" name="time" defaultValue={"00:00"} ref={time} />
+  </div>
+
+  <h3>Members</h3>
+  <div className={classes["event-members"]}>
+    {eventMembers.map((member) => (
+      <Member 
+        key={member.id}
+        id={member.id}
+        profileImage={member.profileImage}
+        firstName={member.firstName}
+        lastName={member.lastName}
+        profileImgColor={member.profileImageColor}
+      />
+    ))}
+  </div>
+
+  <button type="button" onClick={toggleAddMembersHandler} className={classes.toggleMembersBtn}>
+    {!membersSectionDisplaying ? "Add members +" : "Stop adding members"}
+  </button>
+
+  {membersSectionDisplaying && (
+    <div className={classes.membersSection}>
+      <input
+        className={classes.search}
+        type="text"
+        placeholder="Search..."
+        onChange={searchMembers}
+      />
+      <div className={classes["members"]}>
+        {filteredMembers && filteredMembers.length > 0 ? (
+          filteredMembers.map((member) => (
+            <Member
+              key={member.user_id}
+              id={member.user_id}
+              profileImage={member.profile_image}
+              firstName={member.first_name}
+              lastName={member.last_name}
+              profileImgColor={member.profile_color}
+              addMemberToEvent={addMemberToEvent}
+              eventForm={true}
+            />
+          ))
+        ) : (
+          <p className={classes["no-results"]}>No results found</p>
+        )}
       </div>
-      <div className={classes["input-section"]}>
-        <h3>Description</h3>
-        <textarea
-          className={descriptionInputIsValid}
-          name="description"
-          onChange={descriptionChangeInput}
-          onBlur={descriptionIsTouched}
-          ref={description}
-        />
-      </div>
-      <div className={classes["input-section"]}>
-        <h3>Date</h3>
-        <input
-          className={dateInputIsValid}
-          type="date"
-          name="date"
-          onChange={dateChangeInput}
-          onBlur={dateIsTouched}
-          ref={date}
-        />
-      </div>
-      <div className={classes["input-section"]}>
-        <h3>Time</h3>
-        <input type="time" name="time" defaultValue={"00:00"} ref={time} />
-      </div>
-      <h3>Members</h3>
-      <div className={classes["event-members"]}>
-        {eventMembers.map((member) => (
-          <Member 
-          key={member.id}
-          id={member.id}
-          profileImage={member.profileImage}
-          firstName={member.firstName}
-          lastName={member.lastName}
-          profileImgColor={member.profileImageColor}
-          />
-        ))}
-      </div>
-      <button type="button" onClick={toggleAddMembersHandler}>
-        {!membersSectionDisplaying ? "Add members +" : "Stop adding members"}
-      </button>
-      {membersSectionDisplaying && (
-        <div>
-        <input className={classes.search} type="text" placeholder="Search..." onChange={searchMembers}/>
-        <div className={classes["members"]}>
-          {filteredMembers && filteredMembers.length > 0 ?
-            filteredMembers.map((member) => (
-              <Member
-                key={member.user_id}
-                id={member.user_id}
-                profileImage={member.profile_image}
-                firstName={member.first_name}
-                lastName={member.last_name}
-                profileImgColor={member.profile_color}
-                addMemberToEvent={addMemberToEvent}
-                eventForm={true}
-              />
-          )) : <p className={classes['no-results']}>No results found</p>}
-        </div>
-        </div>
-      )}
-      <h3>Choose an image for your event!</h3>
-      <div className={classes["event-images-container"]}>
-        {images.map((img, index) => (
-          <img
-            alt={`Event ${index}`}
-            src={img}
-            key={index}
-            onClick={() => handleImgSelect(index, img)}
-            className={`${
-              currIndex === index ? classes["active"] : classes["event-images"]
-            }`}
-          />
-        ))}
-      </div>
-      <div className={classes.buttons}>
-        <button
-          className={classes["form-buttons"]}
-          type="submit"
-          disabled={!formIsValid}
-        >
-          Add
-        </button>
-        <button className={classes["form-buttons"]}>
-          <Link to={"/events"}>Cancel</Link>
-        </button>
-      </div>
-    </form>                                    
+    </div>
+  )}
+
+  <h3>Choose an image for your event!</h3>
+  <div className={classes["event-images-container"]}>
+    {images.map((img, index) => (
+      <img
+        alt={`Event ${index}`}
+        src={img}
+        key={index}
+        onClick={() => handleImgSelect(index, img)}
+        className={`${currIndex === index ? classes["active"] : classes["event-images"]}`}
+      />
+    ))}
+  </div>
+
+  <div className={classes.buttons}>
+    <button
+      className={classes["form-btn"]}
+      type="submit"
+      disabled={!formIsValid}
+    >
+      Add
+    </button>
+    <Link to="/events" className={`${classes["form-btn"]} ${classes.cancelBtn}`}>
+      Cancel
+    </Link>
+  </div>
+</form>
+                                  
   );
 };
 

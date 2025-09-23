@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { User as UserType } from "../../types/users";
 import axios from "axios";
-import getUserInfo from "../../utility/users/user_actions";
+import { getUserInfo } from "../../utility/users/user_actions";
 
 const UserProfilePage = () => {
   const { userId } = useParams() as { userId: string };
