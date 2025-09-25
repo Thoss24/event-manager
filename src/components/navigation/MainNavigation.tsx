@@ -42,17 +42,17 @@ const MainNavigation = () => {
       <div className={classes["nav-large-screen"]}>
         <ul>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"/"}>
+            <NavLink className={isActive} to="/app/home">
               Home
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"events"}>
+            <NavLink className={isActive} to="/app/events">
               Events
             </NavLink>
           </li>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"booked-events"}>
+            <NavLink className={isActive} to="/app/booked-events">
               Booked Events
             </NavLink>
           </li>

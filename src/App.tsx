@@ -1,6 +1,6 @@
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
+import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
 import AppRoot from "./routes/app_root/AppRoot";
 import AppError from "./routes/error/AppError";
 import HomePage from "./routes/home/HomePage";
@@ -16,22 +16,31 @@ import LoginPage from "./routes/login/LoginPage";
 import Register from "./routes/login/Register";
 import UserProfilePage from "./routes/users/UserProfilePage";
 
+// Simple wrapper for login navigation
+const LoginWrapper: React.FC = () => {
+  const navigate = useNavigate();
+  const handleLogin = () => navigate("/app/home");
+  return <LoginPage onLogin={handleLogin} />;
+};
+
+// Simple wrapper for register navigation
+const RegisterWrapper: React.FC = () => {
+  const navigate = useNavigate();
+  const handleRegister = () => navigate("/app/home");
+  return <Register onRegister={handleRegister} />;
+};
+
 function App(): JSX.Element {
-  const route = createBrowserRouter([
+  const router = createBrowserRouter([
+    { path: "/", element: <LoginWrapper /> },        // first page is login
+    { path: "/login", element: <LoginWrapper /> },  // login page
+    { path: "/register", element: <RegisterWrapper /> }, // register page
     {
-      path: "/login",
-      element: <LoginPage />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/",
+      path: "/app",
       element: <AppRoot />,
       errorElement: <AppError />,
       children: [
-        { index: true, element: <HomePage /> },
+        { path: "home", element: <HomePage /> },
         { path: ":userId", element: <UserProfilePage /> },
         {
           path: "events",
@@ -60,7 +69,7 @@ function App(): JSX.Element {
     },
   ]);
 
-  return <RouterProvider router={route} />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

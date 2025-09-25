@@ -19,7 +19,7 @@ export const loginUser = async (user: LoginCredentials) => {
     .then((response) => {
         // redirect to home page
         console.log(response)
-        window.location.href = 'http://localhost:3000/events';
+        // window.location.href = 'http://localhost:3000/events';
     })
     .catch((error) => {
         console.log(error)

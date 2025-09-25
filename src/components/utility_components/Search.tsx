@@ -14,6 +14,7 @@ const Search = ({searchEvents}: SearchComponentProps) => {
 
   return (
     <div>
+      <h2>Search</h2>
       <input type="text" ref={searchInputRef} onChange={searchEventsHandler} className={classes.search}/>
     </div>
   )

@@ -5,8 +5,11 @@ import styles from "./LoginPage.module.css";
 import { LoginCredentials } from "../../types/misc";
 import { loginUser } from "../../utility/authentication/auth_actions";
 
-const LoginPage: React.FC = () => {
-  // typed refs
+interface LoginPageProps {
+  onLogin: () => void; // callback for navigation
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -20,7 +23,11 @@ const LoginPage: React.FC = () => {
       password: passwordRef.current.value,
     };
 
+    // call your login function (does not return anything)
     loginUser(user);
+
+    // navigate to home page after login
+    onLogin();
   };
 
   return (
