@@ -1,25 +1,33 @@
 require('dotenv').config();
 const mysql = require('mysql2');
 
+const isTest = process.env.NODE_ENV === 'test';
+const isProd = process.env.NODE_ENV === 'production';
+
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE
+  host: isProd ? process.env.DB_HOST_PROD : process.env.DB_HOST,
+  user: isProd ? process.env.DB_USERNAME_PROD : process.env.DB_USERNAME,
+  password: isProd ? process.env.DB_PASSWORD_PROD : process.env.DB_PASSWORD,
+  database: isTest 
+    ? process.env.DB_TEST_DATABASE 
+    : isProd 
+      ? process.env.DB_DATABASE_PROD 
+      : process.env.DB_DATABASE,
 });
 
-// db
-
+// Connect to DB
 connection.connect((err) => {
-    if (err) {
-        // console.error('Error connecting to MySQL database:', err);
-        return;
-    }
-    console.log(`Connected to MySQL database: ${process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE}`);
+  if (err) {
+    console.error('❌ Error connecting to MySQL:', err);
+    return;
+  }
+  console.log(`✅ Connected to MySQL database: ${
+    isTest 
+      ? process.env.DB_TEST_DATABASE 
+      : isProd 
+        ? process.env.DB_DATABASE_PROD 
+        : process.env.DB_DATABASE
+  }`);
 });
-
-// console.log('DB_USERNAME:', process.env.DB_USERNAME);
-// console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-// console.log('DATABASE:', process.env.NODE_ENV === 'test' ? process.env.DB_TEST_DATABASE : process.env.DB_DATABASE);
 
 module.exports = { connection };

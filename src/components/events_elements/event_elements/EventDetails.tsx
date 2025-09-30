@@ -12,6 +12,8 @@ import Member from "../../users_elements/Member";
 import { EventUser } from "../../../types/Events";
 import { RootState } from "../../../store/store_index";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 interface EventDetailsProps {
   id: number;
   name: string;
@@ -71,7 +73,7 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
 
           setTimeout(() => {
             dispatch(modalActions.bookEventModalHandler());
-            window.location.href = "/";
+            window.location.href = API_URL;
           }, 2000);
         }
       } catch (error: any) {
@@ -106,7 +108,7 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
 
           setTimeout(() => {
             dispatch(modalActions.eventDetailsModalHandler());
-            window.location.href = "/events";
+            window.location.href = `${API_URL}/events`;
           }, 2000);
         }
       } catch (error: any) {

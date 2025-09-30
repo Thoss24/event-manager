@@ -11,6 +11,8 @@ import Member from "../../users_elements/Member";
 import { User as UserType, MemberType } from "../../../types/users";
 import { NewEventType } from "../../../types/Events";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 
@@ -33,9 +35,9 @@ const NewEventForm = () => {
   }, []);
 
   const images: string[] = [
-    "/images/event_img_one.jpg",
-    "/images/event_img_two.jpg",
-    "/images/event_img_three.jpg",
+    `${API_URL}/images/event_img_one.jpg`,
+    `${API_URL}/images/event_img_two.jpg`,
+    `${API_URL}/images/event_img_three.jpg`,
   ];
 
   const name = useRef<HTMLInputElement>(null);

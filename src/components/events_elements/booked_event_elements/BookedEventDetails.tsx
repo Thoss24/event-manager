@@ -14,6 +14,8 @@ import { BookedEventDetailsProps } from "../../../types/Events";
 import { User as UserType } from "../../../types/users";
 import axios, { AxiosError } from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
   const dispatch = useAppDispatch();
@@ -76,7 +78,7 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
             setTimeout(() => {
               dispatch(modalActions.removeBookedEventModalHandler());
-              window.location.href = "http://localhost:3000/"
+              window.location.href = API_URL
             }, 2000);
             
         } catch (error: unknown) {
