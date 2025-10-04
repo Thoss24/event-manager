@@ -7,12 +7,11 @@ import { modalActions } from "../../../store/event_details_modal_slice";
 import ConfirmationModal from "../../ui/ConfirmationModal";
 import { useState, useEffect } from "react";
 import { checkAccountType } from "../../../utility/authentication/auth_actions";
-import Responses from "../../utility_components/Responses";
 import { fetchEvent } from "../../../utility/events_actions/event_actions";
-import { useParams } from "react-router-dom";
 import { BookedEventDetailsProps } from "../../../types/Events";
 import { User as UserType } from "../../../types/users";
 import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -22,6 +21,8 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
   const [userAuth, setUserAuth] = useState<UserType|undefined>();
   const [eventItem, setEventItem] = useState();
   const [removeBookedEventModalMessage, setRemoveBookedEventModalMessage] = useState<string>("Are you sure you want to remove this event from your booked events?")
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -78,7 +79,7 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
             setTimeout(() => {
               dispatch(modalActions.removeBookedEventModalHandler());
-              window.location.href = API_URL
+              navigate('/app/booked-events')
             }, 2000);
             
         } catch (error: unknown) {
@@ -112,7 +113,7 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
         onClick={removeBookedEventHandler}
         className={`${classes["form-btn"]} ${classes["delete-btn"]}`}
       >
-        Delete
+        Remove from booked events
       </button>
     </div>
 

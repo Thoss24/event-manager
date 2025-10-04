@@ -73,7 +73,7 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
 
           setTimeout(() => {
             dispatch(modalActions.bookEventModalHandler());
-            window.location.href = API_URL;
+            navigate('/app/booked-events');
           }, 2000);
         }
       } catch (error: any) {

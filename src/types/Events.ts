@@ -7,7 +7,8 @@ export interface Event {
   event_img: string,
   event_name: string,
   event_time: string,
-  event_type: string
+  event_type: string,
+  page_type: string
 };
 
 export interface EventsListProps {

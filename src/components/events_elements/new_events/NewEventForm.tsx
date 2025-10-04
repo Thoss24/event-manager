@@ -17,7 +17,7 @@ const NewEventForm = () => {
   const { validateInput } = useValidateForm();
 
   const [image, setImage] = useState("");
-  const [currIndex, setCurrIndex] = useState(0);
+  const [currIndex, setCurrIndex] = useState(-1);
   const [members, setMembers] = useState<UserType[]|undefined>();
   const [eventMembers, setEventMembers] = useState<MemberType[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<UserType[]|undefined>();
@@ -35,9 +35,9 @@ const NewEventForm = () => {
   }, []);
 
   const images: string[] = [
-    `${API_URL}/images/event_img_one.jpg`,
-    `${API_URL}/images/event_img_two.jpg`,
-    `${API_URL}/images/event_img_three.jpg`,
+    `/images/event_img_one.jpg`,
+    `/images/event_img_two.jpg`,
+    `/images/event_img_three.jpg`,
   ];
 
   const name = useRef<HTMLInputElement>(null);

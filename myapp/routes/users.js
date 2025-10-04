@@ -58,6 +58,8 @@ const login = (req, res, next) => {
         return;
       }
 
+      console.log("LOGIN REACHED")
+
       const hashedPassword = results[0].password;
       const userId = results[0].user_id;
       const firstName = results[0].first_name;
@@ -90,11 +92,11 @@ const login = (req, res, next) => {
                 console.log(error);
                 return res.status(500).send("Internal server error");
               }
-              res.json("Login successful");
+              return res.status(200).send("Login successful");
             }
           );
         } else {
-          return res.json("Email and or Password are incorrect")
+          return res.status(401).send("Email and or Password are incorrect");
         }
       })
     }

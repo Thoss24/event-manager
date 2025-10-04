@@ -11,17 +11,17 @@ export const checkAccountType = async (userId?: number): Promise<AxiosResponse<a
         return response;
     })
     .catch((error) => {
-        window.location.href = `${API_URL}/login`;
+        //window.location.href = `${API_URL}/login`;
+        //navigate('app/home')
         throw error;
     });
 };
 
 export const loginUser = async (user: LoginCredentials) => {
+    console.log(`${API_URL}/users/login`)
     return axios.post(`${API_URL}/users/login`, user)
     .then((response) => {
-        // redirect to home page
-        console.log(response)
-        // window.location.href = `${API_URL}/events`;
+        return response.status
     })
     .catch((error) => {
         console.log(error)

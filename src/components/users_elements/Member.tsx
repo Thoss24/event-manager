@@ -28,7 +28,7 @@ const Member = ({firstName, lastName, key, id, profileImgColor, profileImage, ev
                 <p>{lastNameCapitalized}</p>
                 </div>
             </div>
-    ) : (<Link to={`/${id}`}>
+    ) : (<Link to={`/app/${id}`}>
             <div className={classes['member']} onClick={addMemberToEvent && addMemberToEventHandler}>
                 <div style={{backgroundColor: `#${profileImgColor}`}} className={classes['profile_image']}>{profileImage}</div>
                 <div className={classes.name}>

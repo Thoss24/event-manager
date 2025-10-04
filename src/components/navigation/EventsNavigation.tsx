@@ -19,7 +19,7 @@ const EventsNavigation = () => {
     <nav className={classes["events-nav"]}>
       <ul>
         <li>
-          <Link className={classes["nav-link"]} to={"/events"}>
+          <Link className={classes["nav-link"]} to={""}>
             Events
           </Link>
         </li>

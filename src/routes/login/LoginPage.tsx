@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useRef, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRef, FormEvent } from "react";
 import styles from "./LoginPage.module.css";
 import { LoginCredentials } from "../../types/misc";
 import { loginUser } from "../../utility/authentication/auth_actions";
@@ -12,8 +11,9 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
-  const loginHandler = (event: FormEvent<HTMLFormElement>) => {
+  const loginHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!emailRef.current || !passwordRef.current) return;
@@ -23,15 +23,32 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       password: passwordRef.current.value,
     };
 
-    // call your login function (does not return anything)
-    loginUser(user);
+    try {
+      const loginResult = await loginUser(user);
 
-    // navigate to home page after login
-    onLogin();
+      if (loginResult === 200) {
+        setErrorMessage(null); // clear any previous error
+        onLogin(); // navigate to home
+      } else {
+        setErrorMessage("Invalid username or password."); 
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Something went wrong. Please try again."); 
+    }
   };
 
   return (
     <div className={styles.loginContainer}>
+      {errorMessage && (
+        <div className={styles.popupBackdrop}>
+          <div className={styles.popupBox}>
+            <p>{errorMessage}</p>
+            <button onClick={() => setErrorMessage(null)}>OK</button>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={loginHandler} className={styles.loginForm}>
         <h1 className={styles.loginTitle}>Login</h1>
 

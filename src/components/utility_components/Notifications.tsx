@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { modalActions } from "../../store/event_details_modal_slice";
 import useWindowResize from "../../hooks/use-window-resize";
 import { RootState } from "../../store/store_index";
+import { useNavigate } from "react-router-dom";
 
 interface NotificationType {
   id: number,
@@ -26,6 +27,7 @@ function NotificationSystem() {
   const [responseMsg, setResponseMsg] = useState<string|null>('');
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const width = useWindowResize();
 
@@ -48,6 +50,7 @@ function NotificationSystem() {
         } else {
           setError("Could not load account details.");
           reject(new Error());
+          navigate('app/home')
         }
       } catch (error) {
         throw error;
