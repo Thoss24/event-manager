@@ -16,18 +16,18 @@ const ConfirmationModal = ({confirmAction, message}: confirmationModalComponentP
   };
 
   return (
-    <div className={classes["confirmation-modal"]}>
-      <div className={classes.backdrop} />
-      <div className={classes.confirmation}>
-        <p>{message}</p>
-        {!actionConfirmed && (
-          <div className={classes["confirmation-buttons"]}>
-            <button onClick={confirmActionHandler}>Yes</button>
-            <button onClick={denyActionHandler}>No</button>
-          </div>
-        )}
-      </div>
+  <div className={classes["confirmation-modal"]}>
+    <div className={classes["backdrop"]} />
+    <div className={classes["confirmation"]}>
+      <p>{message}</p>
+      {!actionConfirmed && (
+        <div className={classes["confirmation-buttons"]}>
+          <button onClick={confirmActionHandler}>Yes</button>
+          <button onClick={denyActionHandler}>No</button>
+        </div>
+      )}
     </div>
+  </div>
   );
 };
 

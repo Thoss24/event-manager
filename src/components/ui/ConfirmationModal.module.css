@@ -1,37 +1,54 @@
 .confirmation-modal {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-}
-
-.confirmation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    position: fixed;
-    top: 30%;
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 6px 5px -2px rgba(68, 68, 68, 0.15);
-}
-
-.confirmation > p {
-    color: black;
-}
-
-.confirmation-buttons {
-    display: flex;
-    margin-top: 12px;
-    gap: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .backdrop {
-    background-color: rgba(49, 49, 49, 0.5);
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* behind the modal */
+}
+
+.confirmation {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 1000; /* above backdrop */
+}
+
+.confirmation > p {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.confirmation button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirmation button:hover {
+  background: #0056b3;
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }

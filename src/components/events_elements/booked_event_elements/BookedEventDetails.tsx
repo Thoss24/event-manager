@@ -13,8 +13,6 @@ import { User as UserType } from "../../../types/users";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
 const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
 
   const dispatch = useAppDispatch();
@@ -74,7 +72,7 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
             }
 
             if (response?.status === 200) {
-              setRemoveBookedEventModalMessage(response.data.message);
+              setRemoveBookedEventModalMessage(String(response.data));
             }
 
             setTimeout(() => {
