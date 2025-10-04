@@ -50,7 +50,7 @@ function NotificationSystem() {
         } else {
           setError("Could not load account details.");
           reject(new Error());
-          navigate('app/home')
+          //navigate('app/home')
         }
       } catch (error) {
         throw error;
