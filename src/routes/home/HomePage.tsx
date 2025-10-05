@@ -50,9 +50,9 @@ const HomePage = () => {
           profile_image={user?.profile_image}
           profile_color={user?.profile_color}
         /> : <UserProfileSkeleton />}
-        <EventsList pageType={"homePage"} />
       </div>
       <UpcommingEvents />
+      <EventsList pageType={"homePage"} />
     </div>
   );
 };

@@ -21,7 +21,7 @@ const NavModal = ({ hideNavModal}: NavModalProps) => {
         <IoIosCloseCircleOutline className={classes.close} onClick={hideNavModal}/>
         <ul className={classes['nav-menu-list']}>
           <li className={classes["list-item"]}>
-            <NavLink className={isActive} to={"/"} onClick={hideNavModal}>
+            <NavLink className={isActive} to={"/app/home"} onClick={hideNavModal}>
               Home
             </NavLink>
           </li>

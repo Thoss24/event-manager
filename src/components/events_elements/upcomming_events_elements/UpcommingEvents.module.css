@@ -8,6 +8,7 @@
 .events-header {
   margin-bottom: 10px;
   color: rgb(201, 182, 12);
+  justify-self: center;
 }
 
 .events-section {
