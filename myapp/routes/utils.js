@@ -3,7 +3,7 @@ const { connection } = require("../db");
 const getAllEventMembers = async (eventId) => { 
 
   if (!eventId) {
-    return reject('Event details not provided. Cannot find event members.');
+    throw new Error('Event details not provided. Cannot find event members.');
   };
 
   // get all event members based on event_id
@@ -21,15 +21,15 @@ const getAllEventMembers = async (eventId) => {
 const notifyAllMembers = async (members, eventId, actionType) => {
 
   if (members.length === 0) {
-    return reject('No members available to notify.');
+    throw new Error('No members available to notify.');
   };
 
   if (actionType.length === 0) {
-    return reject('Event action not defined.');
+    throw new Error('Event action not defined.');
   };
 
   if (!eventId) {
-    return reject('Event details not provided. Cannot notify associated members.');
+    throw new Error('Event details not provided. Cannot notify associated members.');
   };
 
   let notification;

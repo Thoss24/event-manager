@@ -20,12 +20,12 @@
   width: 100%;
   min-height: 50vh;
   gap: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(
+  /* padding: 1.5rem; */
+  /* background: linear-gradient(
     135deg,
     rgba(39, 36, 36, 0.9),
     rgba(39, 36, 36, 0.8)
-  );
+  ); */
   border-radius: 16px;
 }
 
@@ -37,26 +37,14 @@
 .profile-events-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05); 
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid rgba(201, 182, 12, 0.4); 
 }
 
-.profile-events-container:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  border-color: rgb(201, 182, 12);
-}
 
 @media (max-width: 1168px) {
   .profile-all-events-container {
     flex-direction: column;
     gap: 1.5rem;
-    padding: 1rem;
+    /* padding: 1rem; */
   }
 }

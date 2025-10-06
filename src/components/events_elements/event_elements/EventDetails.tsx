@@ -108,7 +108,7 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
 
           setTimeout(() => {
             dispatch(modalActions.eventDetailsModalHandler());
-            window.location.href = `${API_URL}/events`;
+            navigate('/app/events');
           }, 2000);
         }
       } catch (error: any) {

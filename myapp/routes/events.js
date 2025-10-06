@@ -224,10 +224,9 @@ const getEventDetails = async (req, res, next) => {
 
 const addEvent = async (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
-
   let insertedId;
   const userId = req.sessionStore.user.user_id;
-
+  
   try {
     const results = await new Promise((resolve, reject) => {
       connection.query(
@@ -238,9 +237,13 @@ const addEvent = async (req, res, next) => {
             console.log(error);
             return reject(new Error("Internal server error"));
           }
-
+          
           insertedId = results.insertId;
-  
+          
+          if (!members || members.length === 0) {
+            return resolve(results);
+          }
+          
           const eventMembersPromises = members.map((memberId) => {
             return new Promise((resolve, reject) => {
               connection.query(
@@ -248,28 +251,37 @@ const addEvent = async (req, res, next) => {
                 [memberId, insertedId],
                 (err, result) => {
                   if (err) return reject(err);
-                  resolve(result); // Resolve the promise for each insertion
+                  resolve(result);
                 }
               );
             });
           });
-
-          // Wait for all member insertions to complete
+          
           Promise.all(eventMembersPromises)
-            .then(() => resolve(results)) // Resolve the main promise after all are done
-            .catch(reject); // Handle any insertion errors
+            .then(() => resolve(results))
+            .catch(reject);
         }
       );
     });
-
-    if (results.affectedRows !== 0) {
-      await notifyAllMembers(members, insertedId, 'add'); // Call to notify members
+    
+    if (results.affectedRows !== 0 && members && members.length > 0) {
+      await notifyAllMembers(members, insertedId, 'add');
     }
-
-    res.json(results);
+    
+    console.log("RESULTS", results);
+    
+    // CHANGE THIS - send a proper response object
+    res.status(200).json({ 
+      message: "Event successfully created", 
+      status: 200,
+      eventId: insertedId 
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).json({ 
+      message: "Internal server error", 
+      status: 500 
+    });
   }
 };
 

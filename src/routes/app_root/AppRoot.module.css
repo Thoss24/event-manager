@@ -4,13 +4,11 @@
     box-sizing: border-box;
 }
 
-
-
 .content {
     display: flex;
     justify-content: center;
     align-items: center;
     /* background-color: rgba(39, 36, 36, 0.8); */
     color: rgb(201, 182, 12);
-    padding: 20px;
+    /* padding: 20px; */
 }

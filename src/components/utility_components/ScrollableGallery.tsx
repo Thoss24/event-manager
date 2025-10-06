@@ -73,7 +73,7 @@ const scrollContainerRef = useRef<HTMLDivElement | null>(null);
             created_at={event.created_at}
             event_id={event.event_id}
             creator_user_id={event.creator_user_id}
-            page_type={''}
+            page_type={'homePage'}
           />
         ))}
       </div>

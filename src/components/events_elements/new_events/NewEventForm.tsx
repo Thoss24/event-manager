@@ -10,11 +10,11 @@ import { getUsers } from "../../../utility/users/user_actions";
 import Member from "../../users_elements/Member";
 import { User as UserType, MemberType } from "../../../types/users";
 import { NewEventType } from "../../../types/Events";
-
-const API_URL = process.env.REACT_APP_API_URL;
+import { useNavigate } from "react-router-dom";
 
 const NewEventForm = () => {
   const { validateInput } = useValidateForm();
+  const navigate = useNavigate();
 
   const [image, setImage] = useState("");
   const [currIndex, setCurrIndex] = useState(-1);
@@ -74,17 +74,16 @@ const NewEventForm = () => {
     try {
       const membersIds = eventMembers.map((member) => member.id);
 
- const newEvent: NewEventType = {
-  name: name.current?.value || undefined,
-  date: date.current?.value || undefined,
-  description: description.current?.value || undefined,
-  imageName: image || undefined,
-  time: time.current?.value || undefined,
-  members: (membersIds ?? []).filter(
-    (id): id is number => id !== undefined
-  ),
-};
-
+      const newEvent: NewEventType = {
+        name: name.current?.value || undefined,
+        date: date.current?.value || undefined,
+        description: description.current?.value || undefined,
+        imageName: image || undefined,
+        time: time.current?.value || undefined,
+        members: (membersIds ?? []).filter(
+          (id): id is number => id !== undefined
+        ),
+      };
 
       const addEventRequest = await addEvent(newEvent);
       if (addEventRequest) {
@@ -97,7 +96,7 @@ const NewEventForm = () => {
           setTimeout(() => {
             setRequestResponseMessage("")
           }, 3000)
-        } else {
+        } else if (addEventRequest.status === 200) {
           setRequestResponseMessage(addEventRequest.message);
           setRequestResponseMessageSuccess(true);
           setTimeout(() => {
@@ -173,7 +172,6 @@ const NewEventForm = () => {
   return (
 <form onSubmit={submitFormHandler} className={classes["new-event-form"]}>
   {/* display response to user after form has been submitted */}
-  {requestResponseMessage.length > 0 && requestResponseArea}
 
   <div className={classes["form-section"]}>
     <label htmlFor="name">Name</label>
@@ -288,6 +286,7 @@ const NewEventForm = () => {
       Cancel
     </Link>
   </div>
+  {requestResponseMessage.length > 0 && requestResponseArea}
 </form>
                                   
   );

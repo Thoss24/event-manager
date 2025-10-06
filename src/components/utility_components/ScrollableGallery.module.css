@@ -1,39 +1,101 @@
 .scrollable-gallery {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  position: relative;
+  max-width: 100%;
+  padding: 0.5rem;
 }
 
 .scroll-container {
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: visible; /* Changed from auto to visible */
   white-space: nowrap;
-  gap: 10px;
-  max-width: 500px;
-  max-height: 300px;
-  align-items: center;
-  box-shadow: 4px 0px 0px 0px rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  
+  gap: 1rem;
+  max-width: 600px;
+  max-height: 320px;
+  align-items: stretch;
+  padding: 0.5rem;
+  scroll-behavior: smooth;
+  /* Removed box-shadow for cleaner look */
 }
 
-.scroll-buttons{
+.scroll-buttons {
   all: unset;
   display: flex;
-  height: fit-content;
-  margin-left: 4px;
-  margin-right: 4px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px; /* Prevents shrinking */
+  background: linear-gradient(
+    135deg,
+    rgba(201, 182, 12, 0.2),
+    rgba(201, 182, 12, 0.1)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 182, 12, 0.3);
+  border-radius: 50%;
+  color: rgb(201, 182, 12);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensures arrows stay on top */
+  flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+.scroll-buttons:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(201, 182, 12, 0.3),
+    rgba(201, 182, 12, 0.15)
+  );
+  border-color: rgb(201, 182, 12);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(201, 182, 12, 0.3);
+}
+
+.scroll-buttons:active {
+  transform: scale(0.95);
+}
+
+.scroll-buttons svg {
+  pointer-events: none; /* Ensures icon doesn't block clicks */
+}
+
+@media only screen and (max-width: 768px) {
+  .scrollable-gallery {
+    gap: 0.75rem;
+  }
+
+  .scroll-container {
+    max-width: calc(100vw - 140px);
+  }
+
+  .scroll-buttons {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 1rem;
+  }
 }
 
 @media only screen and (max-width: 520px) {
-
   .scroll-container {
     flex-direction: column;
+    max-width: 100%;
+    overflow-x: visible;
   }
 
-  .scroll-buttons{
+  .scroll-buttons {
     display: none;
   }
-
+  
+  .scrollable-gallery {
+    justify-content: center;
+  }
 }

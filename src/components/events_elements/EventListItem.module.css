@@ -4,7 +4,8 @@
     border-radius: 8px;
     border: none;
     padding: 10px;
-    position: relative;
+    width: 350px;
+    height: 150px;
 }
 
 .list-item > a {
@@ -13,20 +14,43 @@
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    max-width: 350px;
-    z-index: 0;
+    width: 100%; /* IMPORTANT: Make link take full width */
+    min-width: 0; /* IMPORTANT: Allow flex children to shrink */
+}
+
+.event-details-section {
+    flex: 1;                 /* take remaining space next to image */
+    display: flex;
+    flex-direction: column;  /* stack h2, h4, time-details */
+    justify-content: space-between;
+    overflow: hidden;        /* prevent overflowing */
+}
+
+.event-details-section h2,
+.event-details-section h4 {
+    margin: 0;
+    white-space: nowrap;     /* single line */
+    overflow: hidden;
+    text-overflow: ellipsis; /* add ... if too long */
+}
+
+.time-details p {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .booked_event_img {
     height: 90px;
     width: 110px;
     border-radius: 12px;
+    flex-shrink: 0; /* IMPORTANT: Prevent image from shrinking */
 }
 
 .time-details {
     display: flex;
     flex-direction: column;
-    /* position: absolute; */
 }
 
 .time-details > * {
@@ -35,25 +59,14 @@
     margin: 0;
 }
 
-.event-details-section > h2 {
-    text-decoration: underline;
-}
-
-.event-details-section > h4 {
-    color: white;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
 .list-item:hover {
     background-color: rgba(61, 56, 56, 0.8);
     cursor: pointer;
 }
 
-.list-item a{
+.list-item a {
     text-decoration: none;
     color: rgb(201, 182, 12);
-    /* width: 100%; */
 }
 
 .button {
