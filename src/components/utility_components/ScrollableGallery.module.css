@@ -5,21 +5,21 @@
   position: relative;
   max-width: 100%;
   padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .scroll-container {
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
-  overflow-y: visible; /* Changed from auto to visible */
+  overflow-y: visible; 
   white-space: nowrap;
   gap: 1rem;
   max-width: 600px;
   max-height: 320px;
-  align-items: stretch;
-  padding: 0.5rem;
+  align-items: center;
   scroll-behavior: smooth;
-  /* Removed box-shadow for cleaner look */
 }
 
 .scroll-buttons {
@@ -29,7 +29,7 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  min-width: 48px; /* Prevents shrinking */
+  min-width: 48px; 
   background: linear-gradient(
     135deg,
     rgba(201, 182, 12, 0.2),
@@ -44,8 +44,8 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Ensures arrows stay on top */
-  flex-shrink: 0; /* Prevents buttons from shrinking */
+  z-index: 10;
+  flex-shrink: 0; 
 }
 
 .scroll-buttons:hover {

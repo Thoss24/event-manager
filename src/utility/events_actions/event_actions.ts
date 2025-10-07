@@ -108,8 +108,7 @@ export const editEvent = async (eventData: editedEvent) => {
   return axios
     .post(`${API_URL}/events/edit-event`, eventData)
     .then((response) => {
-      console.log(response);
-      window.location.href = "/events"; // works for both dev & prod
+      return response
     })
     .catch((error) => console.log(error));
 };

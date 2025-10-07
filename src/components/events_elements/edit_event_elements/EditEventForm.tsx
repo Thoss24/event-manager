@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-router-dom";
 import useFormInput from "../../../hooks/use-form-input";
 import useValidateForm from "../../../hooks/use-validate-form";
@@ -6,7 +6,7 @@ import classes from "./EditEventForm.module.css";
 import { Link } from "react-router-dom";
 import { editEvent } from "../../../utility/events_actions/event_actions";
 import { useRef, FormEvent } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 type EditEventFormProps = {
   name: string;
@@ -22,10 +22,14 @@ const EditEventForm: React.FC<EditEventFormProps> = ({
   eventId,
 }) => {
   const { validateInput } = useValidateForm();
+  const navigate = useNavigate();
+
+  console.log("Date", date)
 
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const dateInputRef = useRef<HTMLInputElement | null>(null);
   const descriptionInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const [responseMessage, setResponseMessage] = useState<string>('');
 
   const {
     inputValue: nameInputValue,
@@ -50,7 +54,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({
     handleReset: handleDescriptionReset,
   } = useFormInput(validateInput);
 
-  const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
+  const submitFormHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (
@@ -68,10 +72,21 @@ const EditEventForm: React.FC<EditEventFormProps> = ({
       eventId,
     };
 
-    editEvent(editedEvent);
-    handleNameReset();
-    handleDateReset();
-    handleDescriptionReset();
+    const response = await editEvent(editedEvent);
+
+    if (response && response.status === 200) {
+      setResponseMessage('Event edited successfully')
+      handleNameReset();
+      handleDateReset();
+      handleDescriptionReset();
+
+      setTimeout(() => {
+        setResponseMessage('')
+        navigate(`/app/events/${eventId}`)
+      }, 3000)
+    }
+
+    console.log("Edit event response", response)
   };
 
   const nameInputIsValid = nameInputInvalid ? classes.invalid : classes.valid;
@@ -130,12 +145,19 @@ const EditEventForm: React.FC<EditEventFormProps> = ({
       name="date"
       onChange={handleDateChange}
       onBlur={handleDateIsTouched}
-      defaultValue={date}
+      defaultValue={date ? date.split("T")[0] : ""}
     />
   </div>
 
+  {responseMessage && responseMessage.length > 0 && (
+    <div className={classes['response-message']}>
+      {responseMessage}
+    </div>
+  )}
+
+
   <div className={classes.buttons}>
-    <button type="submit" disabled={!formIsValid}>
+    <button type="submit" disabled={!formIsValid} className={classes["form-btn"]}>
       Done
     </button>
     <Link to="/events" className={classes.cancelBtn}>

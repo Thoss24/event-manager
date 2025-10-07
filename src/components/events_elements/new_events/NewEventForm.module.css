@@ -242,6 +242,67 @@
   box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
 }
 
+.request-response-area {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: linear-gradient(
+    135deg,
+    rgba(201, 182, 12, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  color: #fff;
+  border: 1px solid rgba(201, 182, 12, 0.4);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1000;
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+
+.request-response-area.failure {
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-color: rgba(239, 68, 68, 0.4);
+  color: rgb(239, 68, 68);
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.request-response-area.hide {
+  animation: fadeSlideOut 0.3s ease forwards;
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+
 @media (max-width: 768px) {
   .new-event-form {
     padding: 2rem 1.5rem;
