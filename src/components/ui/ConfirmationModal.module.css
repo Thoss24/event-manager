@@ -8,17 +8,10 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  background: rgba(0, 0, 0, 0.5); /* Move backdrop color here */
 }
 
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999; /* behind the modal */
-}
+/* Remove the separate backdrop - not needed */
 
 .confirmation {
   background: #fff;
@@ -26,7 +19,8 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   text-align: center;
-  z-index: 1000; /* above backdrop */
+  position: relative; /* Changed from nothing */
+  z-index: 1001; /* Above the backdrop */
 }
 
 .confirmation > p {

@@ -17,7 +17,7 @@ const ConfirmationModal = ({confirmAction, message}: confirmationModalComponentP
 
   return (
   <div className={classes["confirmation-modal"]}>
-    <div className={classes["backdrop"]} />
+    {/* <div className={classes["backdrop"]} /> */}
     <div className={classes["confirmation"]}>
       <p>{message}</p>
       {!actionConfirmed && (

@@ -96,27 +96,28 @@ const BookedEventDetails = ({id, name, date}: BookedEventDetailsProps) => {
   };
 
   return (
-  <div className={classes["booked-event-container"]}>
+  <>
     {removeBookedEventModalDisplaying && (
       <ConfirmationModal
         confirmAction={confirmRemoveBookedEventHandler}
         message={removeBookedEventModalMessage}
       />
     )}
+    <div className={classes["booked-event-container"]}>
+      <div className={classes["event-header"]}>
+        <h1 className={classes["event-title"]}>{name}</h1>
+        <h2 className={classes["event-date"]}>{date}</h2>
+        <button
+          onClick={removeBookedEventHandler}
+          className={`${classes["form-btn"]} ${classes["delete-btn"]}`}
+        >
+          Remove from booked events
+        </button>
+      </div>
 
-    <div className={classes["event-header"]}>
-      <h1 className={classes["event-title"]}>{name}</h1>
-      <h2 className={classes["event-date"]}>{date}</h2>
-      <button
-        onClick={removeBookedEventHandler}
-        className={`${classes["form-btn"]} ${classes["delete-btn"]}`}
-      >
-        Remove from booked events
-      </button>
+      {/* <Responses bookedEventId={id} /> */}
     </div>
-
-    {/* <Responses bookedEventId={id} /> */}
-  </div>
+  </>
   );
 
 };

@@ -79,13 +79,18 @@ export const bookEvent = async (eventId: number, userId: number) => {
 };
 
 export const deleteEvent = async (id: number) => {
-  return axios
-    .post(`${API_URL}/events/delete-event`, { id })
-    .then((response) => {
-      console.log(response);
-      return response;
-    })
-    .catch((error) => console.log(error));
+  try {
+    const response = await axios.post(`${API_URL}/events/delete-event`, { id });
+    console.log(response);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      // Return the error response so we can handle it
+      return error.response;
+    }
+    console.log(error);
+    throw error;
+  }
 };
 
 export const addEvent = async (eventData: NewEventType) => {

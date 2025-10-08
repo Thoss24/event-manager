@@ -103,8 +103,19 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
       try {
         const deletedEventRequest = await deleteEvent(props.id);
 
+        console.log("DELETE REQUEST", deletedEventRequest)
+
         if (deletedEventRequest && deletedEventRequest.status === 200) {
-          setDeleteEventModalMessage(deletedEventRequest.data);
+          setDeleteEventModalMessage(deletedEventRequest.data.message);
+
+          setTimeout(() => {
+            dispatch(modalActions.eventDetailsModalHandler());
+            navigate('/app/events');
+          }, 2000);
+        }
+
+        if (deletedEventRequest && deletedEventRequest.status === 400) {
+          setDeleteEventModalMessage(deletedEventRequest.data.message);
 
           setTimeout(() => {
             dispatch(modalActions.eventDetailsModalHandler());
@@ -122,57 +133,61 @@ const EventDetails: React.FC<EventDetailsProps> = (props) => {
   };
 
   return (
-    <div className={classes.container}>
-      {deleteEventModalDisplaying && (
-        <ConfirmationModal
-          confirmAction={confirmDeleteEventHandler}
-          message={deleteEventModalMessage}
-        />
-      )}
+<>
+  {/* Modals OUTSIDE the container */}
+  {deleteEventModalDisplaying && (
+    <ConfirmationModal
+      confirmAction={confirmDeleteEventHandler}
+      message={deleteEventModalMessage}
+    />
+  )}
 
-      {bookEventModalDisplaying && (
-        <ConfirmationModal
-          confirmAction={confirmBookEventHandler}
-          message={bookEventModalMessage}
-        />
-      )}
+  {bookEventModalDisplaying && (
+    <ConfirmationModal
+      confirmAction={confirmBookEventHandler}
+      message={bookEventModalMessage}
+    />
+  )}
 
-      <div className={classes.details}>
-        <h1>{props.name}</h1>
-        <h3>{props.description}</h3>
-        <h4>{props.date}</h4>
-        <div className={classes.members}>
-          {props.users.length > 0 && (
-            <>
-              <h3>Members</h3>
-              <div>
-                {props.users.map((user) => (
-                  <Member
-                    firstName={user.firstName}
-                    lastName={user.lastName}
-                    key={user.userId}
-                    id={user.userId}
-                    profileImgColor={user.profileColor}
-                    profileImage={user.profileImage}
-                    eventForm={false}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-      <div className={classes.buttons}>
-        {userAuth && userAuth.user_id === props.eventCreatorId && (
+  {/* Now the container */}
+  <div className={classes.container}>
+    <div className={classes.details}>
+      <h1>{props.name}</h1>
+      <h3>{props.description}</h3>
+      <h4>{props.date}</h4>
+      <div className={classes.members}>
+        {props.users.length > 0 && (
           <>
-            <Button text={"Edit"} onClick={proceedToEdit} />
-            <Button text={"Delete"} onClick={deleteEventHandler} />
+            <h3>Members</h3>
+            <div>
+              {props.users.map((user) => (
+                <Member
+                  firstName={user.firstName}
+                  lastName={user.lastName}
+                  key={user.userId}
+                  id={user.userId}
+                  profileImgColor={user.profileColor}
+                  profileImage={user.profileImage}
+                  eventForm={false}
+                />
+              ))}
+            </div>
           </>
         )}
-        <Button text={"Book Event"} onClick={bookEventHandler} />
-        <Button link={".."} text={"Back"} />
       </div>
     </div>
+    <div className={classes.buttons}>
+      {userAuth && userAuth.user_id === props.eventCreatorId && (
+        <>
+          <Button text={"Edit"} onClick={proceedToEdit} />
+          <Button text={"Delete"} onClick={deleteEventHandler} />
+        </>
+      )}
+      <Button text={"Book Event"} onClick={bookEventHandler} />
+      <Button link={".."} text={"Back"} />
+    </div>
+  </div>
+</>
   );
 };
 

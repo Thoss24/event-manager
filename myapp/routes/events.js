@@ -50,13 +50,34 @@ function getMyEvents(req, res, next) {
 
 const deleteEvent = async (req, res, next) => {
   const { id } = req.body;
-
   try {
+    // Check if event is booked
+    const bookedEvents = await new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM booked_events WHERE event_id = ?",
+        [id],
+        (error, results) => {
+          if (error) {
+            console.log(error);
+            return reject("Internal server error - could not find booked event");
+          }
+          resolve(results);
+        }
+      );
+    });
+    
+    // Check if event is booked (if results exist)
+    if (bookedEvents.length > 0) {
+      // Event is booked, cannot delete
+      return res.status(400).json({ message: 'Cannot delete booked event' });
+    }
+    
+    // Event is not booked, proceed with deletion
     // Fetch all event members first
     const allEventMembers = await getAllEventMembers(id);
-
+    
     // Perform DELETE 
-    const results = await new Promise((resolve, reject) => {
+    const deleteResults = await new Promise((resolve, reject) => {
       connection.query(
         "DELETE FROM events WHERE event_id = ?",
         [id],
@@ -69,22 +90,24 @@ const deleteEvent = async (req, res, next) => {
         }
       );
     });
-
-    if (results.affectedRows === 0) {
-      return res.status(404).send("Event not found");
+    
+    if (deleteResults.affectedRows === 0) {
+      return res.status(404).json({ message: "Event not found" });
     }
-
-      // Notify all event members
-      if (allEventMembers.length > 0) {
+    
+    // Notify all event members
+    if (allEventMembers.length > 0) {
       await notifyAllMembers(allEventMembers, id, 'delete');
     } else {
-      console.log("This event has no members.")
+      console.log("This event has no members.");
     }
-
-    res.status(200).send("Event successfully deleted and notifications sent.");
+    
+    // Send success response
+    return res.status(200).json({ message: "Event deleted successfully" });
+    
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).send(error);
+    console.error(error);
+    res.status(500).json({ message: error });
   }
 };
 
