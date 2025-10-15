@@ -6,6 +6,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@syncfusion/ej2-react-calendars": "^22.2.12",
     "axios": "^1.6.8",
+    "express-mysql-session": "^3.0.3",
     "jest-environment-jsdom": "^29.7.0",
     "mysql2": "^3.14.0",
     "react": "^18.2.0",

@@ -30,7 +30,7 @@ function getUserEvents(req, res, next) {
 }
 
 function getMyEvents(req, res, next) {
-  const userId = req.sessionStore.user.user_id;
+  const userId = req.session?.user?.user_id;
 
   console.log("RESULTS BACKEND TEST")
 
@@ -162,7 +162,7 @@ const bookEvent = (req, res, next) => {
 
 const getBookedEvents = (req, res, next) => {
 
-  const currUserId = JSON.parse(Object.values(req.sessionStore.sessions)[0]).user.user_id;
+  const currUserId = req.session?.user?.user_id;
   
   connection.query(
     "SELECT be.event_id, e.* FROM booked_events be LEFT JOIN events e ON be.event_id = e.event_id WHERE be.user_id = ?", [currUserId],
@@ -248,7 +248,7 @@ const getEventDetails = async (req, res, next) => {
 const addEvent = async (req, res, next) => {
   const { name, description, date, imageName, time, members } = req.body;
   let insertedId;
-  const userId = req.sessionStore.user.user_id;
+  const userId = req.session?.user?.user_id;
   
   try {
     const results = await new Promise((resolve, reject) => {
@@ -308,27 +308,46 @@ const addEvent = async (req, res, next) => {
   }
 };
 
-const checkAuthenticated = async (req, res, next) => {
-  const sessionId = Object.keys(req.sessionStore.sessions)[0];
+const checkAuthenticated = (req, res, next) => {
 
-  console.log("SESSION IDDDD: ", sessionId)
+  console.log("CHECK AUTH", req.session)
 
-  connection.query(
-    "SELECT * FROM sessions WHERE session_id = ?",
-    [sessionId],
-    (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send("Internal server error");
-      }
-      if (results.length > 0) {
-        next();
-      } else {
-        res.sendStatus(401);
-      }
-    }
-  );
+  if (req.session && req.session.authenticated) {
+    req.user = req.session.user;
+    next();
+  } else {
+    res.status(401).json({ error: "Not authenticated" });
+  }
 };
+
+router.get('/auth-status', checkAuthenticated, (req, res) => {
+  res.status(200).json({ 
+    authenticated: true,
+    user: req.user 
+  });
+});
+
+// const checkAuthenticated = async (req, res, next) => {
+//   const sessionId = Object.keys(req.sessionStore.sessions)[0];
+
+//   console.log("SESSION IDDDD: ", sessionId)
+
+//   connection.query(
+//     "SELECT * FROM sessions WHERE session_id = ?",
+//     [sessionId],
+//     (error, results) => {
+//       if (error) {
+//         console.log(error);
+//         return res.status(500).send("Internal server error");
+//       }
+//       if (results.length > 0) {
+//         next();
+//       } else {
+//         res.sendStatus(401);
+//       }
+//     }
+//   );
+// };
 
 router.get("/", checkAuthenticated, getEvents);
 router.get("/my-events", checkAuthenticated, getMyEvents);

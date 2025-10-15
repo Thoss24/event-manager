@@ -58,6 +58,18 @@
   opacity: 1;
 }
 
+.user-profile-card > h2 {
+  font-size: 1.75rem; /* slightly larger than default h2 */
+  font-weight: 600;
+  color: rgb(201, 182, 12); /* neutral dark gray */
+  margin-bottom: 1rem; /* spacing before EventsList */
+  border-bottom: 2px solid #e5e7eb; /* subtle underline for separation */
+  padding-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  margin-top: 12px;
+}
+
 .user-profile-avatar {
   width: 96px;
   height: 96px;

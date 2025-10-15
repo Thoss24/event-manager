@@ -21,6 +21,7 @@ export const fetchMyEvents = async () => {
 };
 
 export const fetchUserEvents = async (userId?: string) => {
+  console.log("UserID", userId)
   return axios
     .post(`${API_URL}/events/get-user-events`, { userId })
     .then((response) => response.data)

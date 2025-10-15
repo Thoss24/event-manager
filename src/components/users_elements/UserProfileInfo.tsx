@@ -1,17 +1,12 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getUserInfo } from "../../utility/users/user_actions";
 import { User as UserType } from "../../types/users";
-import { RouteParams } from "../../types/misc";
 import ErrorElement from "../ui/ErrorElement";
-import axios from "axios";
 import classes from "./UserProfileInfo.module.css";
 import EventsList from "../events_elements/event_elements/EventsList";
 
 const UserProfileInfo = ({user_id, email, first_name, last_name, account_type, profile_color, profile_image,}: UserType) => {
-  // const { userId } = useParams<RouteParams>(); // Use the defined RouteParams
-  //const { userId } = useParams() as { userId: string };
+
+  console.log("User ID", user_id)
 
   return (
     <div className={classes["user-profile-card"]}>
@@ -36,7 +31,8 @@ const UserProfileInfo = ({user_id, email, first_name, last_name, account_type, p
       ) : (
         <ErrorElement error="Could not load user details" />
       )}
-      <EventsList pageType={"homePage"} />
+      <h2>My events</h2>
+      <EventsList pageType={"userProfile"} userId={String(user_id)}/>
     </div>
   );
 };

@@ -6,8 +6,13 @@ import { useState } from "react";
 import NavModal from "../ui/NavModal";
 import NotificationSystem from "../utility_components/Notifications";
 import useWindowResize from "../../hooks/use-window-resize";
+import { logoutUser } from "../../utility/authentication/auth_actions";
 
-const MainNavigation = () => {
+interface LogoutPageProps {
+  onLogout: () => void; // callback for navigation
+}
+
+const MainNavigation: React.FC<LogoutPageProps> = ({onLogout}) => {
   const [mobileNavDisplaying, setMobileNavDisplaying] = useState(false);
 
   const width = useWindowResize();
@@ -29,9 +34,25 @@ const MainNavigation = () => {
     setMobileNavDisplaying(false)
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await logoutUser();
+
+      console.log("Logout response", response)
+
+      if (response === 200) {
+        onLogout()
+      } else {
+        console.log("Unable to log out")
+      }
+    } catch (error) {
+      console.log("Error logging out", error)
+    }
+  }
+
   return (
     <>
-    {mobileNavModalModalDisplaying && <NavModal hideNavModal={hideNavModalHandler}/>}
+    {mobileNavModalModalDisplaying && <NavModal hideNavModal={hideNavModalHandler} onLogout={onLogout}/>}
     <nav className={classes["main-nav"]}>
       <div className={classes["nav-small-screen"]}>
         <CiMenuBurger
@@ -59,6 +80,7 @@ const MainNavigation = () => {
         </ul>
       </div>
       <NotificationSystem />
+      <button className={classes['logout-button']} onClick={handleLogout}>Logout</button>
     </nav>
     </>
   );

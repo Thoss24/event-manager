@@ -37,10 +37,24 @@ const addUser = (req, res, next) => {
         console.log(error);
         return res.status(500).send("Internal server error");
       }
-      res.json(results);
+      return res.status(200).json(results);
     }
   );
 };
+
+const logout = (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ error: "Failed to logout" });
+    }
+    // Clear the session cookie
+    res.clearCookie('connect.sid'); // Default session cookie name
+    // If you're using a custom cookie name, use that instead
+    
+    return res.status(200).json({ message: "Logout successful" });
+  });
+}
 
 const login = (req, res, next) => {
   const { username, password } = req.body;
@@ -81,20 +95,30 @@ const login = (req, res, next) => {
           req.session.authenticated = true;
           req.session.user = user;
 
-          req.sessionStore.user = user;
-
-          connection.query(
-            "INSERT INTO sessions (session_id, expires) VALUES (?, ?)",
-            [req.sessionID, req.session.cookie.expires],
-            (error, results) => {
-              console.log(results)
-              if (error) {
-                console.log(error);
-                return res.status(500).send("Internal server error");
-              }
+          req.session.save((err) => {
+            if (err) {
+              console.error("Session save error:", err);
+              return res.status(500).send("Session error");
+            } else {
+              console.log("SESSION SAVED:", req.session);
               return res.status(200).send("Login successful");
             }
-          );
+          });
+
+          //req.sessionStore.user = user;
+
+          // connection.query(
+          //   "INSERT INTO sessions (session_id, expires) VALUES (?, ?)",
+          //   [req.sessionID, req.session.cookie.expires],
+          //   (error, results) => {
+          //     console.log(results)
+          //     if (error) {
+          //       console.log(error);
+          //       return res.status(500).send("Internal server error");
+          //     }
+          //     return res.status(200).send("Login successful");
+          //   }
+          // );
         } else {
           return res.status(401).send("Email and or Password are incorrect");
         }
@@ -104,7 +128,7 @@ const login = (req, res, next) => {
 };
 
 const getAllUsers = (req, res, next) => {
-  const userId = req.sessionStore.user.user_id;
+  const userId = req.session?.user?.user_id;
 
   connection.query('SELECT user_id, email, first_name, last_name, account_type, profile_image, profile_color FROM users WHERE user_id != ?', [userId], (err, results) => {
     if (err) {
@@ -118,7 +142,7 @@ const getAllUsers = (req, res, next) => {
 const createResponse = (req, res, next) => {
   const {response, eventId} = req.body;
 
-  const userId = req.sessionStore.user.user_id;
+  const userId = req.session?.user?.user_id;
 
   connection.query('INSERT INTO responses (response, event_id, user_id) VALUES (?, ?, ?)', [response, eventId, userId], (err, results) => {
     if (err) {
@@ -197,7 +221,7 @@ const getUserInfo = (req, res, next) => {
   }
 
   if (userId === 'current') {
-    userId = req.sessionStore.user.user_id;
+    userId = req.session?.user?.user_id; 
   }
 
   connection.query(
@@ -223,6 +247,7 @@ router.post("/get-user-info", getUserInfo);
 router.post("/get-account-type", checkAccountType);
 router.post("/register", checkUserExists, addUser);
 router.post("/login", login);
+router.post("/logout", logout);
 router.post("/create-response", createResponse);
 router.post("/get-responses", getResponses);
 router.post("/get-notifications", getNotifications);

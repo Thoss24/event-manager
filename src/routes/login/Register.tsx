@@ -22,7 +22,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
     return rgbCodes[index];
   };
 
-  const registerUserHandler = (event: FormEvent<HTMLFormElement>) => {
+  const registerUserHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!emailRef.current || !passwordRef.current || !firstNameRef.current || !lastNameRef.current || !accountTypeRef.current) {
@@ -43,11 +43,11 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
       accountType: accountTypeRef.current.value as "admin" | "user",
     };
 
-    // call your register function (does not return anything)
-    registerUser(userData);
+    const registerUserResponse = await registerUser(userData);
 
-    // navigate to home after registration
-    onRegister();
+    if (registerUserResponse === 200) {
+      onRegister();
+    }
   };
 
   return (

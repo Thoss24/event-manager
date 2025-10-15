@@ -1,28 +1,32 @@
 require('dotenv').config();
-var createError = require('http-errors');
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var logger = require('morgan');
-var cors = require('cors');
-const { connection } = require("./db");
+const express = require('express');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const path = require('path');
+const logger = require('morgan');
+const cors = require('cors');
+const createError = require('http-errors');
+const { connection } = require('./db');
 
-var usersRouter = require('./routes/users');
-var eventsRouter = require('./routes/events');
+const usersRouter = require('./routes/users');
+const eventsRouter = require('./routes/events');
 
-const store = new session.MemoryStore();
 const app = express();
 
-// Sessions
+const sessionStore = new MySQLStore({}, connection); 
+
 app.use(session({
-  secret: 'cat', // in production, move this to process.env.SESSION_SECRET
-  cookie: { maxAge: 30000 },
+  secret: process.env.SESSION_SECRET || 'cat',
   resave: false,
   saveUninitialized: false,
-  store
+  store: sessionStore,
+  cookie: {
+    maxAge: 1000 * 60 * 30, // 30 minutes
+    httpOnly: true,
+    sameSite: 'lax',
+  },
 }));
 
-// Middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(express.json());
@@ -30,26 +34,19 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Dynamic CORS config
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === 'production';
 app.use(cors({
   origin: isProd ? process.env.CORS_ORIGIN_PROD : process.env.CORS_ORIGIN_DEV,
   credentials: true,
 }));
 
-// Routes
 app.use('/users', usersRouter);
 app.use('/events', eventsRouter);
 
 app.use(express.static('public'));
 
-// Catch 404
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// Error handler
-app.use(function(err, req, res, next) {
+app.use((req, res, next) => next(createError(404)));
+app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);

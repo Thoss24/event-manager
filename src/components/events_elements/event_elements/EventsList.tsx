@@ -41,9 +41,6 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
             const eventDate = new Date(event.event_date);
             return eventDate >= todaysDate
           });
-
-          console.log("upcomming",onlyUpcommingEvents)
-
           setEvents(onlyUpcommingEvents);
         } 
       } catch (error) {
@@ -51,15 +48,8 @@ const EventsList = ({pageType, userId}: EventsListProps) => {
       }
     }
     fetchEventsHandler();
-  }, [pageType]);
+  }, [pageType, userId]);
 
-  useEffect(() => {
-    console.log("filtered",filteredEvents)
-  }, [filteredEvents])
-
-  useEffect(() => {
-    console.log("EVENTS: ", events)
-  }, [events])
 
   const updateFilterHandler = (filter: FilterType) => {
     // need to support setting multiple filters

@@ -4,10 +4,11 @@ import { NavLink } from "react-router-dom";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface NavModalProps {
-  hideNavModal: () => void
+  hideNavModal: () => void,
+  onLogout: () => void
 }
 
-const NavModal = ({ hideNavModal}: NavModalProps) => {
+const NavModal = ({ hideNavModal, onLogout}: NavModalProps) => {
 
   const isActive = ({ isActive }: {isActive: boolean}) => {
     return isActive ? classes.active : classes["list-item"];
@@ -34,6 +35,9 @@ const NavModal = ({ hideNavModal}: NavModalProps) => {
             <NavLink className={isActive} to={"booked-events"} onClick={hideNavModal}>
               Booked Events
             </NavLink>
+          </li>
+          <li className={classes["list-item"]} onClick={onLogout}>
+            Logout
           </li>
         </ul>
       </div>

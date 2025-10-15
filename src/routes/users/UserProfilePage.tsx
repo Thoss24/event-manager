@@ -47,9 +47,9 @@ const UserProfilePage = () => {
           profile_color={user?.profile_color}
         />
       </div>
-      <div className={classes.eventsList}>
+      {/* <div className={classes.eventsList}>
         <EventsList pageType={"userProfile"} userId={userId}/>
-      </div>
+      </div> */}
     </div>
   );
 };

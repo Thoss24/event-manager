@@ -68,7 +68,15 @@ const notifyAllMembers = async (members, eventId, actionType) => {
 
 const checkAccountType = (req, res, next) => {
 
-  const userId = req.body.userId ? req.body.userId : req.sessionStore.user.user_id; // assigned at login
+  //const userId = req.body.userId ? req.body.userId : req.sessionStore.user.user_id; // assigned at login
+
+  const userId = req.session?.user?.user_id;
+
+  console.log("SESSION", req.session)
+
+  if (!userId) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
   
   connection.query('SELECT * FROM users WHERE user_id = (?)', [userId], (err, results) => {
     if (err) {
@@ -78,6 +86,22 @@ const checkAccountType = (req, res, next) => {
   })
 
 }
+
+// const checkAccountType = (req, res, next) => {
+//   const userId = req.session?.user?.user_id;
+
+//   if (!userId) {
+//     return res.status(401).json({ error: "Not authenticated" });
+//   }
+
+//   connection.query('SELECT account_type FROM users WHERE user_id = ?', [userId], (err, results) => {
+//     if (err) return next(err);
+//     if (results.length === 0) return res.status(404).json({ error: "User not found" });
+
+//     req.userAccountType = results[0].account_type;
+//     next(); // ✅ pass control to next route
+//   });
+// };
 
 // export functions
 module.exports = {
